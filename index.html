@@ -4,8 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#8d3d68">
-<meta name="description" content="Beauty Plus Forever Ladies Beauty Parlour, Mauje Ward No. 13, Raxaul.">
+<meta name="description" content="Beauty Plus Forever Ladies Beauty Parlour, Mauje, Ward No. 13, Main Road Triloki Nagar, Raxaul, Bihar.">
 <title>Beauty Plus Forever | Ladies Beauty Parlour</title>
+
+<!-- Website Icon -->
+<link rel="icon" type="image/png" href="assets/favicon.png">
+
 <style>
 :root{
   --primary:#8d3d68;--primary2:#b85b87;--soft:#fff5fa;--gold:#c99a3d;
@@ -17,6 +21,8 @@ body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);ba
 button,input,select,textarea{font:inherit} button{cursor:pointer}
 a{text-decoration:none;color:inherit}
 .container{width:min(1160px,92%);margin:auto}
+
+/* Navigation */
 header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:15px}
 .brand{display:flex;align-items:center;gap:11px;font-weight:800}
@@ -24,10 +30,13 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 .brand small{display:block;color:var(--muted);font-weight:600;font-size:11px}
 .navlinks{display:flex;gap:8px;align-items:center}
 .navlinks a{padding:9px 11px;border-radius:12px;font-size:14px;font-weight:700}
+.lang-select{padding:6px 12px;border-radius:8px;border:1px solid var(--primary);color:var(--primary);font-weight:bold;background:#fff;outline:none;}
 .btn{border:0;border-radius:15px;padding:11px 16px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s}
 .btn.primary{background:var(--primary);color:#fff;box-shadow:0 8px 22px rgba(141,61,104,.22)}
 .btn.secondary{background:#fff;color:var(--primary);border:1px solid var(--line)}
 .btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+/* Layout */
 section{padding:60px 0;}
 .sectionHead{text-align:center;margin-bottom:30px;}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
@@ -35,8 +44,8 @@ section{padding:60px 0;}
 .field input,.field textarea,.field select{border:1px solid #dcced7;border-radius:12px;padding:10px;outline:none;background:#fff;}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--primary);}
 
-/* Hero & Admin */
-.hero{position:relative;padding:60px 0;background-size:cover;background-position:center;background-color:#f7edf4;min-height:400px;display:flex;align-items:center;}
+/* Hero */
+.hero{position:relative;padding:60px 0;background-size:cover;background-position:center;background-color:#f7edf4;min-height:400px;display:flex;align-items:center;background-image:url('assets/banner.jpg');}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 100%);}
 .hero-content{position:relative;z-index:2;max-width:650px;}
 h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spacing:-1.5px}
@@ -72,17 +81,17 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
 .slider-track{display:flex;gap:15px;transition:transform 0.4s ease-in-out;width:max-content;}
 .slide{width:260px;height:260px;border-radius:20px;object-fit:cover;box-shadow:var(--shadow);flex-shrink:0;background:#eee;}
 
-/* Order Tracking */
+/* Forms & Track */
 .track-box{background:linear-gradient(135deg, #fffafb, #fff);border:1px solid var(--line);border-radius:20px;padding:30px;max-width:500px;margin:0 auto 40px;box-shadow:var(--shadow);text-align:center;}
 .track-result{margin-top:20px;padding:15px;border-radius:15px;display:none;}
 .status-Pending{background:#fff3cd;color:#856404;border:1px solid #ffeeba;}
 .status-Confirmed{background:#d4edda;color:#155724;border:1px solid #c3e6cb;}
 .status-Completed{background:#cce5ff;color:#004085;border:1px solid #b8daff;}
 .status-Cancelled{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;}
-
-/* Forms */
 .bookingWrap{display:grid;grid-template-columns:1fr;max-width:600px;margin:auto;}
 .formCard{background:#fff;border:1px solid var(--line);border-radius:25px;padding:25px;box-shadow:var(--shadow)}
+
+/* Modals */
 .modalBack{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;}
 .modalBack.open{display:flex}
 .modal{width:min(450px,90%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:24px;padding:25px;position:relative;}
@@ -90,6 +99,9 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
 .tab-btn{flex:1; padding:10px; background:var(--soft); color:var(--ink); border:none; border-radius:12px; font-weight:bold;}
 .tab-btn.active{background:var(--primary); color:#fff;}
 .close{position:absolute;top:15px;right:15px;border:0;background:#f6edf2;width:32px;height:32px;border-radius:50%;color:var(--primary);font-size:18px;}
+
+/* Footer */
+footer{background:#241b21;color:#fff;padding:40px 0;text-align:center;}
 </style>
 </head>
 <body>
@@ -98,15 +110,22 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
   <div class="container nav">
     <a href="#home" class="brand">
       <div class="logo">✦</div>
-      <div><span>Beauty Plus Forever</span><small>Ladies Beauty Parlour</small></div>
+      <div><span>Beauty Plus Forever</span><small data-i18n="tagline">Ladies Beauty Parlour</small></div>
       <span class="admin-badge" id="adminBadge">ADMIN MODE</span>
     </a>
     <nav class="navlinks">
-      <a href="#services">Services</a>
-      <a href="#booking">Book & Track</a>
-      <button class="btn secondary" id="authBtn" onclick="openAuthModal()">Login / Sign Up</button>
+      <a href="#services" data-i18n="navServices">Services</a>
+      <a href="#booking" data-i18n="navBook">Book & Track</a>
+      
+      <!-- Language Switcher -->
+      <select class="lang-select" id="langSwitcher" onchange="changeLang(this.value)">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+      </select>
+      
+      <button class="btn secondary" id="authBtn" onclick="openAuthModal()" data-i18n="navLogin">Login / Sign Up</button>
       <div id="userGreeting" style="display:none; font-weight:bold; color:var(--primary); font-size:14px;"></div>
-      <button class="btn secondary" id="logoutBtn" style="display:none; padding:5px 10px; font-size:12px;" onclick="logout()">Logout</button>
+      <button class="btn secondary" id="logoutBtn" style="display:none; padding:5px 10px; font-size:12px;" onclick="logout()" data-i18n="navLogout">Logout</button>
     </nav>
   </div>
 </header>
@@ -115,12 +134,13 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
 <section class="hero" id="heroSection">
   <div class="hero-overlay"></div>
   <div class="container hero-content">
-    <span class="badge" style="background:#f4e1eb;padding:5px 10px;border-radius:20px;color:var(--primary);font-weight:bold;">Welcome to Beauty Plus Forever</span>
-    <h1>Feel Beautiful. Feel Forever.</h1>
-    <p>A dedicated ladies beauty parlour in Raxaul for beauty care, makeup, hair styling and bridal transformations.</p>
+    <span class="badge" style="background:#f4e1eb;padding:5px 10px;border-radius:20px;color:var(--primary);font-weight:bold;" data-i18n="heroBadge">Welcome to Beauty Plus Forever</span>
+    <h1 data-i18n="heroTitle">Feel Beautiful. Feel Forever.</h1>
+    <p data-i18n="heroSub">A dedicated ladies beauty parlour in Raxaul for beauty care, makeup, hair styling and bridal transformations.</p>
     <div style="display:flex;gap:10px;margin-top:20px;">
-      <a class="btn primary" href="#services">✨ View Services</a>
-      <a class="btn secondary" href="tel:9693539197">📞 Call Now</a>
+      <a class="btn primary" href="#services" data-i18n="btnViewServices">✨ View Services</a>
+      <a class="btn secondary" href="tel:9693539197" data-i18n="btnCall">📞 Call Now</a>
+      <a class="btn secondary" href="https://wa.me/918092912107" target="_blank" data-i18n="btnWhatsApp">💬 WhatsApp</a>
     </div>
     <div class="admin-tools" id="adminBannerTools">
       <strong>Admin Panel: Change Banner</strong>
@@ -133,8 +153,8 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
 <section id="services">
   <div class="container">
     <div class="sectionHead">
-      <h2>Our Premium Services</h2>
-      <p>Tap any service tile to view benefits, duration, and to book instantly.</p>
+      <h2 data-i18n="secServicesTitle">Our Premium Services</h2>
+      <p data-i18n="secServicesSub">Tap any service tile to view benefits, duration, and to book instantly.</p>
     </div>
     <div class="service-grid" id="serviceGrid">
       <!-- Injected via JS -->
@@ -145,7 +165,7 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
 <!-- GALLERY SLIDER -->
 <section class="slider-section">
   <div class="container">
-    <h3 style="margin-top:0;text-align:center;">Our Gallery</h3>
+    <h3 style="margin-top:0;text-align:center;" data-i18n="secGalleryTitle">Our Gallery</h3>
     <div class="slider-wrapper">
       <div class="slider-container" id="sliderContainer">
         <div class="slider-track" id="sliderTrack">
@@ -160,16 +180,16 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
 <section id="booking" style="background:#fffafb;">
   <div class="container">
     <div class="sectionHead">
-      <h2>Book & Track</h2>
-      <p>Reserve your beauty time or check the live status of an existing booking.</p>
+      <h2 data-i18n="secBookTitle">Book & Track</h2>
+      <p data-i18n="secBookSub">Reserve your beauty time or check the live status of an existing booking.</p>
     </div>
     
     <!-- LIVE TRACKING BOX -->
     <div class="track-box">
-      <h3 style="margin-top:0;">Track Your Order / Booking</h3>
+      <h3 style="margin-top:0;" data-i18n="trackTitle">Track Your Order / Booking</h3>
       <div style="display:flex;gap:10px;">
-        <input type="text" id="trackId" placeholder="Enter Booking ID (e.g., BK-12345)" style="flex:1;padding:12px;border:1px solid #ccc;border-radius:12px;outline:none;">
-        <button class="btn primary" id="trackBtn" onclick="trackOrder()">Track Live</button>
+        <input type="text" id="trackId" placeholder="Enter Booking ID (e.g., BK-12345)" data-i18n-ph="trackPlaceholder" style="flex:1;padding:12px;border:1px solid #ccc;border-radius:12px;outline:none;">
+        <button class="btn primary" id="trackBtn" onclick="trackOrder()" data-i18n="trackBtn">Track Live</button>
       </div>
       <div id="trackResult" class="track-result"></div>
     </div>
@@ -177,35 +197,43 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
     <!-- BOOKING FORM -->
     <div class="bookingWrap">
       <div class="formCard">
-        <h3 style="margin-top:0; color:var(--primary);">New Booking</h3>
+        <h3 style="margin-top:0; color:var(--primary);" data-i18n="formNewBooking">New Booking</h3>
         <form id="bookingForm">
-          <div class="field"><label>Your Name</label><input id="bName" required></div>
+          <div class="field"><label data-i18n="labelName">Your Name</label><input id="bName" required></div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <div class="field"><label>Gender</label>
+            <div class="field"><label data-i18n="labelGender">Gender</label>
               <select id="bGender" required>
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-                <option value="Other">Other</option>
+                <option value="Female" data-i18n="optFemale">Female</option>
+                <option value="Male" data-i18n="optMale">Male</option>
+                <option value="Other" data-i18n="optOther">Other</option>
               </select>
             </div>
-            <div class="field"><label>Mobile Number</label><input id="bPhone" type="tel" pattern="[0-9]{10}" required></div>
+            <div class="field"><label data-i18n="labelPhone">Mobile Number</label><input id="bPhone" type="tel" pattern="[0-9]{10}" required></div>
           </div>
-          <div class="field"><label>Select Service</label>
+          <div class="field"><label data-i18n="labelService">Select Service</label>
             <select id="bService" required>
                <!-- Auto populated -->
             </select>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <div class="field"><label>Date</label><input type="date" id="bDate" required></div>
-            <div class="field"><label>Time</label><input type="time" id="bTime" required></div>
+            <div class="field"><label data-i18n="labelDate">Date</label><input type="date" id="bDate" required></div>
+            <div class="field"><label data-i18n="labelTime">Time</label><input type="time" id="bTime" required></div>
           </div>
-          <button class="btn primary" id="bookingSubmitBtn" type="submit" style="width:100%;margin-top:10px;">Confirm Appointment</button>
+          <button class="btn primary" id="bookingSubmitBtn" type="submit" style="width:100%;margin-top:10px;" data-i18n="btnConfirm">Confirm Appointment</button>
         </form>
       </div>
     </div>
   </div>
 </section>
 </main>
+
+<footer>
+  <div class="container">
+    <h3 style="margin-top:0;">Beauty Plus Forever</h3>
+    <p>Mauje, Ward No. 13, Main Road Triloki Nagar, Raxaul, Bihar<br>📞 9693539197 | 💬 WA: 8092912107</p>
+    <div style="opacity:0.6;font-size:13px;margin-top:20px;">© <span id="year"></span> Beauty Plus Forever</div>
+  </div>
+</footer>
 
 <!-- ZOOM / ADAPTIVE MODAL FOR SERVICES -->
 <div class="zoomBack" id="zoomModal">
@@ -220,11 +248,11 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
       <p id="zDesc" style="color:var(--muted);font-size:16px;"></p>
       
       <div class="zoom-benefits">
-        <h3 style="margin-top:0;">Key Benefits</h3>
+        <h3 style="margin-top:0;" data-i18n="zoomBenefitsTitle">Key Benefits</h3>
         <ul id="zBenefits"></ul>
       </div>
       
-      <button class="btn primary" style="width:100%;font-size:18px;padding:15px;" onclick="bookFromZoom()">Book This Service Now</button>
+      <button class="btn primary" style="width:100%;font-size:18px;padding:15px;" onclick="bookFromZoom()" data-i18n="btnBookZoom">Book This Service Now</button>
     </div>
   </div>
 </div>
@@ -234,35 +262,35 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
   <div class="modal">
     <button class="close" onclick="closeAuthModal()">×</button>
     <div class="auth-tabs">
-       <button id="tabLogin" class="tab-btn active" onclick="switchAuthTab('login')">Login</button>
-       <button id="tabSignup" class="tab-btn" onclick="switchAuthTab('signup')">Sign Up</button>
+       <button id="tabLogin" class="tab-btn active" onclick="switchAuthTab('login')" data-i18n="tabLogin">Login</button>
+       <button id="tabSignup" class="tab-btn" onclick="switchAuthTab('signup')" data-i18n="tabSignup">Sign Up</button>
     </div>
     <div id="authError" style="color:red;font-size:13px;margin-bottom:10px;font-weight:bold;text-align:center;"></div>
     <div id="authSuccess" style="color:green;font-size:13px;margin-bottom:10px;font-weight:bold;text-align:center;"></div>
     
     <form id="loginForm">
-      <div class="field"><label>Username or Login ID</label><input id="loginUsername" required></div>
-      <div class="field"><label>Password</label><input type="password" id="loginPassword" required></div>
-      <button class="btn primary" id="loginSubmitBtn" type="submit" style="width:100%">Sign In</button>
+      <div class="field"><label data-i18n="labelUsername">Username or Login ID</label><input id="loginUsername" required></div>
+      <div class="field"><label data-i18n="labelPassword">Password</label><input type="password" id="loginPassword" required></div>
+      <button class="btn primary" id="loginSubmitBtn" type="submit" style="width:100%" data-i18n="btnSignIn">Sign In</button>
     </form>
     
     <form id="signupForm" style="display:none;">
-      <div class="field"><label>Full Name</label><input id="regName" required></div>
+      <div class="field"><label data-i18n="labelFullName">Full Name</label><input id="regName" required></div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-        <div class="field"><label>Gender</label>
+        <div class="field"><label data-i18n="labelGender">Gender</label>
           <select id="regGender" required>
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
-            <option value="Other">Other</option>
+            <option value="Female" data-i18n="optFemale">Female</option>
+            <option value="Male" data-i18n="optMale">Male</option>
+            <option value="Other" data-i18n="optOther">Other</option>
           </select>
         </div>
-        <div class="field"><label>Age</label><input type="number" id="regAge" required min="10" max="100"></div>
+        <div class="field"><label data-i18n="labelAge">Age</label><input type="number" id="regAge" required min="10" max="100"></div>
       </div>
-      <div class="field"><label>Mobile</label><input type="tel" id="regMobile" pattern="[0-9]{10}" required></div>
-      <div class="field"><label>Address</label><input id="regAddress" required></div>
-      <div class="field"><label>Choose Username</label><input id="regUsername" required></div>
-      <div class="field"><label>Choose Password</label><input type="password" id="regPassword" required></div>
-      <button class="btn primary" id="signupSubmitBtn" type="submit" style="width:100%">Create Account</button>
+      <div class="field"><label data-i18n="labelPhone">Mobile</label><input type="tel" id="regMobile" pattern="[0-9]{10}" required></div>
+      <div class="field"><label data-i18n="labelAddress">Address</label><input id="regAddress" required></div>
+      <div class="field"><label data-i18n="labelChooseUser">Choose Username</label><input id="regUsername" required></div>
+      <div class="field"><label data-i18n="labelChoosePass">Choose Password</label><input type="password" id="regPassword" required></div>
+      <button class="btn primary" id="signupSubmitBtn" type="submit" style="width:100%" data-i18n="btnCreateAcc">Create Account</button>
     </form>
   </div>
 </div>
@@ -271,52 +299,143 @@ h1{font-size:clamp(38px,6vw,60px);line-height:1.02;margin:15px 0 14px;letter-spa
 // ==========================================
 // CONFIGURATION (PASTE WEB APP URL HERE)
 // ==========================================
-const SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbvWH4Kypc27-fiCBBcehUweWXFgdx76-umbkN7Scz94GVlKnrPafSXQIGRbyOdVWd/exec"; 
 
 const ADMIN_USER = "Vishakha62014";
 const ADMIN_PASS = "Vishakha@78068";
-
 let currentUser = JSON.parse(localStorage.getItem("bpf_user")) || null;
 let isAdmin = localStorage.getItem("bpf_admin") === "true";
 let selectedServiceForBooking = "";
+let currentLang = localStorage.getItem("bpf_lang") || "en";
 
 // ==========================================
-// SERVICES DATA & TILES & ZOOM
+// TRANSLATION DICTIONARY
+// ==========================================
+const translations = {
+  en: {
+    tagline: "Ladies Beauty Parlour", navServices: "Services", navBook: "Book & Track", navLogin: "Login / Sign Up", navLogout: "Logout",
+    heroBadge: "Welcome to Beauty Plus Forever", heroTitle: "Feel Beautiful. Feel Forever.", heroSub: "A dedicated ladies beauty parlour in Raxaul for beauty care, makeup, hair styling and bridal transformations.",
+    btnViewServices: "✨ View Services", btnCall: "📞 Call Now", btnWhatsApp: "💬 WhatsApp",
+    secServicesTitle: "Our Premium Services", secServicesSub: "Tap any service tile to view benefits, duration, and to book instantly.",
+    secGalleryTitle: "Our Gallery", secBookTitle: "Book & Track", secBookSub: "Reserve your beauty time or check the live status of an existing booking.",
+    trackTitle: "Track Your Order / Booking", trackPlaceholder: "Enter Booking ID (e.g., BK-12345)", trackBtn: "Track Live",
+    formNewBooking: "New Booking", labelName: "Your Name", labelGender: "Gender", optFemale: "Female", optMale: "Male", optOther: "Other", labelPhone: "Mobile Number", labelService: "Select Service", labelDate: "Date", labelTime: "Time", btnConfirm: "Confirm Appointment",
+    zoomBenefitsTitle: "Key Benefits", btnBookZoom: "Book This Service Now",
+    tabLogin: "Login", tabSignup: "Sign Up", labelUsername: "Username or Login ID", labelPassword: "Password", btnSignIn: "Sign In", labelFullName: "Full Name", labelAge: "Age", labelAddress: "Address", labelChooseUser: "Choose Username", labelChoosePass: "Choose Password", btnCreateAcc: "Create Account"
+  },
+  hi: {
+    tagline: "लेडीज ब्यूटी पार्लर", navServices: "सेवाएं", navBook: "बुक और ट्रैक", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
+    heroBadge: "ब्यूटी प्लस फॉरएवर में आपका स्वागत है", heroTitle: "खूबसूरत महसूस करें, हमेशा खूबसूरत रहें।", heroSub: "रक्सौल में महिलाओं के लिए ब्यूटी केयर, मेकअप, हेयर स्टाइलिंग और ब्राइडल सेवाओं का समर्पित पार्लर।",
+    btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 अभी कॉल करें", btnWhatsApp: "💬 वॉट्सऐप",
+    secServicesTitle: "हमारी प्रीमियम सेवाएं", secServicesSub: "फायदे, अवधि देखने और तुरंत बुक करने के लिए किसी भी सेवा पर टैप करें।",
+    secGalleryTitle: "हमारी गैलरी", secBookTitle: "बुक और ट्रैक करें", secBookSub: "अपना ब्यूटी टाइम रिज़र्व करें या अपनी बुकिंग का लाइव स्टेटस चेक करें।",
+    trackTitle: "अपना ऑर्डर / बुकिंग ट्रैक करें", trackPlaceholder: "बुकिंग आईडी दर्ज करें (जैसे, BK-12345)", trackBtn: "लाइव ट्रैक करें",
+    formNewBooking: "नई बुकिंग", labelName: "आपका नाम", labelGender: "लिंग", optFemale: "महिला", optMale: "पुरुष", optOther: "अन्य", labelPhone: "मोबाइल नंबर", labelService: "सेवा चुनें", labelDate: "तारीख", labelTime: "समय", btnConfirm: "अपॉइंटमेंट कन्फर्म करें",
+    zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "यह सेवा अभी बुक करें",
+    tabLogin: "लॉगिन", tabSignup: "साइन अप", labelUsername: "यूजरनेम या लॉगिन आईडी", labelPassword: "पासवर्ड", btnSignIn: "साइन इन करें", labelFullName: "पूरा नाम", labelAge: "उम्र", labelAddress: "पता", labelChooseUser: "यूजरनेम चुनें", labelChoosePass: "पासवर्ड चुनें", btnCreateAcc: "अकाउंट बनाएं"
+  }
+};
+
+// ==========================================
+// SERVICES DATA (Linked to Assets Folder)
 // ==========================================
 const servicesData = [
-  { id: "Bridal Makeover", name: "Bridal Makeover", duration: "3-4 Hours", desc: "A dedicated bridal makeup, hair styling, and finishing session meticulously planned around the bride for her special day.", benefits: ["Complete HD Makeup & Base", "Advanced Hair Styling & Extensions", "Saree/Lehenga Draping", "Premium Long-Lasting Products"], img: "https://images.unsplash.com/photo-1595476059275-27a41496a802?auto=format&fit=crop&w=600&q=80" },
-  { id: "Advanced Facial", name: "Advanced Facial", duration: "60 Mins", desc: "A relaxing skin-care service selected according to your beauty needs, featuring exfoliation and deep tissue massage.", benefits: ["Deep Pore Cleansing", "Skin Brightening & Glow", "Anti-aging properties", "Extremely Relaxing Massage"], img: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80" },
-  { id: "Hair Spa", name: "Hair Spa & Treatment", duration: "45 Mins", desc: "A rejuvenating hair-care routine focused on deep cleansing, scalp massage, and rich conditioning.", benefits: ["Dandruff & Frizz Removal", "Smooth, Silky Texture", "Deep Scalp Nourishment", "Stress Relief"], img: "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=600&q=80" },
-  { id: "Party Makeup", name: "Party Makeup", duration: "90 Mins", desc: "Professional makeup styling for parties, celebrations, and special occasions to ensure you stand out.", benefits: ["Flawless Base matching skin tone", "Custom Eye & Lip Makeup", "Long-lasting event finish", "Basic Hair Styling included"], img: "https://images.unsplash.com/photo-1512496015851-a1c8bc298158?auto=format&fit=crop&w=600&q=80" },
-  { id: "Mani Pedi", name: "Manicure & Pedicure", duration: "60 Mins", desc: "Hand, foot, and nail care designed for a clean, refreshed feel including scrubbing, massage, and polish.", benefits: ["Dead Skin & Tan Removal", "Neat Nail Shaping", "Cuticle Care", "Soft, Hydrated Hands & Feet"], img: "https://images.unsplash.com/photo-1519014816548-bf5fe059c98b?auto=format&fit=crop&w=600&q=80" },
-  { id: "Threading Waxing", name: "Threading & Waxing", duration: "30 Mins", desc: "Precise facial hair shaping and body hair removal services for smooth, clean skin.", benefits: ["Painless technique applied", "Long-lasting smoothness", "Clean, defined shapes", "Soothes skin post-treatment"], img: "https://images.unsplash.com/photo-1556228578-8d89cb7acb5a?auto=format&fit=crop&w=600&q=80" }
+  { 
+    id: "Bridal Makeover", 
+    name: { en: "Bridal Makeover", hi: "ब्राइडल मेकओवर" },
+    duration: { en: "3-4 Hours", hi: "3-4 घंटे" }, 
+    desc: { en: "A dedicated bridal makeup, hair styling, and finishing session meticulously planned around the bride for her special day.", hi: "दुल्हन के खास दिन के लिए समर्पित ब्राइडल मेकअप, हेयर स्टाइलिंग और फिनिशिंग सेशन।" }, 
+    benefits: { en: ["Complete HD Makeup & Base", "Advanced Hair Styling & Extensions", "Saree/Lehenga Draping", "Premium Long-Lasting Products"], hi: ["कंप्लीट एचडी मेकअप", "एडवांस हेयर स्टाइलिंग और एक्सटेंशन", "साड़ी/लहंगा ड्रेपिंग", "प्रीमियम और लॉन्ग-लास्टिंग प्रोडक्ट्स"] }, 
+    img: "assets/service1.jpg" 
+  },
+  { 
+    id: "Advanced Facial", 
+    name: { en: "Advanced Facial", hi: "एडवांस फेशियल" },
+    duration: { en: "60 Mins", hi: "60 मिनट" }, 
+    desc: { en: "A relaxing skin-care service selected according to your beauty needs, featuring exfoliation and deep tissue massage.", hi: "आपकी त्वचा की जरूरत के अनुसार आरामदायक त्वचा देखभाल सेवा।" }, 
+    benefits: { en: ["Deep Pore Cleansing", "Skin Brightening & Glow", "Anti-aging properties", "Extremely Relaxing Massage"], hi: ["डीप पोर क्लींजिंग", "स्किन ब्राइटनिंग और ग्लो", "एंटी-एजिंग गुण", "आरामदायक मसाज"] }, 
+    img: "assets/service2.jpg" 
+  },
+  { 
+    id: "Hair Spa", 
+    name: { en: "Hair Spa & Treatment", hi: "हेयर स्पा और ट्रीटमेंट" },
+    duration: { en: "45 Mins", hi: "45 मिनट" }, 
+    desc: { en: "A rejuvenating hair-care routine focused on deep cleansing, scalp massage, and rich conditioning.", hi: "डीप क्लींजिंग, स्कैल्प मसाज और कंडीशनिंग पर केंद्रित हेयर-केयर रूटीन।" }, 
+    benefits: { en: ["Dandruff & Frizz Removal", "Smooth, Silky Texture", "Deep Scalp Nourishment", "Stress Relief"], hi: ["रूसी और फ्रिज़ से छुटकारा", "मुलायम और सिल्की बाल", "स्कैल्प को पोषण", "तनाव से राहत"] }, 
+    img: "assets/service3.jpg" 
+  },
+  { 
+    id: "Party Makeup", 
+    name: { en: "Party Makeup", hi: "पार्टी मेकअप" },
+    duration: { en: "90 Mins", hi: "90 मिनट" }, 
+    desc: { en: "Professional makeup styling for parties, celebrations, and special occasions to ensure you stand out.", hi: "पार्टियों, समारोहों और खास मौकों के लिए प्रोफेशनल मेकअप स्टाइलिंग।" }, 
+    benefits: { en: ["Flawless Base matching skin tone", "Custom Eye & Lip Makeup", "Long-lasting event finish", "Basic Hair Styling included"], hi: ["त्वचा के रंग से मैच करता बेस", "कस्टम आई और लिप मेकअप", "लंबे समय तक टिकने वाला", "बेसिक हेयर स्टाइलिंग शामिल"] }, 
+    img: "assets/service4.jpg" 
+  },
+  { 
+    id: "Mani Pedi", 
+    name: { en: "Manicure & Pedicure", hi: "मैनिक्योर और पेडिक्योर" },
+    duration: { en: "60 Mins", hi: "60 मिनट" }, 
+    desc: { en: "Hand, foot, and nail care designed for a clean, refreshed feel including scrubbing, massage, and polish.", hi: "हाथ, पैर और नाखूनों की देखभाल के लिए सेवा जिसमें स्क्रबिंग और मसाज शामिल है।" }, 
+    benefits: { en: ["Dead Skin & Tan Removal", "Neat Nail Shaping", "Cuticle Care", "Soft, Hydrated Hands & Feet"], hi: ["डेड स्किन और टैन हटाना", "नाखूनों की शेपिंग", "क्यूटिकल की देखभाल", "मुलायम हाथ और पैर"] }, 
+    img: "assets/service5.jpg" 
+  },
+  { 
+    id: "Threading Waxing", 
+    name: { en: "Threading & Waxing", hi: "थ्रेडिंग और वैक्सिंग" },
+    duration: { en: "30 Mins", hi: "30 मिनट" }, 
+    desc: { en: "Precise facial hair shaping and body hair removal services for smooth, clean skin.", hi: "चिकनी और साफ त्वचा के लिए फेशियल हेयर शेपिंग और बॉडी हेयर रिमूवल सेवा।" }, 
+    benefits: { en: ["Painless technique applied", "Long-lasting smoothness", "Clean, defined shapes", "Soothes skin post-treatment"], hi: ["दर्द रहित तकनीक", "लंबे समय तक स्मूथनेस", "साफ और सही शेप", "ट्रीटमेंट के बाद त्वचा को आराम"] }, 
+    img: "assets/service6.jpg" 
+  }
 ];
+
+// ==========================================
+// TRANSLATION ENGINE
+// ==========================================
+function changeLang(lang) {
+  currentLang = lang;
+  localStorage.setItem("bpf_lang", lang);
+  document.getElementById("langSwitcher").value = lang;
+  
+  // Translate static HTML
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (translations[lang][key]) el.textContent = translations[lang][key];
+  });
+  
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+    const key = el.getAttribute("data-i18n-ph");
+    if (translations[lang][key]) el.placeholder = translations[lang][key];
+  });
+
+  // Re-render dynamic content
+  initServices();
+}
 
 function initServices() {
   const grid = document.getElementById("serviceGrid");
   const select = document.getElementById("bService");
   grid.innerHTML = "";
-  select.innerHTML = `<option value="">-- Choose a Service --</option>`;
+  select.innerHTML = `<option value="">-- ${currentLang === 'hi' ? 'सेवा चुनें' : 'Choose a Service'} --</option>`;
   
   servicesData.forEach((s, index) => {
-    // Add to Grid
     const tile = document.createElement("div");
     tile.className = "service-tile";
     tile.onclick = () => openZoom(index);
     tile.innerHTML = `
-      <img src="${s.img}" class="service-img" alt="${s.name}">
+      <img src="${s.img}" class="service-img" alt="${s.name[currentLang]}">
       <div class="service-info">
-        <h3>${s.name}</h3>
-        <div class="s-meta">⏱ ${s.duration}</div>
-        <p style="font-size:13px; color:var(--muted); margin:0;">${s.benefits[0]} • ${s.benefits[1]}...</p>
+        <h3>${s.name[currentLang]}</h3>
+        <div class="s-meta">⏱ ${s.duration[currentLang]}</div>
+        <p style="font-size:13px; color:var(--muted); margin:0;">${s.benefits[currentLang][0]} • ${s.benefits[currentLang][1]}...</p>
       </div>
     `;
     grid.appendChild(tile);
     
-    // Add to Form Select
     const opt = document.createElement("option");
     opt.value = s.id;
-    opt.textContent = s.name;
+    opt.textContent = s.name[currentLang];
     select.appendChild(opt);
   });
 }
@@ -327,18 +446,18 @@ function openZoom(index) {
   selectedServiceForBooking = s.id;
   
   document.getElementById("zImg").src = s.img;
-  document.getElementById("zTitle").textContent = s.name;
-  document.getElementById("zDuration").textContent = s.duration;
-  document.getElementById("zDesc").textContent = s.desc;
+  document.getElementById("zTitle").textContent = s.name[currentLang];
+  document.getElementById("zDuration").textContent = s.duration[currentLang];
+  document.getElementById("zDesc").textContent = s.desc[currentLang];
   
   const benList = document.getElementById("zBenefits");
   benList.innerHTML = "";
-  s.benefits.forEach(b => {
+  s.benefits[currentLang].forEach(b => {
     benList.innerHTML += `<li>${b}</li>`;
   });
   
   document.getElementById("zoomModal").classList.add("open");
-  document.body.style.overflow = "hidden"; // prevent background scroll
+  document.body.style.overflow = "hidden";
 }
 
 function closeZoom() {
@@ -355,7 +474,7 @@ function bookFromZoom() {
 
 
 // ==========================================
-// ADVANCED IMAGE SLIDER
+// ASSETS SLIDER
 // ==========================================
 function initSlider() {
   const track = document.getElementById("sliderTrack");
@@ -363,7 +482,7 @@ function initSlider() {
   for(let i=1; i<=10; i++) {
     const img = document.createElement("img");
     img.className = "slide";
-    img.src = `https://picsum.photos/seed/beautyslider${i}/300/300.jpg`; 
+    img.src = `assets/slider${i}.jpg`;
     track.appendChild(img);
   }
   let currentSlideIndex = 0;
@@ -376,13 +495,12 @@ function initSlider() {
 
 
 // ==========================================
-// AUTHENTICATION LOGIC (SHEETS CONNECTED)
+// AUTHENTICATION & UI
 // ==========================================
 function openAuthModal() { document.getElementById("authModal").classList.add("open"); document.getElementById("authError").textContent = ""; document.getElementById("authSuccess").textContent = "";}
 function closeAuthModal() { document.getElementById("authModal").classList.remove("open"); }
 function switchAuthTab(tab) {
-  document.getElementById("authError").textContent = "";
-  document.getElementById("authSuccess").textContent = "";
+  document.getElementById("authError").textContent = ""; document.getElementById("authSuccess").textContent = "";
   if (tab === 'login') {
     document.getElementById("loginForm").style.display = "block"; document.getElementById("signupForm").style.display = "none";
     document.getElementById("tabLogin").classList.add("active"); document.getElementById("tabSignup").classList.remove("active");
@@ -392,11 +510,10 @@ function switchAuthTab(tab) {
   }
 }
 
-// SIGNUP SUBMIT
 document.getElementById("signupForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const btn = document.getElementById("signupSubmitBtn");
-  btn.disabled = true; btn.textContent = "Creating Account...";
+  btn.disabled = true; btn.textContent = currentLang === 'hi' ? "अकाउंट बन रहा है..." : "Creating Account...";
   
   const formData = new FormData();
   formData.append("action", "signup");
@@ -412,17 +529,16 @@ document.getElementById("signupForm").addEventListener("submit", (e) => {
     .then(res => res.json())
     .then(data => {
       if (data.status === "success") {
-        document.getElementById("authSuccess").textContent = `Success! Your Login ID is: ${data.loginId}`;
+        document.getElementById("authSuccess").textContent = currentLang === 'hi' ? `सफलता! आपकी लॉगिन आईडी है: ${data.loginId}` : `Success! Your Login ID is: ${data.loginId}`;
         localStorage.setItem("bpf_user", JSON.stringify(data.user));
         currentUser = data.user; isAdmin = false;
         setTimeout(() => { closeAuthModal(); updateUI(); }, 3500);
       } else { document.getElementById("authError").textContent = data.message; }
     })
     .catch(err => { document.getElementById("authError").textContent = "Network Error."; })
-    .finally(() => { btn.disabled = false; btn.textContent = "Create Account"; });
+    .finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "अकाउंट बनाएं" : "Create Account"; });
 });
 
-// LOGIN SUBMIT
 document.getElementById("loginForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const u = document.getElementById("loginUsername").value.trim();
@@ -434,7 +550,7 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
   }
   
   const btn = document.getElementById("loginSubmitBtn");
-  btn.disabled = true; btn.textContent = "Authenticating...";
+  btn.disabled = true; btn.textContent = currentLang === 'hi' ? "प्रमाणित हो रहा है..." : "Authenticating...";
   const formData = new FormData();
   formData.append("action", "login"); formData.append("username", u); formData.append("password", p);
   
@@ -448,7 +564,7 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
       } else { document.getElementById("authError").textContent = data.message; }
     })
     .catch(err => { document.getElementById("authError").textContent = "Network Error."; })
-    .finally(() => { btn.disabled = false; btn.textContent = "Sign In"; });
+    .finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "साइन इन करें" : "Sign In"; });
 });
 
 function logout() {
@@ -458,9 +574,6 @@ function logout() {
   updateUI();
 }
 
-// ==========================================
-// UI UPDATE STATE
-// ==========================================
 function updateUI() {
   const authBtn = document.getElementById("authBtn");
   const logoutBtn = document.getElementById("logoutBtn");
@@ -474,7 +587,7 @@ function updateUI() {
       greeting.textContent = "Hello, Admin";
       adminBadge.style.display = "inline-block"; adminBannerTools.style.display = "block";
     } else {
-      greeting.textContent = "Hi, " + currentUser.name.split(' ')[0];
+      greeting.textContent = (currentLang === 'hi' ? "नमस्ते, " : "Hi, ") + currentUser.name.split(' ')[0];
       adminBadge.style.display = "none"; adminBannerTools.style.display = "none";
       document.getElementById("bName").value = currentUser.name;
       document.getElementById("bGender").value = currentUser.gender || "Female";
@@ -484,22 +597,6 @@ function updateUI() {
     authBtn.style.display = "inline-flex"; logoutBtn.style.display = "none"; greeting.style.display = "none";
     adminBadge.style.display = "none"; adminBannerTools.style.display = "none";
   }
-  loadBanner();
-}
-
-// ADMIN BANNER
-document.getElementById("bannerUpload").addEventListener("change", function(e) {
-  const file = e.target.files[0];
-  if(file) {
-    const reader = new FileReader();
-    reader.onload = function(evt) { localStorage.setItem("bpf_custom_banner", evt.target.result); loadBanner(); };
-    reader.readAsDataURL(file);
-  }
-});
-function loadBanner() {
-  const savedBanner = localStorage.getItem("bpf_custom_banner");
-  if(savedBanner) document.getElementById("heroSection").style.backgroundImage = `url(${savedBanner})`;
-  else document.getElementById("heroSection").style.backgroundImage = `url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80')`;
 }
 
 // ==========================================
@@ -508,7 +605,7 @@ function loadBanner() {
 document.getElementById("bookingForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const btn = document.getElementById("bookingSubmitBtn");
-  btn.disabled = true; btn.textContent = "Booking...";
+  btn.disabled = true; btn.textContent = currentLang === 'hi' ? "बुकिंग हो रही है..." : "Booking...";
 
   const formData = new FormData();
   formData.append("action", "book");
@@ -525,12 +622,12 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
   fetch(SCRIPT_URL, { method: "POST", body: formData })
     .then(res => res.json())
     .then(data => {
-      alert(`Booking saved successfully!\n\nYour Booking ID is: ${data.bookingId}\n\nYou can use this ID to track your order status live.`);
+      alert(currentLang === 'hi' ? `बुकिंग सफलतापूर्वक सहेजी गई!\n\nआपकी बुकिंग आईडी है: ${data.bookingId}` : `Booking saved successfully!\n\nYour Booking ID is: ${data.bookingId}`);
       document.getElementById("bookingForm").reset();
       updateUI(); 
     })
-    .catch(err => { alert("Booking processed locally, but network to server failed."); })
-    .finally(() => { btn.disabled = false; btn.textContent = "Confirm Appointment"; });
+    .catch(err => { alert("Network Error."); })
+    .finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "अपॉइंटमेंट कन्फर्म करें" : "Confirm Appointment"; });
 });
 
 function trackOrder() {
@@ -539,16 +636,14 @@ function trackOrder() {
   const resBox = document.getElementById("trackResult");
   
   if(!trackId) {
-    alert("Please enter a Booking ID."); return;
+    alert(currentLang === 'hi' ? "कृपया बुकिंग आईडी दर्ज करें।" : "Please enter a Booking ID."); return;
   }
   
-  btn.disabled = true; btn.textContent = "Searching...";
-  resBox.style.display = "none";
-  resBox.className = "track-result";
+  btn.disabled = true; btn.textContent = currentLang === 'hi' ? "खोज रहा है..." : "Searching...";
+  resBox.style.display = "none"; resBox.className = "track-result";
 
   const formData = new FormData();
-  formData.append("action", "track");
-  formData.append("bookingId", trackId);
+  formData.append("action", "track"); formData.append("bookingId", trackId);
 
   fetch(SCRIPT_URL, { method: "POST", body: formData })
     .then(res => res.json())
@@ -557,9 +652,9 @@ function trackOrder() {
       if(data.status === "success") {
          resBox.classList.add("status-" + data.orderStatus);
          resBox.innerHTML = `
-           <strong>Booking Found: ${data.bookingId}</strong><br>
-           Service: ${data.service} <br> Date: ${data.date} <br><br>
-           <div style="font-size:22px; font-weight:900;">Status: ${data.orderStatus.toUpperCase()}</div>
+           <strong>${currentLang === 'hi' ? 'बुकिंग मिली' : 'Booking Found'}: ${data.bookingId}</strong><br>
+           ${currentLang === 'hi' ? 'सेवा' : 'Service'}: ${data.service} <br> ${currentLang === 'hi' ? 'तारीख' : 'Date'}: ${data.date} <br><br>
+           <div style="font-size:22px; font-weight:900;">${currentLang === 'hi' ? 'स्थिति' : 'Status'}: ${data.orderStatus.toUpperCase()}</div>
          `;
       } else {
          resBox.style.background = "#fff"; resBox.style.border = "1px solid #ccc"; resBox.style.color = "red";
@@ -567,13 +662,28 @@ function trackOrder() {
       }
     })
     .catch(err => {
-      resBox.style.display = "block"; resBox.style.color = "red"; resBox.innerHTML = "Network Error while fetching status.";
+      resBox.style.display = "block"; resBox.style.color = "red"; resBox.innerHTML = "Network Error.";
     })
-    .finally(() => { btn.disabled = false; btn.textContent = "Track Live"; });
+    .finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "लाइव ट्रैक करें" : "Track Live"; });
 }
 
-// INITIALIZE APP
-initServices();
+// Admin Dynamic Banner Override Check
+document.getElementById("bannerUpload").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = function(evt) { localStorage.setItem("bpf_custom_banner", evt.target.result); document.getElementById("heroSection").style.backgroundImage = `url(${evt.target.result})`; };
+    reader.readAsDataURL(file);
+  }
+});
+window.addEventListener('load', () => {
+  const savedBanner = localStorage.getItem("bpf_custom_banner");
+  if(savedBanner) document.getElementById("heroSection").style.backgroundImage = `url(${savedBanner})`;
+});
+
+// INIT
+document.getElementById("year").textContent = new Date().getFullYear();
+changeLang(currentLang);
 initSlider();
 updateUI();
 </script>
