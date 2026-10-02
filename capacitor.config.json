@@ -4,7 +4,7 @@
   "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
-    "url": "https://https://beautyplusforever.github.io/Beautyplusforever/",
+    "url": "https://beautyplusforever.github.io/Beautyplusforever/",
     "cleartext": true
   },
   "android": {
