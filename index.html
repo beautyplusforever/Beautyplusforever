@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#8d3d68">
-<meta name="description" content="A Special Ladies Beauty Parlour in Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, East Champaran, Bihar 845305.">
+<meta name="description" content="A Special Ladies Beauty Parlour in Mauje, Ward No. 13, Main Road Triloki Nagar, Raxaul, East Champaran, Bihar 845305.">
 <title>Beauty Plus Forever | A Special Ladies Beauty Parlour</title>
 
 <!-- Website Icon -->
@@ -41,6 +41,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 .btn.secondary{background:#fff;color:var(--primary);border:2px solid var(--line)}
 .btn.secondary:hover{border-color:var(--primary);background:var(--soft);}
 .btn.danger{background:#e74c3c;color:#fff;}
+.btn.success{background:linear-gradient(135deg, #2d8a62, #1b5e20);color:#fff;box-shadow:0 8px 22px rgba(45,138,98,.3);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;}
 
 /* Notice Board */
@@ -182,7 +183,7 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
   <h2>⚙️ Admin Control Panel</h2>
   <div class="admin-tabs">
     <button class="admin-tab active" onclick="switchAdminTab('adminBookings')">Manage Bookings</button>
-    <button class="admin-tab" onclick="switchAdminTab('adminImages')">Change Images (Global)</button>
+    <button class="admin-tab" onclick="switchAdminTab('adminImages')">Global Assets (Images & APK)</button>
     <button class="admin-tab" onclick="switchAdminTab('adminNotice')">Notice Board</button>
   </div>
 
@@ -201,11 +202,20 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
   </div>
 
   <div id="adminImages" class="admin-section">
-    <p>Upload new images to your Google Drive and update them live for everyone worldwide.</p>
+    <p>Upload new images or the Android APK app file. These will update live for everyone worldwide.</p>
     <div class="admin-upload-grid">
+      
+      <!-- APK Upload Option -->
+      <div class="upload-card" style="border-color: #2d8a62; background: #f0fdf4;">
+        <strong style="color: #1b5e20;">Upload Android App (APK)</strong>
+        <p style="font-size: 12px; margin-bottom: 8px;">Upload the .apk file so users can download it directly.</p>
+        <input type="file" accept=".apk" onchange="uploadAPK(event, 'btn_apk')">
+        <button id="btn_apk" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading APK to Cloud...</button>
+      </div>
+
       <div class="upload-card">
         <strong>Main Hero Banner</strong>
-        <input type="file" onchange="uploadGlobalImage(event, 'bpf_banner', 'previewBanner', 'btn_ban')">
+        <input type="file" accept="image/*" onchange="uploadGlobalImage(event, 'bpf_banner', 'previewBanner', 'btn_ban')">
         <img id="previewBanner" class="upload-preview" src="assets/banner.jpg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'">
         <button id="btn_ban" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading to Cloud...</button>
       </div>
@@ -214,7 +224,7 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
           document.write(`
             <div class="upload-card">
               <strong>Slider Image ${i}</strong>
-              <input type="file" onchange="uploadGlobalImage(event, 'bpf_slider_${i}', 'previewSlider${i}', 'btn_sl_${i}')">
+              <input type="file" accept="image/*" onchange="uploadGlobalImage(event, 'bpf_slider_${i}', 'previewSlider${i}', 'btn_sl_${i}')">
               <img id="previewSlider${i}" class="upload-preview" src="assets/slider${i}.jpg" onerror="this.src='https://picsum.photos/seed/bpf${i}/300/300'">
               <button id="btn_sl_${i}" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading...</button>
             </div>
@@ -228,7 +238,7 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
     <p>Upload a promotional image to display at the very top of the website for all users.</p>
     <div class="upload-card" style="max-width:400px;">
       <strong>Notice Board Image</strong>
-      <input type="file" onchange="uploadGlobalImage(event, 'bpf_notice', 'previewNotice', 'btn_not')">
+      <input type="file" accept="image/*" onchange="uploadGlobalImage(event, 'bpf_notice', 'previewNotice', 'btn_not')">
       <img id="previewNotice" class="upload-preview" src="">
       <button id="btn_not" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading...</button>
       <button class="btn danger" style="margin-top:15px;width:100%" onclick="clearGlobalNotice()">Remove Notice</button>
@@ -248,6 +258,9 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
       <a class="btn primary" href="#services" data-i18n="btnViewServices" style="font-size:16px;padding:14px 24px;">✨ View Services</a>
       <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call: 9798013636</a>
       <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WA: 9297562362</a>
+      
+      <!-- Dynamic App Download Button (Visible only when Admin uploads the APK) -->
+      <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" download data-i18n="btnDownloadApp">📱 Download App</a>
     </div>
   </div>
 </section>
@@ -415,6 +428,9 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
 </div>
 
 <script>
+// ==========================================
+// CONFIGURATION
+// ==========================================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbvWH4Kypc27-fiCBBcehUweWXFgdx76-umbkN7Scz94GVlKnrPafSXQIGRbyOdVWd/exec"; 
 const ADMIN_USER = "Vishakha62014";
 const ADMIN_PASS = "Vishakha@78068";
@@ -431,7 +447,7 @@ const translations = {
   en: {
     navTitle: "Beauty Plus Forever", tagline: "A special ladies beauty parlour", navServices: "Services", navBook: "Book & Track", navReviews: "Reviews", navLogin: "Login / Sign Up", navLogout: "Logout",
     heroBadge: "WELCOME TO", heroTitle: "Beauty Plus Forever", heroSub: "A special ladies beauty parlour",
-    btnViewServices: "✨ View Services", btnCall: "📞 Call: 9798013636", btnWhatsApp: "💬 WA: 9297562362",
+    btnViewServices: "✨ View Services", btnCall: "📞 Call: 9798013636", btnWhatsApp: "💬 WA: 9297562362", btnDownloadApp: "📱 Download App",
     secServicesTitle: "Our Premium Services", secServicesSub: "Tap any service tile to view benefits, duration, and to book instantly.",
     secGalleryTitle: "Our Gallery", secBookTitle: "Book & Track", secBookSub: "Reserve your beauty time or check the live status of an existing booking.",
     trackTitle: "Track Your Booking Live", trackPlaceholder: "Enter Booking ID (e.g., BPF...)", trackBtn: "Track Status",
@@ -439,12 +455,12 @@ const translations = {
     zoomBenefitsTitle: "Key Benefits", btnBookZoom: "Book This Service Now",
     secReviewTitle: "Customer Experiences", secReviewSub: "Recent feedback and photos from our lovely clients.", formReviewTitle: "Share Your Experience", labelPhoto: "Upload Service Photo", labelFeedback: "Your Feedback", btnPostReview: "Post Review",
     tabLogin: "Login", tabSignup: "Sign Up", labelUsername: "Username or Login ID", labelPassword: "Password", btnSignIn: "Sign In", labelFullName: "Full Name", labelAge: "Age", labelAddress: "Address", labelChooseUser: "Choose Username", labelChoosePass: "Choose Password", btnCreateAcc: "Create Account",
-    footerAddress: "Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road <br>Raxaul, East Champaran, Bihar 845305"
+    footerAddress: "Mauje, Ward No. 13, Main Road Triloki Nagar,<br>Raxaul, East Champaran, Bihar 845305"
   },
   hi: {
     navTitle: "ब्यूटी प्लस फॉरएवर", tagline: "एक विशेष लेडीज ब्यूटी पार्लर", navServices: "सेवाएं", navBook: "बुक और ट्रैक", navReviews: "समीक्षा", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
     heroBadge: "आपका स्वागत है", heroTitle: "ब्यूटी प्लस फॉरएवर", heroSub: "एक विशेष लेडीज ब्यूटी पार्लर",
-    btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 कॉल: 9798013636", btnWhatsApp: "💬 वॉट्सऐप: 9297562362",
+    btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 कॉल: 9798013636", btnWhatsApp: "💬 वॉट्सऐप: 9297562362", btnDownloadApp: "📱 ऐप डाउनलोड करें",
     secServicesTitle: "हमारी प्रीमियम सेवाएं", secServicesSub: "फायदे, अवधि देखने और तुरंत बुक करने के लिए किसी भी सेवा पर टैप करें।",
     secGalleryTitle: "हमारी गैलरी", secBookTitle: "बुक और ट्रैक करें", secBookSub: "अपना ब्यूटी टाइम रिज़र्व करें या अपनी बुकिंग का लाइव स्टेटस चेक करें।",
     trackTitle: "अपनी बुकिंग का लाइव स्टेटस चेक करें", trackPlaceholder: "बुकिंग आईडी दर्ज करें (जैसे, BPF...)", trackBtn: "स्टेटस चेक करें",
@@ -452,7 +468,7 @@ const translations = {
     zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "यह सेवा अभी बुक करें",
     secReviewTitle: "ग्राहक के अनुभव", secReviewSub: "हमारे प्यारे ग्राहकों की हालिया प्रतिक्रिया और तस्वीरें।", formReviewTitle: "अपना अनुभव साझा करें", labelPhoto: "सेवा की फोटो अपलोड करें", labelFeedback: "आपकी प्रतिक्रिया", btnPostReview: "समीक्षा पोस्ट करें",
     tabLogin: "लॉगिन", tabSignup: "साइन अप", labelUsername: "यूजरनेम या लॉगिन आईडी", labelPassword: "पासवर्ड", btnSignIn: "साइन इन करें", labelFullName: "पूरा नाम", labelAge: "उम्र", labelAddress: "पता", labelChooseUser: "यूजरनेम चुनें", labelChoosePass: "पासवर्ड चुनें", btnCreateAcc: "अकाउंट बनाएं",
-    footerAddress: "मौजे, वार्ड नंबर 13, महावीर  चौक, माई स्थान रोड <br>रक्सौल, पूर्वी चंपारण, बिहार 845305"
+    footerAddress: "मौजे, वार्ड नंबर 13, मेन रोड त्रिलोकी नगर,<br>रक्सौल, पूर्वी चंपारण, बिहार 845305"
   }
 };
 
@@ -465,9 +481,12 @@ const servicesData = [
   { id: "Threading Waxing", name: { en: "Threading & Waxing", hi: "थ्रेडिंग और वैक्सिंग" }, duration: { en: "30 Mins", hi: "30 मिनट" }, desc: { en: "Precise facial hair shaping and body hair removal services.", hi: "फेशियल हेयर शेपिंग और बॉडी हेयर रिमूवल सेवा।" }, benefits: { en: ["Painless technique", "Long-lasting smoothness", "Clean shapes", "Soothes skin"], hi: ["दर्द रहित तकनीक", "लंबे समय तक स्मूथनेस", "साफ शेप", "त्वचा को आराम"] }, img: "assets/service6.jpg" }
 ];
 
+function apiCall(payload) {
+  return fetch(SCRIPT_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(payload) }).then(r => r.json());
+}
+
 function fetchGlobalData() {
-  const fd = new FormData(); fd.append("action", "init_data");
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => {
+  apiCall({ action: "init_data" }).then(d => {
     if(d.status === "success") {
       globalAssets = d.assets; applyGlobalAssets();
       top5Reviews = d.reviews; renderReviews();
@@ -478,10 +497,18 @@ function fetchGlobalData() {
 
 function applyGlobalAssets() {
   if(globalAssets['bpf_banner']) { document.getElementById("heroSection").style.backgroundImage = `url(${globalAssets['bpf_banner']})`; if(document.getElementById("previewBanner")) document.getElementById("previewBanner").src = globalAssets['bpf_banner']; }
+  
   if(globalAssets['bpf_notice']) {
     document.getElementById("publicNoticeBoard").style.display = "block"; document.getElementById("publicNoticeImg").src = globalAssets['bpf_notice']; document.getElementById("publicNoticeImg").style.display = "inline-block";
     if(document.getElementById("previewNotice")) document.getElementById("previewNotice").src = globalAssets['bpf_notice'];
   } else { document.getElementById("publicNoticeBoard").style.display = "none"; }
+
+  // IF APK IS UPLOADED GLOBALLY, SHOW DOWNLOAD BUTTON
+  const apkBtn = document.getElementById("apkDownloadBtn");
+  if(globalAssets['bpf_apk'] && apkBtn) {
+     apkBtn.href = globalAssets['bpf_apk'];
+     apkBtn.style.display = "inline-flex";
+  } else if (apkBtn) { apkBtn.style.display = "none"; }
 
   const track = document.getElementById("sliderTrack"); track.innerHTML = "";
   for(let i=1; i<=10; i++) {
@@ -491,16 +518,16 @@ function applyGlobalAssets() {
   }
 }
 
-function compressImage(file, callback) {
+function compressImage(file, callback, maxSize = 600) {
   const reader = new FileReader(); reader.readAsDataURL(file);
   reader.onload = event => {
     const img = new Image(); img.src = event.target.result;
     img.onload = () => {
       const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-      const max_size = 600; let width = img.width, height = img.height;
-      if (width > height) { if (width > max_size) { height *= max_size / width; width = max_size; } } else { if (height > max_size) { width *= max_size / height; height = max_size; } }
+      let width = img.width, height = img.height;
+      if (width > height) { if (width > maxSize) { height *= maxSize / width; width = maxSize; } } else { if (height > maxSize) { width *= maxSize / height; height = maxSize; } }
       canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
-      callback(canvas.toDataURL('image/jpeg', 0.6));
+      callback(canvas.toDataURL('image/jpeg', 0.7));
     };
   };
 }
@@ -510,12 +537,11 @@ document.getElementById("reviewForm").addEventListener("submit", function(e) {
   if(fileInput && (currentUser || isAdmin)) {
     const btn = e.target.querySelector('button'); btn.disabled = true; btn.textContent = currentLang === 'hi' ? "अपलोड हो रहा है..." : "Uploading...";
     compressImage(fileInput, function(compressedDataUrl) {
-      const fd = new FormData(); fd.append("action", "post_review"); fd.append("name", isAdmin ? "Admin (Vishakha)" : currentUser.name); fd.append("text", text); fd.append("fileData", compressedDataUrl);
-      fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => {
+      apiCall({ action: "post_review", name: isAdmin ? "Admin (Vishakha)" : currentUser.name, text: text, fileData: compressedDataUrl }).then(d => {
         if(d.status === "success") { alert(currentLang === 'hi' ? "समीक्षा सफलतापूर्वक पोस्ट की गई!" : "Review posted successfully!"); document.getElementById("reviewForm").reset(); fetchGlobalData(); }
         else { alert("Error saving review."); }
       }).catch(err => alert("Network error.")).finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review"; });
-    });
+    }, 600);
   }
 });
 
@@ -554,20 +580,31 @@ function bookFromZoom() { closeZoom(); document.getElementById("bService").value
 function uploadGlobalImage(e, assetKey, previewId, btnId) {
   const file = e.target.files[0]; if(!file) return;
   const btn = document.getElementById(btnId); btn.style.display = "block";
-  const reader = new FileReader(); reader.readAsDataURL(file);
-  reader.onload = function(evt) {
-    document.getElementById(previewId).src = evt.target.result;
-    const fd = new FormData(); fd.append("action", "upload_asset"); fd.append("assetKey", assetKey); fd.append("fileData", evt.target.result); fd.append("mimeType", file.type);
-    fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => {
+  compressImage(file, function(compressedDataUrl) {
+    document.getElementById(previewId).src = compressedDataUrl;
+    apiCall({ action: "upload_asset", assetKey: assetKey, fileData: compressedDataUrl, mimeType: "image/jpeg" }).then(d => {
       if(d.status === "success") { btn.style.display = "none"; fetchGlobalData(); alert("Uploaded Globally!"); } 
       else { alert("Failed to upload."); btn.style.display = "none"; }
     }).catch(e => { alert("Network error."); btn.style.display = "none"; });
+  }, 1000); 
+}
+
+// ADMIN APK UPLOAD FUNCTION
+function uploadAPK(e, btnId) {
+  const file = e.target.files[0]; if(!file) return;
+  if (!file.name.endsWith('.apk')) { alert('Please select a valid .apk file'); return; }
+  const btn = document.getElementById(btnId); btn.style.display = "block";
+  const reader = new FileReader(); reader.readAsDataURL(file);
+  reader.onload = function(evt) {
+    apiCall({ action: "upload_apk", fileData: evt.target.result }).then(d => {
+      if(d.status === "success") { btn.style.display = "none"; fetchGlobalData(); alert("APK Uploaded Globally! Download button is now live."); } 
+      else { alert("Failed to upload APK."); btn.style.display = "none"; }
+    }).catch(e => { alert("Network error during APK upload."); btn.style.display = "none"; });
   };
 }
 
 function clearGlobalNotice() {
-  const fd = new FormData(); fd.append("action", "delete_asset"); fd.append("assetKey", "bpf_notice");
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => { fetchGlobalData(); alert("Notice Removed"); });
+  apiCall({ action: "delete_asset", assetKey: "bpf_notice" }).then(d => { fetchGlobalData(); alert("Notice Removed"); });
 }
 
 function openAuthModal() { document.getElementById("authModal").classList.add("open"); }
@@ -580,8 +617,9 @@ function switchAuthModalTab(t) {
 
 document.getElementById("signupForm").addEventListener("submit", (e) => {
   e.preventDefault(); const btn = document.getElementById("signupSubmitBtn"); btn.disabled = true;
-  const fd = new FormData(); fd.append("action", "signup"); fd.append("name", document.getElementById("regName").value.trim()); fd.append("gender", document.getElementById("regGender").value); fd.append("age", document.getElementById("regAge").value); fd.append("mobile", document.getElementById("regMobile").value); fd.append("address", document.getElementById("regAddress").value.trim()); fd.append("username", document.getElementById("regUsername").value.trim()); fd.append("password", document.getElementById("regPassword").value);
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => {
+  apiCall({
+    action: "signup", name: document.getElementById("regName").value.trim(), gender: document.getElementById("regGender").value, age: document.getElementById("regAge").value, mobile: document.getElementById("regMobile").value, address: document.getElementById("regAddress").value.trim(), username: document.getElementById("regUsername").value.trim(), password: document.getElementById("regPassword").value
+  }).then(d => {
       if (d.status === "success") { document.getElementById("authSuccess").textContent = `Success! Login ID: ${d.loginId}`; localStorage.setItem("bpf_user", JSON.stringify(d.user)); currentUser = d.user; isAdmin = false; setTimeout(() => { closeAuthModal(); updateUI(); }, 3500); } 
       else { document.getElementById("authError").textContent = d.message; }
   }).catch(e => document.getElementById("authError").textContent = "Network Error").finally(() => btn.disabled = false);
@@ -591,12 +629,12 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
   e.preventDefault(); const u = document.getElementById("loginUsername").value.trim(); const p = document.getElementById("loginPassword").value.trim();
   if (u === ADMIN_USER && p === ADMIN_PASS) { localStorage.setItem("bpf_admin", "true"); isAdmin = true; currentUser = null; closeAuthModal(); updateUI(); return; }
   const btn = document.getElementById("loginSubmitBtn"); btn.disabled = true;
-  const fd = new FormData(); fd.append("action", "login"); fd.append("username", u); fd.append("password", p);
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => {
+  apiCall({ action: "login", username: u, password: p }).then(d => {
       if (d.status === "success") { localStorage.setItem("bpf_user", JSON.stringify(d.user)); currentUser = d.user; isAdmin = false; closeAuthModal(); updateUI(); } 
       else { document.getElementById("authError").textContent = d.message; }
   }).catch(e => document.getElementById("authError").textContent = "Network Error").finally(() => btn.disabled = false);
 });
+
 function logout() { localStorage.removeItem("bpf_admin"); localStorage.removeItem("bpf_user"); isAdmin = false; currentUser = null; updateUI(); }
 
 function updateUI() {
@@ -619,10 +657,10 @@ function switchAdminTab(t) {
   document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active')); document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
   document.getElementById(t).classList.add('active'); event.target.classList.add('active');
 }
+
 function fetchAdminBookings() {
   const tb = document.getElementById("adminBookingsTable"); tb.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Fetching live bookings...</td></tr>";
-  const fd = new FormData(); fd.append("action", "get_bookings");
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => {
+  apiCall({ action: "get_bookings" }).then(d => {
     if(d.status === "success") {
       tb.innerHTML = "";
       d.bookings.forEach(b => {
@@ -631,9 +669,9 @@ function fetchAdminBookings() {
     }
   });
 }
+
 function changeBookingStatus(id, newStatus) {
-  const fd = new FormData(); fd.append("action", "update_booking"); fd.append("bookingId", id); fd.append("newStatus", newStatus);
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => { if(d.status === "success") alert("Status updated to " + newStatus); else alert("Update failed."); });
+  apiCall({ action: "update_booking", bookingId: id, newStatus: newStatus }).then(d => { if(d.status === "success") alert("Status updated to " + newStatus); else alert("Update failed."); });
 }
 
 setInterval(() => {
@@ -657,9 +695,9 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
   
   const newOrderId = generateOrderID();
 
-  const fd = new FormData(); fd.append("action", "book"); fd.append("bookingId", newOrderId); fd.append("name", name); fd.append("gender", gender); fd.append("phone", phone); fd.append("service", serviceName); fd.append("date", date); fd.append("time", time);
-  
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r => r.json()).then(data => {
+  apiCall({
+    action: "book", bookingId: newOrderId, name: name, gender: gender, phone: phone, service: serviceName, date: date, time: time
+  }).then(data => {
       alert(currentLang === 'hi' ? `बुकिंग सफलतापूर्वक सहेजी गई!\n\nआपकी बुकिंग आईडी है: ${data.bookingId}` : `Booking saved successfully!\n\nYour Booking ID is: ${data.bookingId}`);
       const waMsg = `Hello Beauty Plus Forever! ✨\n\nI would like to confirm my appointment.\n\n*Name:* ${name}\n*Service:* ${serviceName}\n*System Order ID:* ${data.bookingId}\n\nPlease confirm availability.`;
       window.location.href = `https://api.whatsapp.com/send?phone=${PRIMARY_WA_NUMBER}&text=${encodeURIComponent(waMsg)}`;
@@ -674,8 +712,7 @@ function trackOrder() {
   const tid = document.getElementById("trackId").value.trim().toUpperCase(); const btn = document.getElementById("trackBtn"); const res = document.getElementById("trackResult");
   if(!tid) return alert("Enter Booking ID");
   btn.disabled = true; res.style.display = "none"; res.className = "track-result";
-  const fd = new FormData(); fd.append("action", "track"); fd.append("bookingId", tid);
-  fetch(SCRIPT_URL, { method: "POST", body: fd }).then(r=>r.json()).then(d => {
+  apiCall({ action: "track", bookingId: tid }).then(d => {
       res.style.display = "block";
       if(d.status === "success") { res.classList.add("status-" + d.orderStatus); res.innerHTML = `<strong>Booking: ${d.bookingId}</strong><br>Service: ${d.service} <br> Date: ${new Date(d.date).toLocaleDateString()} <br><div style="font-size:22px; font-weight:900;">Status: ${d.orderStatus.toUpperCase()}</div>`;
       } else { res.style.background = "#fff"; res.style.border = "1px solid #ccc"; res.style.color = "red"; res.innerHTML = `<strong>Error:</strong> ${d.message}`; }
