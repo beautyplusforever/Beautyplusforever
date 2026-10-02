@@ -1,7 +1,7 @@
 name: Build Android APK
 
 on:
-  workflow_dispatch: # Allows you to manually trigger the build from the GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -35,10 +35,6 @@ jobs:
 
       - name: Sync Capacitor
         run: npx cap sync android
-
-      - name: Lock App to Landscape Orientation
-        run: |
-          sed -i 's/android:name="com.getcapacitor.MainActivity"/android:name="com.getcapacitor.MainActivity" android:screenOrientation="sensorLandscape"/' android/app/src/main/AndroidManifest.xml
 
       - name: Build APK
         run: |
