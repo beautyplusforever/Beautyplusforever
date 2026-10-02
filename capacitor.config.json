@@ -1,0 +1,13 @@
+{
+  "appId": "com.abhishekdigital.beautyplusforever",
+  "appName": "Beauty Plus Forever",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://https://beautyplusforever.github.io/Beautyplusforever/",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
