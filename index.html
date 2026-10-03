@@ -55,6 +55,9 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 @keyframes popIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
 .noticeCard img{max-width:100%; border-radius:12px; margin-top:15px; display:none; max-height:250px; object-fit:cover;}
 
+.notice-board{display:none;background:linear-gradient(135deg, var(--gold), #e1ae4a);color:#fff;padding:15px;text-align:center;font-weight:bold;box-shadow:0 4px 15px rgba(201,154,61,0.3);}
+.notice-img{max-width:100%;height:auto;border-radius:15px;margin-top:10px;box-shadow:var(--shadow);}
+
 .hero{position:relative;padding:80px 0;background-size:cover;background-position:center;background-color:#f7edf4;min-height:500px;display:flex;align-items:center;background-image:url('assets/banner.jpg'); transition: background-image 0.5s;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.4) 100%);}
 .hero-content{position:relative;z-index:2;max-width:750px;}
@@ -170,6 +173,14 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     </nav>
   </div>
 </header>
+
+<!-- INLINE OFFER SECTION (Visible after Popup Closes) -->
+<div id="publicNoticeBoard" class="notice-board">
+  <div class="container">
+    <h2 style="margin:0; font-size:24px;">🎉 Special Offer Section 🎉</h2>
+    <img id="publicNoticeImg" class="notice-img" src="" style="display:none;">
+  </div>
+</div>
 
 <main>
 <!-- ADMIN DASHBOARD -->
@@ -516,15 +527,26 @@ function applySettings(settings) {
      const nImg = document.getElementById("nImg");
      if(settings.noticeImg) { nImg.src = settings.noticeImg; nImg.style.display = "block"; } else { nImg.style.display = "none"; }
      
+     // Display in the inline Notice Board as well
+     document.getElementById("publicNoticeBoard").style.display = "block";
+     if(settings.noticeImg) {
+        document.getElementById("publicNoticeImg").src = settings.noticeImg;
+        document.getElementById("publicNoticeImg").style.display = "inline-block";
+     }
+     
      // Only show popup once per session
      if(!sessionStorage.getItem('noticeShown')) {
         document.getElementById("noticeModal").classList.add("open");
         sessionStorage.setItem('noticeShown', 'true');
      }
+  } else {
+     document.getElementById("publicNoticeBoard").style.display = "none";
   }
 }
 
-function closeNotice() { document.getElementById("noticeModal").classList.remove("open"); }
+function closeNotice() { 
+  document.getElementById("noticeModal").classList.remove("open"); 
+}
 
 function saveAdminSettings() {
   const btn = document.getElementById("btnSaveSettings"); btn.disabled = true; btn.textContent = "Saving...";
@@ -700,7 +722,14 @@ function trackOrder() {
   }).catch(e => { res.style.display = "block"; res.style.color = "red"; res.innerHTML = "Network Error."; }).finally(() => btn.disabled = false);
 }
 
+// INIT
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// PREVENT BACK-DATE BOOKING
+const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().split('T')[0];
+document.getElementById("bDate").setAttribute('min', localISOTime);
+
 changeLang(currentLang);
 fetchGlobalData();
 updateUI(); 
