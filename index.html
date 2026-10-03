@@ -42,8 +42,18 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 .btn.success{background:linear-gradient(135deg, #2d8a62, #1b5e20);color:#fff;box-shadow:0 8px 22px rgba(45,138,98,.3);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;}
 
-.notice-board{display:none;background:linear-gradient(135deg, var(--gold), #e1ae4a);color:#fff;padding:15px;text-align:center;font-weight:bold;box-shadow:0 4px 15px rgba(201,154,61,0.3);}
-.notice-img{max-width:100%;height:auto;border-radius:15px;margin-top:10px;box-shadow:var(--shadow);}
+/* Modern Modal & Popup Styles */
+.modalBack,.zoomBack,.noticePopup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:150;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.modalBack.open,.zoomBack.open,.noticePopup.open{display:flex;}
+.modal,.zoomModal{width:min(500px,92%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:30px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+.zoomModal{width:min(850px, 95%);padding:0;overflow:hidden;display:flex;flex-direction:column;}
+.close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.9);border:none;width:40px;height:40px;border-radius:50%;font-size:24px;color:var(--ink);z-index:10;box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:0.2s;}
+.close:hover{background:var(--primary);color:#fff;}
+
+/* Notice Popup Card */
+.noticeCard{background:linear-gradient(135deg, #fff, #fffafb); border:3px solid var(--gold); border-radius:24px; padding:30px; text-align:center; position:relative; max-width:450px; width:90%; box-shadow:0 20px 50px rgba(201,154,61,0.3); animation:popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+@keyframes popIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
+.noticeCard img{max-width:100%; border-radius:12px; margin-top:15px; display:none; max-height:250px; object-fit:cover;}
 
 .hero{position:relative;padding:80px 0;background-size:cover;background-position:center;background-color:#f7edf4;min-height:500px;display:flex;align-items:center;background-image:url('assets/banner.jpg'); transition: background-image 0.5s;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.4) 100%);}
@@ -90,10 +100,23 @@ section{padding:70px 0;}
 
 .review-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
 .review-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
-.review-card img{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:15px;background:#eee;}
 .review-meta{font-size:13px;color:var(--muted);margin-bottom:8px;}
 .review-meta b{color:var(--ink);font-size:15px;}
 .review-form-area{display:none;background:linear-gradient(135deg, #fff, var(--soft));padding:25px;border-radius:24px;border:2px dashed var(--primary2);margin-bottom:40px;}
+
+.auth-tabs{display:flex; gap:12px; margin-bottom:25px; border-bottom:2px solid var(--line); padding-bottom:15px;}
+.tab-btn{flex:1; padding:12px; background:var(--soft); color:var(--ink); border:none; border-radius:14px; font-weight:800; transition:0.2s;}
+.tab-btn.active{background:var(--primary); color:#fff;box-shadow:var(--glow);}
+
+#adminDashboard{display:none;background:#fff;border:3px solid var(--primary);border-radius:24px;padding:30px;margin-bottom:50px;box-shadow:var(--shadow);}
+.admin-tabs{display:flex;gap:12px;margin-bottom:25px;border-bottom:2px solid var(--line);padding-bottom:15px;overflow-x:auto;}
+.admin-tab{background:var(--soft);border:none;padding:12px 24px;border-radius:12px;font-weight:900;cursor:pointer;white-space:nowrap;}
+.admin-tab.active{background:var(--primary);color:#fff;}
+.admin-section{display:none;}
+.admin-section.active{display:block;}
+.admin-table{width:100%;border-collapse:collapse;margin-top:20px;}
+.admin-table th,.admin-table td{padding:15px;text-align:left;border-bottom:1px solid var(--line);}
+.admin-table th{background:var(--soft);color:var(--primary);font-weight:900;}
 
 /* Original Contact Section Styles */
 .contact{background:#fff;border-top:1px solid var(--line)}
@@ -104,34 +127,6 @@ section{padding:70px 0;}
 .contactItem span{color:var(--muted)}
 @media(max-width:850px){.contactGrid{grid-template-columns:1fr}}
 
-.modalBack,.zoomBack{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:150;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
-.modalBack.open,.zoomBack.open{display:flex;}
-.modal,.zoomModal{width:min(500px,92%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:30px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
-.zoomModal{width:min(850px, 95%);padding:0;overflow:hidden;display:flex;flex-direction:column;}
-.zoom-img{width:100%;height:350px;object-fit:cover;}
-.zoom-content{padding:35px;overflow-y:auto;}
-.zoom-content h2{margin-top:0;font-size:36px;color:var(--primary);letter-spacing:-1px;}
-.zoom-benefits{background:var(--soft);padding:25px;border-radius:20px;margin:25px 0;}
-.zoom-benefits ul{margin:0;padding-left:20px;}
-.zoom-benefits li{margin-bottom:10px;font-weight:700;font-size:15px;}
-.close,.zoom-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.9);border:none;width:40px;height:40px;border-radius:50%;font-size:24px;color:var(--ink);z-index:10;box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:0.2s;}
-
-.auth-tabs{display:flex; gap:12px; margin-bottom:25px; border-bottom:2px solid var(--line); padding-bottom:15px;}
-.tab-btn{flex:1; padding:12px; background:var(--soft); color:var(--ink); border:none; border-radius:14px; font-weight:800; transition:0.2s;}
-.tab-btn.active{background:var(--primary); color:#fff;box-shadow:var(--glow);}
-#adminDashboard{display:none;background:#fff;border:3px solid var(--primary);border-radius:24px;padding:30px;margin-bottom:50px;box-shadow:var(--shadow);}
-.admin-tabs{display:flex;gap:12px;margin-bottom:25px;border-bottom:2px solid var(--line);padding-bottom:15px;overflow-x:auto;}
-.admin-tab{background:var(--soft);border:none;padding:12px 24px;border-radius:12px;font-weight:900;cursor:pointer;white-space:nowrap;}
-.admin-tab.active{background:var(--primary);color:#fff;}
-.admin-section{display:none;}
-.admin-section.active{display:block;}
-.admin-table{width:100%;border-collapse:collapse;margin-top:20px;}
-.admin-table th,.admin-table td{padding:15px;text-align:left;border-bottom:1px solid var(--line);}
-.admin-table th{background:var(--soft);color:var(--primary);font-weight:900;}
-.admin-upload-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;}
-.upload-card{background:#f8f9fa;padding:20px;border-radius:20px;border:2px dashed #dcced7;}
-.upload-preview{width:100%;height:120px;object-fit:cover;border-radius:12px;margin-top:12px;background:#eee;}
-
 footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 .footer-title{font-size:28px;background:linear-gradient(135deg, var(--gold), #fff);-webkit-background-clip:text;color:transparent;margin:0 0 15px;}
 </style>
@@ -139,6 +134,16 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 <body>
 
 <div id="syncLoader" class="global-loader">⏳ Syncing secure data from server...</div>
+
+<!-- NOTICE POPUP -->
+<div class="noticePopup" id="noticeModal">
+  <div class="noticeCard">
+    <button class="close" onclick="closeNotice()">×</button>
+    <h2 id="nTitle" style="color:var(--primary);margin-top:0;font-size:28px;">Special Offer</h2>
+    <p id="nMsg" style="font-size:16px;color:var(--muted);"></p>
+    <img id="nImg" src="" alt="Offer Image">
+  </div>
+</div>
 
 <header>
   <div class="container nav">
@@ -166,21 +171,13 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </header>
 
-<div id="publicNoticeBoard" class="notice-board">
-  <div class="container">
-    <h2 style="margin:0; font-size:24px;">🎉 Special Offer & Notice 🎉</h2>
-    <img id="publicNoticeImg" class="notice-img" src="" style="display:none;">
-  </div>
-</div>
-
 <main>
 <!-- ADMIN DASHBOARD -->
 <section id="adminDashboard" class="container">
   <h2>⚙️ Admin Control Panel</h2>
   <div class="admin-tabs">
     <button class="admin-tab active" onclick="switchAdminTab('adminBookings')">Manage Bookings</button>
-    <button class="admin-tab" onclick="switchAdminTab('adminImages')">Global Assets (Images & APK)</button>
-    <button class="admin-tab" onclick="switchAdminTab('adminNotice')">Notice Board</button>
+    <button class="admin-tab" onclick="switchAdminTab('adminSettings')">Settings & Notice Board</button>
   </div>
 
   <div id="adminBookings" class="admin-section active">
@@ -197,48 +194,29 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     </div>
   </div>
 
-  <div id="adminImages" class="admin-section">
-    <p>Upload new images to automatically sync worldwide via API.</p>
-    <div class="admin-upload-grid">
-      
-      <!-- Safe APK Link Setup -->
-      <div class="upload-card" style="border-color: #2d8a62; background: #f0fdf4;">
-        <strong style="color: #1b5e20;">Link Android App (APK)</strong>
-        <p style="font-size: 12px; margin-bottom: 8px;">Paste the manual download link (e.g., from Google Drive or GitHub).</p>
-        <input type="url" id="apkLinkInput" placeholder="https://..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; outline:none;">
-        <button id="btn_apk" class="btn success" style="width:100%;margin-top:10px;" onclick="saveAPKLink()">Save APK Link</button>
+  <div id="adminSettings" class="admin-section">
+    <p>Use this area to trigger a Popup Notice or update your APK download link.</p>
+    <div class="formCard" style="max-width:100%; border:2px dashed var(--primary2);">
+      <div class="field">
+        <label>Popup Title (Leave blank to hide popup entirely)</label>
+        <input type="text" id="set_noticeTitle" placeholder="e.g. Navratri Special Offer!">
       </div>
-
-      <div class="upload-card">
-        <strong>Main Hero Banner</strong>
-        <input type="file" accept="image/*" onchange="uploadGlobalImage(event, 'bpf_banner', 'previewBanner', 'btn_ban')">
-        <img id="previewBanner" class="upload-preview" src="assets/banner.jpg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'">
-        <button id="btn_ban" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading API...</button>
+      <div class="field">
+        <label>Popup Message</label>
+        <textarea id="set_noticeMsg" rows="3" placeholder="Get 20% off on Bridal Makeover..."></textarea>
       </div>
-      <script>
-        for(let i=1; i<=10; i++) {
-          document.write(`
-            <div class="upload-card">
-              <strong>Slider Image ${i}</strong>
-              <input type="file" accept="image/*" onchange="uploadGlobalImage(event, 'bpf_slider_${i}', 'previewSlider${i}', 'btn_sl_${i}')">
-              <img id="previewSlider${i}" class="upload-preview" src="assets/slider${i}.jpg" onerror="this.src='https://picsum.photos/seed/bpf${i}/300/300'">
-              <button id="btn_sl_${i}" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading...</button>
-            </div>
-          `);
-        }
-      </script>
+      <div class="field">
+        <label>Popup Image Link (Optional, paste a URL or 'assets/offer.jpg')</label>
+        <input type="url" id="set_noticeImg" placeholder="https://...">
+      </div>
+      <hr style="border:0;border-top:1px solid #ccc;margin:20px 0;">
+      <div class="field">
+        <label>Android APK Download Link (Paste URL to enable App Download button)</label>
+        <input type="url" id="set_apkLink" placeholder="https://...">
+      </div>
+      <button class="btn primary" onclick="saveAdminSettings()" id="btnSaveSettings">Save All Settings</button>
     </div>
-  </div>
-
-  <div id="adminNotice" class="admin-section">
-    <p>Upload a promotional image to display at the very top of the website for all users.</p>
-    <div class="upload-card" style="max-width:400px;">
-      <strong>Notice Board Image</strong>
-      <input type="file" accept="image/*" onchange="uploadGlobalImage(event, 'bpf_notice', 'previewNotice', 'btn_not')">
-      <img id="previewNotice" class="upload-preview" src="">
-      <button id="btn_not" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading...</button>
-      <button class="btn danger" style="margin-top:15px;width:100%" onclick="clearGlobalNotice()">Remove Notice</button>
-    </div>
+    <p style="margin-top:20px; font-size:14px; color:var(--muted);"><i>Note: Hero banners and slider images are managed automatically. Just upload/replace the files inside your GitHub "assets" folder (banner.jpg, slider1.jpg, etc.).</i></p>
   </div>
 </section>
 
@@ -251,10 +229,11 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     <p class="hero-subtitle" data-i18n="heroSub">A special ladies beauty parlour</p>
     
     <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;">
-      <a class="btn primary" href="#services" data-i18n="btnViewServices" style="font-size:16px;padding:14px 24px;">✨ View Services</a>
-      <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call: 9798013636</a>
-      <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WA: 9297562362</a>
+      <a class="btn primary" href="#services" data-i18n="btnViewServices">✨ View Services</a>
+      <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call Now</a>
+      <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WhatsApp</a>
       
+      <!-- Dynamic App Download Button -->
       <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" target="_blank" data-i18n="btnDownloadApp">📱 Download App</a>
     </div>
   </div>
@@ -278,7 +257,14 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
       <h2 data-i18n="secGalleryTitle">Our Gallery</h2>
     </div>
     <div class="slider-container" id="sliderContainer">
-      <div class="slider-track" id="sliderTrack"></div>
+      <div class="slider-track" id="sliderTrack">
+        <img class="slide" src="assets/slider1.jpg" onerror="this.src='https://picsum.photos/seed/bpf1/300/300'">
+        <img class="slide" src="assets/slider2.jpg" onerror="this.src='https://picsum.photos/seed/bpf2/300/300'">
+        <img class="slide" src="assets/slider3.jpg" onerror="this.src='https://picsum.photos/seed/bpf3/300/300'">
+        <img class="slide" src="assets/slider4.jpg" onerror="this.src='https://picsum.photos/seed/bpf4/300/300'">
+        <img class="slide" src="assets/slider5.jpg" onerror="this.src='https://picsum.photos/seed/bpf5/300/300'">
+        <img class="slide" src="assets/slider6.jpg" onerror="this.src='https://picsum.photos/seed/bpf6/300/300'">
+      </div>
     </div>
   </div>
 </section>
@@ -335,13 +321,12 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   <div class="container">
     <div class="sectionHead">
       <h2 data-i18n="secReviewTitle">Customer Experiences</h2>
-      <p data-i18n="secReviewSub">Recent feedback and photos from our lovely clients.</p>
+      <p data-i18n="secReviewSub">Recent feedback from our lovely clients.</p>
     </div>
     
     <div id="reviewFormArea" class="review-form-area">
       <h3 style="margin-top:0; color:var(--primary);" data-i18n="formReviewTitle">Share Your Experience</h3>
       <form id="reviewForm">
-        <div class="field"><label data-i18n="labelPhoto">Upload Service Photo</label><input type="file" id="rPhoto" accept="image/*" required></div>
         <div class="field"><label data-i18n="labelFeedback">Your Feedback</label><textarea id="rText" rows="3" required></textarea></div>
         <button class="btn primary" type="submit" data-i18n="btnPostReview">Post Review</button>
       </form>
@@ -379,10 +364,10 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </footer>
 
-<!-- ZOOM MODAL -->
+<!-- MODALS -->
 <div class="zoomBack" id="zoomModal">
   <div class="zoomModal">
-    <button class="zoom-close" onclick="closeZoom()">×</button>
+    <button class="close" onclick="closeZoom()">×</button>
     <img id="zImg" class="zoom-img" src="">
     <div class="zoom-content">
       <h2 id="zTitle">Service Name</h2>
@@ -397,7 +382,6 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </div>
 
-<!-- AUTH MODAL -->
 <div class="modalBack" id="authModal">
   <div class="modal">
     <button class="close" onclick="closeAuthModal()">×</button>
@@ -439,18 +423,16 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 // ==========================================
 // CONFIGURATION (PASTE WEB APP URL)
 // ==========================================
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQYriS9TigPRRY1cyX2jz3RwH2pvyXSBBg72vgLXDL4yQZZ-VumWcC_0uQqMnwl1mJ/exec"; 
-const IMGBB_API_KEY = "d6c99723d410aaeee4d5ac016fc0a3d3"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZJcDicKPqaowJcELUHJMcvqHt6-a2Ck8LzNDxbmLcy4Ta1MXedmFSngM0P7l2eNci/exec"; 
 
 const ADMIN_USER = "Vishakha62014";
 const ADMIN_PASS = "Vishakha@78068";
-const PRIMARY_WA_NUMBER = "919297562362"; 
+const PRIMARY_WA_NUMBER = "919297562362"; // WhatsApp Routing Number
 
 let currentUser = JSON.parse(localStorage.getItem("bpf_user")) || null;
 let isAdmin = localStorage.getItem("bpf_admin") === "true";
 let selectedServiceForBooking = "";
 let currentLang = localStorage.getItem("bpf_lang") || "en";
-let globalAssets = {};
 let top5Reviews = [];
 
 const translations = {
@@ -458,26 +440,26 @@ const translations = {
     navContact: "Contact", contactUs: "Contact Us", contactText: "Visit or contact us for your beauty service and appointment.", address: "Address", phone: "Phone", serviceType: "Service", serviceTypeText: "Ladies Beauty Parlour",
     navTitle: "Beauty Plus Forever", tagline: "A special ladies beauty parlour", navServices: "Services", navBook: "Book & Track", navReviews: "Reviews", navLogin: "Login / Sign Up", navLogout: "Logout",
     heroBadge: "WELCOME TO", heroTitle: "Beauty Plus Forever", heroSub: "A special ladies beauty parlour",
-    btnViewServices: "✨ View Services", btnCall: "📞 Call: 9798013636", btnWhatsApp: "💬 WA: 9297562362", btnDownloadApp: "📱 Download App",
+    btnViewServices: "✨ View Services", btnCall: "📞 Call Now", btnWhatsApp: "💬 WhatsApp", btnDownloadApp: "📱 Download App",
     secServicesTitle: "Our Premium Services", secServicesSub: "Tap any service tile to view benefits, duration, and to book instantly.",
     secGalleryTitle: "Our Gallery", secBookTitle: "Book & Track", secBookSub: "Reserve your beauty time or check the live status of an existing booking.",
     trackTitle: "Track Your Booking Live", trackPlaceholder: "Enter Booking ID (e.g., BPF...)", trackBtn: "Track Status",
     formNewBooking: "Secure a New Appointment", labelName: "Your Name", labelGender: "Gender", optFemale: "Female", optMale: "Male", optOther: "Other", labelPhone: "Mobile Number (10 Digits)", labelService: "Select Service", labelDate: "Date", labelTime: "Time", btnConfirm: "Confirm Appointment",
     zoomBenefitsTitle: "Key Benefits", btnBookZoom: "Book This Service Now",
-    secReviewTitle: "Customer Experiences", secReviewSub: "Recent feedback and photos from our lovely clients.", formReviewTitle: "Share Your Experience", labelPhoto: "Upload Service Photo", labelFeedback: "Your Feedback", btnPostReview: "Post Review",
+    secReviewTitle: "Customer Experiences", secReviewSub: "Recent feedback from our lovely clients.", formReviewTitle: "Share Your Experience", labelFeedback: "Your Feedback", btnPostReview: "Post Review",
     tabLogin: "Login", tabSignup: "Sign Up", labelUsername: "Username or Login ID", labelPassword: "Password", btnSignIn: "Sign In", labelFullName: "Full Name", labelAge: "Age", labelAddress: "Address", labelChooseUser: "Choose Username", labelChoosePass: "Choose Password", btnCreateAcc: "Create Account"
   },
   hi: {
     navContact: "संपर्क", contactUs: "संपर्क करें", contactText: "ब्यूटी सेवा और अपॉइंटमेंट के लिए हमसे संपर्क करें।", address: "पता", phone: "फोन", serviceType: "सेवा", serviceTypeText: "लेडीज़ ब्यूटी पार्लर",
     navTitle: "ब्यूटी प्लस फॉरएवर", tagline: "एक विशेष लेडीज ब्यूटी पार्लर", navServices: "सेवाएं", navBook: "बुक और ट्रैक", navReviews: "समीक्षा", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
     heroBadge: "आपका स्वागत है", heroTitle: "ब्यूटी प्लस फॉरएवर", heroSub: "एक विशेष लेडीज ब्यूटी पार्लर",
-    btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 कॉल: 9798013636", btnWhatsApp: "💬 वॉट्सऐप: 9297562362", btnDownloadApp: "📱 ऐप डाउनलोड करें",
+    btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 अभी कॉल करें", btnWhatsApp: "💬 वॉट्सऐप", btnDownloadApp: "📱 ऐप डाउनलोड करें",
     secServicesTitle: "हमारी प्रीमियम सेवाएं", secServicesSub: "फायदे, अवधि देखने और तुरंत बुक करने के लिए किसी भी सेवा पर टैप करें।",
     secGalleryTitle: "हमारी गैलरी", secBookTitle: "बुक और ट्रैक करें", secBookSub: "अपना ब्यूटी टाइम रिज़र्व करें या अपनी बुकिंग का लाइव स्टेटस चेक करें।",
     trackTitle: "अपनी बुकिंग का लाइव स्टेटस चेक करें", trackPlaceholder: "बुकिंग आईडी दर्ज करें (जैसे, BPF...)", trackBtn: "स्टेटस चेक करें",
     formNewBooking: "नया अपॉइंटमेंट सुरक्षित करें", labelName: "आपका नाम", labelGender: "लिंग", optFemale: "महिला", optMale: "पुरुष", optOther: "अन्य", labelPhone: "मोबाइल नंबर (10 अंक)", labelService: "सेवा चुनें", labelDate: "तारीख", labelTime: "समय", btnConfirm: "अपॉइंटमेंट कन्फर्म करें",
     zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "यह सेवा अभी बुक करें",
-    secReviewTitle: "ग्राहक के अनुभव", secReviewSub: "हमारे प्यारे ग्राहकों की हालिया प्रतिक्रिया और तस्वीरें।", formReviewTitle: "अपना अनुभव साझा करें", labelPhoto: "सेवा की फोटो अपलोड करें", labelFeedback: "आपकी प्रतिक्रिया", btnPostReview: "समीक्षा पोस्ट करें",
+    secReviewTitle: "ग्राहक के अनुभव", secReviewSub: "हमारे प्यारे ग्राहकों की हालिया प्रतिक्रिया।", formReviewTitle: "अपना अनुभव साझा करें", labelFeedback: "आपकी प्रतिक्रिया", btnPostReview: "समीक्षा पोस्ट करें",
     tabLogin: "लॉगिन", tabSignup: "साइन अप", labelUsername: "यूजरनेम या लॉगिन आईडी", labelPassword: "पासवर्ड", btnSignIn: "साइन इन करें", labelFullName: "पूरा नाम", labelAge: "उम्र", labelAddress: "पता", labelChooseUser: "यूजरनेम चुनें", labelChoosePass: "पासवर्ड चुनें", btnCreateAcc: "अकाउंट बनाएं"
   }
 };
@@ -486,81 +468,100 @@ const servicesData = [
   { id: "Bridal Makeover", name: { en: "Bridal Makeover", hi: "ब्राइडल मेकओवर" }, duration: { en: "3-4 Hours", hi: "3-4 घंटे" }, desc: { en: "A dedicated bridal makeup, hair styling, and finishing session meticulously planned.", hi: "दुल्हन के खास दिन के लिए समर्पित ब्राइडल मेकअप और हेयर स्टाइलिंग।" }, benefits: { en: ["Complete HD Makeup & Base", "Advanced Hair Styling", "Saree/Lehenga Draping", "Premium Products"], hi: ["कंप्लीट एचडी मेकअप", "एडवांस हेयर स्टाइलिंग", "साड़ी/लहंगा ड्रेपिंग", "प्रीमियम प्रोडक्ट्स"] }, img: "assets/service1.jpg" },
   { id: "Advanced Facial", name: { en: "Advanced Facial", hi: "एडवांस फेशियल" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "A relaxing skin-care service featuring exfoliation and deep tissue massage.", hi: "आरामदायक त्वचा देखभाल सेवा।" }, benefits: { en: ["Deep Pore Cleansing", "Skin Brightening", "Anti-aging properties", "Relaxing Massage"], hi: ["डीप पोर क्लींजिंग", "स्किन ब्राइटनिंग", "एंटी-एजिंग गुण", "आरामदायक मसाज"] }, img: "assets/service2.jpg" },
   { id: "Hair Spa", name: { en: "Hair Spa & Treatment", hi: "हेयर स्पा और ट्रीटमेंट" }, duration: { en: "45 Mins", hi: "45 मिनट" }, desc: { en: "A rejuvenating hair-care routine focused on deep cleansing and scalp massage.", hi: "डीप क्लींजिंग और स्कैल्प मसाज पर केंद्रित हेयर-केयर रूटीन।" }, benefits: { en: ["Dandruff Removal", "Smooth Texture", "Deep Nourishment", "Stress Relief"], hi: ["रूसी से छुटकारा", "मुलायम बाल", "स्कैल्प को पोषण", "तनाव से राहत"] }, img: "assets/service3.jpg" },
-  { id: "Party Makeup", name: { en: "Party Makeup", hi: "पार्टी मेकअप" }, duration: { en: "90 Mins", hi: "90 मिनट" }, desc: { en: "Professional makeup styling for parties and special occasions.", hi: "पार्टियों और खास मौकों के लिए प्रोफेशनल मेकअप स्टाइलिंग।" }, benefits: { en: ["Flawless Base", "Custom Eye Makeup", "Long-lasting finish", "Basic Hair Styling"], hi: ["फ्लॉलेस बेस", "कस्टम आई मेकअप", "लंबे समय तक टिकने वाला", "बेसिक हेयर स्टाइलिंग"] }, img: "assets/service4.jpg" },
+  { id: "Party Makeup", name: { en: "Party Makeup", hi: "पार्टी Makeup" }, duration: { en: "90 Mins", hi: "90 मिनट" }, desc: { en: "Professional makeup styling for parties and special occasions.", hi: "पार्टियों और खास मौकों के लिए प्रोफेशनल मेकअप स्टाइलिंग।" }, benefits: { en: ["Flawless Base", "Custom Eye Makeup", "Long-lasting finish", "Basic Hair Styling"], hi: ["फ्लॉलेस बेस", "कस्टम आई मेकअप", "लंबे समय तक टिकने वाला", "बेसिक हेयर स्टाइलिंग"] }, img: "assets/service4.jpg" },
   { id: "Mani Pedi", name: { en: "Manicure & Pedicure", hi: "मैनिक्योर और पेडिक्योर" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "Hand, foot, and nail care designed for a clean, refreshed feel.", hi: "हाथ, पैर और नाखूनों की देखभाल।" }, benefits: { en: ["Tan Removal", "Nail Shaping", "Cuticle Care", "Soft Hands & Feet"], hi: ["टैन हटाना", "नाखूनों की शेपिंग", "क्यूटिकल की देखभाल", "मुलायम हाथ और पैर"] }, img: "assets/service5.jpg" },
   { id: "Threading Waxing", name: { en: "Threading & Waxing", hi: "थ्रेडिंग और वैक्सिंग" }, duration: { en: "30 Mins", hi: "30 मिनट" }, desc: { en: "Precise facial hair shaping and body hair removal services.", hi: "फेशियल हेयर शेपिंग और बॉडी हेयर रिमूवल सेवा।" }, benefits: { en: ["Painless technique", "Long-lasting smoothness", "Clean shapes", "Soothes skin"], hi: ["दर्द रहित तकनीक", "लंबे समय तक स्मूथनेस", "साफ शेप", "त्वचा को आराम"] }, img: "assets/service6.jpg" }
 ];
 
+// ==========================================
+// BYPASS CORS WITH URL-ENCODED FORM DATA
+// ==========================================
 function apiCall(payload) {
-  return fetch(SCRIPT_URL, { 
-    method: "POST", 
-    body: JSON.stringify(payload) 
+  const formBody = Object.keys(payload).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payload[key])).join('&');
+  return fetch(SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formBody
   }).then(r => r.json());
 }
 
 function fetchGlobalData() {
   apiCall({ action: "init_data" }).then(d => {
     if(d.status === "success") {
-      globalAssets = d.assets; applyGlobalAssets();
       top5Reviews = d.reviews; renderReviews();
+      applySettings(d.settings);
     }
     document.getElementById("syncLoader").style.display = "none";
   }).catch(e => document.getElementById("syncLoader").style.display = "none");
 }
 
-function applyGlobalAssets() {
-  if(globalAssets['bpf_banner']) { document.getElementById("heroSection").style.backgroundImage = `url(${globalAssets['bpf_banner']})`; if(document.getElementById("previewBanner")) document.getElementById("previewBanner").src = globalAssets['bpf_banner']; }
-  
-  if(globalAssets['bpf_notice']) {
-    document.getElementById("publicNoticeBoard").style.display = "block"; document.getElementById("publicNoticeImg").src = globalAssets['bpf_notice']; document.getElementById("publicNoticeImg").style.display = "inline-block";
-    if(document.getElementById("previewNotice")) document.getElementById("previewNotice").src = globalAssets['bpf_notice'];
-  } else { document.getElementById("publicNoticeBoard").style.display = "none"; }
+function applySettings(settings) {
+  // Populate Admin Inputs
+  if(document.getElementById("set_noticeTitle")) document.getElementById("set_noticeTitle").value = settings.noticeTitle || "";
+  if(document.getElementById("set_noticeMsg")) document.getElementById("set_noticeMsg").value = settings.noticeMsg || "";
+  if(document.getElementById("set_noticeImg")) document.getElementById("set_noticeImg").value = settings.noticeImg || "";
+  if(document.getElementById("set_apkLink")) document.getElementById("set_apkLink").value = settings.apkLink || "";
 
+  // Show APK Button
   const apkBtn = document.getElementById("apkDownloadBtn");
-  if(globalAssets['bpf_apk'] && apkBtn) {
-     apkBtn.href = globalAssets['bpf_apk'];
+  if(settings.apkLink && apkBtn) {
+     apkBtn.href = settings.apkLink;
      apkBtn.style.display = "inline-flex";
-     document.getElementById("apkLinkInput").value = globalAssets['bpf_apk'];
   } else if (apkBtn) { apkBtn.style.display = "none"; }
 
-  const track = document.getElementById("sliderTrack"); track.innerHTML = "";
-  for(let i=1; i<=10; i++) {
-    const src = globalAssets[`bpf_slider_${i}`] || `assets/slider${i}.jpg`;
-    track.innerHTML += `<img class="slide" src="${src}" onerror="this.src='https://picsum.photos/seed/bpf${i}/300/300'">`;
-    if(document.getElementById(`previewSlider${i}`)) document.getElementById(`previewSlider${i}`).src = src;
+  // Trigger Popup if Notice exists
+  if(settings.noticeTitle) {
+     document.getElementById("nTitle").textContent = settings.noticeTitle;
+     document.getElementById("nMsg").textContent = settings.noticeMsg || "";
+     const nImg = document.getElementById("nImg");
+     if(settings.noticeImg) { nImg.src = settings.noticeImg; nImg.style.display = "block"; } else { nImg.style.display = "none"; }
+     
+     // Only show popup once per session
+     if(!sessionStorage.getItem('noticeShown')) {
+        document.getElementById("noticeModal").classList.add("open");
+        sessionStorage.setItem('noticeShown', 'true');
+     }
   }
 }
 
-function uploadToImgBB(file, callback, errorCallback) {
-  const fd = new FormData();
-  fd.append("image", file);
-  fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: fd })
-    .then(r => r.json()).then(data => { if(data.success) { callback(data.data.url); } else { errorCallback("ImgBB Error"); } })
-    .catch(e => errorCallback("Network Error"));
+function closeNotice() { document.getElementById("noticeModal").classList.remove("open"); }
+
+function saveAdminSettings() {
+  const btn = document.getElementById("btnSaveSettings"); btn.disabled = true; btn.textContent = "Saving...";
+  apiCall({
+    action: "save_settings",
+    noticeTitle: document.getElementById("set_noticeTitle").value,
+    noticeMsg: document.getElementById("set_noticeMsg").value,
+    noticeImg: document.getElementById("set_noticeImg").value,
+    apkLink: document.getElementById("set_apkLink").value
+  }).then(d => {
+    alert("Settings Saved!"); fetchGlobalData();
+  }).catch(e => alert("Network error")).finally(() => { btn.disabled = false; btn.textContent = "Save All Settings"; });
 }
 
+// ==========================================
+// REVIEWS (TEXT ONLY NOW)
+// ==========================================
 document.getElementById("reviewForm").addEventListener("submit", function(e) {
-  e.preventDefault(); const fileInput = document.getElementById("rPhoto").files[0]; const text = document.getElementById("rText").value;
-  if(fileInput && (currentUser || isAdmin)) {
-    const btn = e.target.querySelector('button'); btn.disabled = true; btn.textContent = currentLang === 'hi' ? "अपलोड हो रहा है..." : "Uploading...";
-    
-    uploadToImgBB(fileInput, function(directUrl) {
-      apiCall({ action: "post_review", name: isAdmin ? "Admin (Vishakha)" : currentUser.name, text: text, fileUrl: directUrl }).then(d => {
-        if(d.status === "success") { alert(currentLang === 'hi' ? "समीक्षा सफलतापूर्वक पोस्ट की गई!" : "Review posted successfully!"); document.getElementById("reviewForm").reset(); fetchGlobalData(); }
-        else { alert("Error saving review."); }
-      }).catch(err => alert("Network error.")).finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review"; });
-    }, function(err) {
-      alert("Image upload failed. Try a smaller image."); btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review";
-    });
+  e.preventDefault(); const text = document.getElementById("rText").value;
+  if(currentUser || isAdmin) {
+    const btn = e.target.querySelector('button'); btn.disabled = true; btn.textContent = currentLang === 'hi' ? "पोस्ट हो रहा है..." : "Posting...";
+    apiCall({ action: "post_review", name: isAdmin ? "Admin (Vishakha)" : currentUser.name, text: text }).then(d => {
+      if(d.status === "success") { alert(currentLang === 'hi' ? "समीक्षा सफलतापूर्वक पोस्ट की गई!" : "Review posted successfully!"); document.getElementById("reviewForm").reset(); fetchGlobalData(); }
+      else { alert("Error saving review."); }
+    }).catch(err => alert("Network error.")).finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review"; });
   }
 });
 
 function renderReviews() {
   const list = document.getElementById("reviewList"); list.innerHTML = "";
   if(!top5Reviews || top5Reviews.length === 0) { list.innerHTML = `<p style="color:var(--muted);">${currentLang === 'hi' ? "अभी तक कोई समीक्षा नहीं।" : "No reviews yet."}</p>`; return; }
-  top5Reviews.forEach(r => { list.innerHTML += `<div class="review-card"><img src="${r.photo}"><div class="review-meta"><b>${r.name}</b> • ${r.date}</div><p style="margin:0;font-size:15px;line-height:1.5;">"${r.text}"</p></div>`; });
+  top5Reviews.forEach(r => { list.innerHTML += `<div class="review-card"><div class="review-meta"><b>${r.name}</b> • ${r.date}</div><p style="margin:0;font-size:15px;line-height:1.5;">"${r.text}"</p></div>`; });
 }
 
+// ==========================================
+// UI LOGIC
+// ==========================================
 function changeLang(lang) {
   currentLang = lang; localStorage.setItem("bpf_lang", lang); document.getElementById("langSwitcher").value = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => { const key = el.getAttribute("data-i18n"); if (translations[lang][key]) el.innerHTML = translations[lang][key]; });
@@ -586,35 +587,6 @@ function openZoom(i) {
 }
 function closeZoom() { document.getElementById("zoomModal").classList.remove("open"); document.body.style.overflow = "auto"; }
 function bookFromZoom() { closeZoom(); document.getElementById("bService").value = selectedServiceForBooking; document.getElementById("booking").scrollIntoView({behavior: "smooth"}); }
-
-function uploadGlobalImage(e, assetKey, previewId, btnId) {
-  const file = e.target.files[0]; if(!file) return;
-  const btn = document.getElementById(btnId); btn.style.display = "block";
-  
-  uploadToImgBB(file, function(directUrl) {
-    document.getElementById(previewId).src = directUrl;
-    apiCall({ action: "upload_asset", assetKey: assetKey, fileUrl: directUrl }).then(d => {
-      if(d.status === "success") { btn.style.display = "none"; fetchGlobalData(); alert("Uploaded Globally!"); } 
-      else { alert("Failed to save to database."); btn.style.display = "none"; }
-    }).catch(e => { alert("Network error."); btn.style.display = "none"; });
-  }, function(err) {
-    alert("Image Upload Failed. Try a smaller image."); btn.style.display = "none";
-  });
-}
-
-function saveAPKLink() {
-  const url = document.getElementById("apkLinkInput").value.trim();
-  if(!url) return alert("Please enter a valid link.");
-  const btn = document.getElementById("btn_apk"); btn.style.display = "block"; btn.textContent = "Saving Link...";
-  apiCall({ action: "upload_apk", assetKey: "bpf_apk", fileUrl: url }).then(d => {
-    if(d.status === "success") { btn.style.display = "none"; fetchGlobalData(); alert("APK Link Saved! Download button is live."); } 
-    else { alert("Failed to save APK link."); btn.style.display = "none"; }
-  }).catch(e => { alert("Network error."); btn.style.display = "none"; });
-}
-
-function clearGlobalNotice() {
-  apiCall({ action: "delete_asset", assetKey: "bpf_notice" }).then(d => { fetchGlobalData(); alert("Notice Removed"); });
-}
 
 function openAuthModal() { document.getElementById("authModal").classList.add("open"); }
 function closeAuthModal() { document.getElementById("authModal").classList.remove("open"); }
