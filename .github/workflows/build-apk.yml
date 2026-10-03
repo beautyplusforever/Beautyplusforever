@@ -1,49 +1,70 @@
-name: Build Android APK
+name: Auto-Build Android APK
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  build:
+  build-apk:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: 1. Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: 2. Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Setup Java
+      - name: 3. Setup Java JDK for Android
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Create Dummy Web Directory
+      - name: 4. Prepare Web Assets
         run: |
           mkdir -p www
-          echo "<html><body>Loading Beauty Plus Forever...</body></html>" > www/index.html
+          cp *.html www/index.html || echo "No HTML file found in root"
+          cp -r assets www/assets || echo "No assets folder found, skipping"
 
-      - name: Add Android Platform
-        run: npx cap add android
+      - name: 5. Auto-Install Capacitor & Dependencies
+        run: |
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init "Beauty Plus" "com.beautyplus.app" --web-dir www --force
 
-      - name: Sync Capacitor
-        run: npx cap sync android
+      - name: 6. Unlock Pinch-to-Zoom (Capacitor Config)
+        run: |
+          # Automatically writes the config file to enable zooming
+          cat <<EOF > capacitor.config.json
+          {
+            "appId": "com.beautyplus.app",
+            "appName": "Beauty Plus",
+            "webDir": "www",
+            "bundledWebRuntime": false,
+            "android": {
+              "zoomEnabled": true
+            }
+          }
+          EOF
 
-      - name: Build APK
+      - name: 7. Add Android Platform & Sync
+        run: |
+          npx cap add android
+          npx cap sync
+
+      - name: 8. Build APK File
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload APK Artifact
+      - name: 9. Upload Final APK for Download
         uses: actions/upload-artifact@v4
         with:
-          name: Beauty-Plus-Forever-APK
+          name: BeautyPlus-Android-App
           path: android/app/build/outputs/apk/debug/app-debug.apk
