@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#8d3d68">
-<meta name="description" content="A Special Ladies Beauty Parlour in Mauje, Ward No. 13, Raxaul, East Champaran, Bihar 845305.">
+<meta name="description" content="A Special Ladies Beauty Parlour in Mauje, Ward No. 13, Main Road Triloki Nagar, Raxaul, East Champaran, Bihar 845305.">
 <title>Beauty Plus Forever | A Special Ladies Beauty Parlour</title>
 
 <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -52,7 +52,6 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 @keyframes shine { to { background-position:200% center; } }
 .hero-subtitle{font-size:clamp(18px, 4vw, 26px);font-weight:800;color:var(--ink);text-transform:capitalize;margin-bottom:25px;}
 .admin-badge{display:none;background:#ff3b3b;color:#fff;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:bold;margin-left:10px;}
-.admin-tools{display:none;margin-top:20px;padding:15px;background:rgba(255,255,255,0.95);border-radius:16px;border:2px dashed var(--primary);box-shadow:var(--shadow);}
 
 .global-loader{display:flex;align-items:center;justify-content:center;padding:10px;background:#ffeef6;color:var(--primary);font-weight:bold;font-size:14px;border-bottom:1px solid var(--line);}
 
@@ -96,7 +95,6 @@ section{padding:70px 0;}
 .review-meta b{color:var(--ink);font-size:15px;}
 .review-form-area{display:none;background:linear-gradient(135deg, #fff, var(--soft));padding:25px;border-radius:24px;border:2px dashed var(--primary2);margin-bottom:40px;}
 
-/* Modals */
 .modalBack,.zoomBack{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:150;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
 .modalBack.open,.zoomBack.open{display:flex;}
 .modal,.zoomModal{width:min(500px,92%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:30px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
@@ -110,7 +108,6 @@ section{padding:70px 0;}
 .close,.zoom-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.9);border:none;width:40px;height:40px;border-radius:50%;font-size:24px;color:var(--ink);z-index:10;box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:0.2s;}
 .close:hover,.zoom-close:hover{background:var(--primary);color:#fff;}
 
-/* Auth Tabs & Admin */
 .auth-tabs{display:flex; gap:12px; margin-bottom:25px; border-bottom:2px solid var(--line); padding-bottom:15px;}
 .tab-btn{flex:1; padding:12px; background:var(--soft); color:var(--ink); border:none; border-radius:14px; font-weight:800; transition:0.2s;}
 .tab-btn.active{background:var(--primary); color:#fff;box-shadow:var(--glow);}
@@ -192,22 +189,22 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
   </div>
 
   <div id="adminImages" class="admin-section">
-    <p>Upload new images or the Android APK app file. These will update live for everyone worldwide.</p>
+    <p>Upload new images to automatically sync worldwide via API.</p>
     <div class="admin-upload-grid">
       
-      <!-- APK Upload Option -->
+      <!-- Safe APK Link Setup -->
       <div class="upload-card" style="border-color: #2d8a62; background: #f0fdf4;">
-        <strong style="color: #1b5e20;">Upload Android App (APK)</strong>
-        <p style="font-size: 12px; margin-bottom: 8px;">Max size ~7MB. For larger APKs, host manually.</p>
-        <input type="file" accept=".apk" onchange="uploadAPK(event, 'btn_apk')">
-        <button id="btn_apk" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading APK to Cloud...</button>
+        <strong style="color: #1b5e20;">Link Android App (APK)</strong>
+        <p style="font-size: 12px; margin-bottom: 8px;">Paste the manual download link (e.g., from Google Drive or GitHub).</p>
+        <input type="url" id="apkLinkInput" placeholder="https://..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; outline:none;">
+        <button id="btn_apk" class="btn success" style="width:100%;margin-top:10px;" onclick="saveAPKLink()">Save APK Link</button>
       </div>
 
       <div class="upload-card">
         <strong>Main Hero Banner</strong>
         <input type="file" accept="image/*" onchange="uploadGlobalImage(event, 'bpf_banner', 'previewBanner', 'btn_ban')">
         <img id="previewBanner" class="upload-preview" src="assets/banner.jpg" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1200&q=80'">
-        <button id="btn_ban" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading to Cloud...</button>
+        <button id="btn_ban" class="btn primary" style="width:100%;margin-top:10px;display:none;">Uploading API...</button>
       </div>
       <script>
         for(let i=1; i<=10; i++) {
@@ -249,8 +246,7 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
       <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call: 9798013636</a>
       <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WA: 9297562362</a>
       
-      <!-- Dynamic App Download Button (Visible only when Admin uploads the APK) -->
-      <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" download data-i18n="btnDownloadApp">📱 Download App</a>
+      <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" target="_blank" data-i18n="btnDownloadApp">📱 Download App</a>
     </div>
   </div>
 </section>
@@ -351,7 +347,7 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
   <div class="container">
     <h3 class="footer-title">Beauty Plus Forever</h3>
     <p style="font-size:18px; max-width:500px; margin:0 auto 20px; line-height:1.6;" data-i18n="footerAddress">
-      Mauje, Ward No. 13,Mahaveer chauk, Mai Sthan Road <br>Raxaul, East Champaran, Bihar 845305
+      Mauje, Ward No. 13, Main Road Triloki Nagar,<br>Raxaul, East Champaran, Bihar 845305
     </p>
     <div style="display:flex; justify-content:center; gap:20px; font-size:18px; font-weight:bold; margin-bottom:30px;">
       <span>📞 9798013636</span>
@@ -418,7 +414,12 @@ footer{background:#1a1318;color:#fff;padding:60px 0;text-align:center;}
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQYriS9TigPRRY1cyX2jz3RwH2pvyXSBBg72vgLXDL4yQZZ-VumWcC_0uQqMnwl1mJ/exec"; 
+// ==========================================
+// CONFIGURATION (PASTE WEB APP URL & IMGBB KEY)
+// ==========================================
+const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; 
+const IMGBB_API_KEY = "YOUR_IMGBB_API_KEY_HERE"; 
+
 const ADMIN_USER = "Vishakha62014";
 const ADMIN_PASS = "Vishakha@78068";
 const PRIMARY_WA_NUMBER = "919297562362"; 
@@ -442,7 +443,7 @@ const translations = {
     zoomBenefitsTitle: "Key Benefits", btnBookZoom: "Book This Service Now",
     secReviewTitle: "Customer Experiences", secReviewSub: "Recent feedback and photos from our lovely clients.", formReviewTitle: "Share Your Experience", labelPhoto: "Upload Service Photo", labelFeedback: "Your Feedback", btnPostReview: "Post Review",
     tabLogin: "Login", tabSignup: "Sign Up", labelUsername: "Username or Login ID", labelPassword: "Password", btnSignIn: "Sign In", labelFullName: "Full Name", labelAge: "Age", labelAddress: "Address", labelChooseUser: "Choose Username", labelChoosePass: "Choose Password", btnCreateAcc: "Create Account",
-    footerAddress: "Mauje, Ward No. 13,mahaveer chauk, mai sthan road,<br>Raxaul, East Champaran, Bihar 845305"
+    footerAddress: "Mauje, Ward No. 13, Main Road Triloki Nagar,<br>Raxaul, East Champaran, Bihar 845305"
   },
   hi: {
     navTitle: "ब्यूटी प्लस फॉरएवर", tagline: "एक विशेष लेडीज ब्यूटी पार्लर", navServices: "सेवाएं", navBook: "बुक और ट्रैक", navReviews: "समीक्षा", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
@@ -455,7 +456,7 @@ const translations = {
     zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "यह सेवा अभी बुक करें",
     secReviewTitle: "ग्राहक के अनुभव", secReviewSub: "हमारे प्यारे ग्राहकों की हालिया प्रतिक्रिया और तस्वीरें।", formReviewTitle: "अपना अनुभव साझा करें", labelPhoto: "सेवा की फोटो अपलोड करें", labelFeedback: "आपकी प्रतिक्रिया", btnPostReview: "समीक्षा पोस्ट करें",
     tabLogin: "लॉगिन", tabSignup: "साइन अप", labelUsername: "यूजरनेम या लॉगिन आईडी", labelPassword: "पासवर्ड", btnSignIn: "साइन इन करें", labelFullName: "पूरा नाम", labelAge: "उम्र", labelAddress: "पता", labelChooseUser: "यूजरनेम चुनें", labelChoosePass: "पासवर्ड चुनें", btnCreateAcc: "अकाउंट बनाएं",
-    footerAddress: "मौजे, वार्ड नंबर 13, महावीर चौक, माई  स्थान रोड ,<br>रक्सौल, पूर्वी चंपारण, बिहार 845305"
+    footerAddress: "मौजे, वार्ड नंबर 13, मेन रोड त्रिलोकी नगर,<br>रक्सौल, पूर्वी चंपारण, Bihar 845305"
   }
 };
 
@@ -469,8 +470,7 @@ const servicesData = [
 ];
 
 function apiCall(payload) {
-  // Sending as stringified JSON entirely bypasses CORS
-  return fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) }).then(r => r.json());
+  return fetch(SCRIPT_URL, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(payload) }).then(r => r.json());
 }
 
 function fetchGlobalData() {
@@ -495,6 +495,7 @@ function applyGlobalAssets() {
   if(globalAssets['bpf_apk'] && apkBtn) {
      apkBtn.href = globalAssets['bpf_apk'];
      apkBtn.style.display = "inline-flex";
+     document.getElementById("apkLinkInput").value = globalAssets['bpf_apk'];
   } else if (apkBtn) { apkBtn.style.display = "none"; }
 
   const track = document.getElementById("sliderTrack"); track.innerHTML = "";
@@ -505,31 +506,30 @@ function applyGlobalAssets() {
   }
 }
 
-function compressImage(file, callback, maxSize = 600) {
-  const reader = new FileReader(); reader.readAsDataURL(file);
-  reader.onload = event => {
-    const img = new Image(); img.src = event.target.result;
-    img.onload = () => {
-      const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-      let width = img.width, height = img.height;
-      if (width > height) { if (width > maxSize) { height *= maxSize / width; width = maxSize; } } 
-      else { if (height > maxSize) { width *= maxSize / height; height = maxSize; } }
-      canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
-      callback(canvas.toDataURL('image/jpeg', 0.6));
-    };
-  };
+// ==========================================
+// IMGBB FREE HOSTING LOGIC
+// ==========================================
+function uploadToImgBB(file, callback, errorCallback) {
+  const fd = new FormData();
+  fd.append("image", file);
+  fetch(`https://api.imgbb.com/1/upload?key=${d6c99723d410aaeee4d5ac016fc0a3d3}`, { method: "POST", body: fd })
+    .then(r => r.json()).then(data => { if(data.success) { callback(data.data.url); } else { errorCallback("ImgBB Error"); } })
+    .catch(e => errorCallback("Network Error"));
 }
 
 document.getElementById("reviewForm").addEventListener("submit", function(e) {
   e.preventDefault(); const fileInput = document.getElementById("rPhoto").files[0]; const text = document.getElementById("rText").value;
   if(fileInput && (currentUser || isAdmin)) {
     const btn = e.target.querySelector('button'); btn.disabled = true; btn.textContent = currentLang === 'hi' ? "अपलोड हो रहा है..." : "Uploading...";
-    compressImage(fileInput, function(compressedDataUrl) {
-      apiCall({ action: "post_review", name: isAdmin ? "Admin (Vishakha)" : currentUser.name, text: text, fileData: compressedDataUrl }).then(d => {
+    
+    uploadToImgBB(fileInput, function(directUrl) {
+      apiCall({ action: "post_review", name: isAdmin ? "Admin (Vishakha)" : currentUser.name, text: text, fileUrl: directUrl }).then(d => {
         if(d.status === "success") { alert(currentLang === 'hi' ? "समीक्षा सफलतापूर्वक पोस्ट की गई!" : "Review posted successfully!"); document.getElementById("reviewForm").reset(); fetchGlobalData(); }
-        else { alert("Error saving review: " + d.message); }
+        else { alert("Error saving review."); }
       }).catch(err => alert("Network error.")).finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review"; });
-    }, 600);
+    }, function(err) {
+      alert("Image upload failed. Try a smaller image."); btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review";
+    });
   }
 });
 
@@ -568,26 +568,26 @@ function bookFromZoom() { closeZoom(); document.getElementById("bService").value
 function uploadGlobalImage(e, assetKey, previewId, btnId) {
   const file = e.target.files[0]; if(!file) return;
   const btn = document.getElementById(btnId); btn.style.display = "block";
-  compressImage(file, function(compressedDataUrl) {
-    document.getElementById(previewId).src = compressedDataUrl;
-    apiCall({ action: "upload_asset", assetKey: assetKey, fileData: compressedDataUrl, mimeType: "image/jpeg" }).then(d => {
+  
+  uploadToImgBB(file, function(directUrl) {
+    document.getElementById(previewId).src = directUrl;
+    apiCall({ action: "upload_asset", assetKey: assetKey, fileUrl: directUrl }).then(d => {
       if(d.status === "success") { btn.style.display = "none"; fetchGlobalData(); alert("Uploaded Globally!"); } 
-      else { alert("Failed to upload: " + d.message); btn.style.display = "none"; }
+      else { alert("Failed to save to database."); btn.style.display = "none"; }
     }).catch(e => { alert("Network error."); btn.style.display = "none"; });
-  }, 1000); 
+  }, function(err) {
+    alert("Image Upload Failed. Try a smaller image."); btn.style.display = "none";
+  });
 }
 
-function uploadAPK(e, btnId) {
-  const file = e.target.files[0]; if(!file) return;
-  if (!file.name.endsWith('.apk')) { alert('Please select a valid .apk file'); return; }
-  const btn = document.getElementById(btnId); btn.style.display = "block";
-  const reader = new FileReader(); reader.readAsDataURL(file);
-  reader.onload = function(evt) {
-    apiCall({ action: "upload_apk", fileData: evt.target.result }).then(d => {
-      if(d.status === "success") { btn.style.display = "none"; fetchGlobalData(); alert("APK Uploaded Globally! Download button is now live."); } 
-      else { alert("Failed to upload APK: " + d.message); btn.style.display = "none"; }
-    }).catch(e => { alert("Network error during APK upload."); btn.style.display = "none"; });
-  };
+function saveAPKLink() {
+  const url = document.getElementById("apkLinkInput").value.trim();
+  if(!url) return alert("Please enter a valid link.");
+  const btn = document.getElementById("btn_apk"); btn.style.display = "block"; btn.textContent = "Saving Link...";
+  apiCall({ action: "upload_apk", assetKey: "bpf_apk", fileUrl: url }).then(d => {
+    if(d.status === "success") { btn.style.display = "none"; fetchGlobalData(); alert("APK Link Saved! Download button is live."); } 
+    else { alert("Failed to save APK link."); btn.style.display = "none"; }
+  }).catch(e => { alert("Network error."); btn.style.display = "none"; });
 }
 
 function clearGlobalNotice() {
