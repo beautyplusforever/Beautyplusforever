@@ -768,13 +768,16 @@ function changeBookingStatus(id, newStatus) {
   });
 }
 
+// FIXED: Smooth Native Scroll Autoplay for Gallery
 setInterval(() => {
-    const track = document.getElementById("sliderTrack");
-    if(track) {
-      let currentSlideIndex = parseInt(track.getAttribute('data-slide') || '0');
-      currentSlideIndex++; if (currentSlideIndex > 6) currentSlideIndex = 0; 
-      track.setAttribute('data-slide', currentSlideIndex);
-      track.style.transform = `translateX(-${currentSlideIndex * 300}px)`;
+    const container = document.getElementById("sliderContainer");
+    if(container && container.children[0] && container.children[0].children[0]) {
+      const slideWidth = container.children[0].children[0].offsetWidth + 20; 
+      if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+         container.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+         container.scrollBy({ left: slideWidth, behavior: 'smooth' });
+      }
     }
 }, 3000);
 
