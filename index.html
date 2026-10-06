@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- FORCES DESKTOP VIEW AND AUTO-ZOOMS OUT TO FIT MOBILE SCREEN -->
-<meta name="viewport" content="width=1200, initial-scale=0.3, maximum-scale=2.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#8d3d68">
 <meta name="description" content="A Special Ladies Beauty Parlour in Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, East Champaran, Bihar 845305.">
 <title>Beauty Plus Forever | A Special Ladies Beauty Parlour</title>
@@ -18,20 +17,24 @@
   --glow:0 0 20px rgba(141,61,104,0.4);
 }
 *{box-sizing:border-box} html{scroll-behavior:smooth}
-body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.55; min-width: 1200px;}
+body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.55;}
 button,input,select,textarea{font:inherit} button{cursor:pointer}
 a{text-decoration:none;color:inherit}
-.container{width:1160px;margin:auto}
+
+.container{width:min(1160px, 92%);margin:auto}
 
 header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 4px 15px rgba(0,0,0,0.03);}
-.nav{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.nav{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:15px; flex-wrap: wrap; padding: 10px 0;}
 .brand{display:flex;align-items:center;gap:11px;font-weight:900;}
-.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:grid;place-items:center;font-size:24px;box-shadow:var(--shadow)}
+.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:grid;place-items:center;font-size:24px;box-shadow:var(--shadow); flex-shrink: 0;}
 .brand-text{font-size:18px; line-height:1.2;}
 .brand small{display:block;color:var(--primary);font-weight:700;font-size:12px;text-transform:capitalize;}
 .navlinks{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 .navlinks a{padding:9px 12px;border-radius:12px;font-size:14px;font-weight:800;transition:0.2s;}
+
+.navlinks a.tab-link.active{background:var(--soft);color:var(--primary); box-shadow: 0 0 0 1px var(--primary2);}
 .navlinks a:hover{background:var(--soft);color:var(--primary)}
+
 .lang-select{padding:8px 12px;border-radius:10px;border:2px solid var(--primary);color:var(--primary);font-weight:bold;background:#fff;outline:none;cursor:pointer;transition:0.2s;}
 .lang-select:hover{background:var(--soft);}
 .btn{border:0;border-radius:16px;padding:12px 20px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.3s;font-size:15px;}
@@ -43,15 +46,17 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 .btn.success{background:linear-gradient(135deg, #2d8a62, #1b5e20);color:#fff;box-shadow:0 8px 22px rgba(45,138,98,.3);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;}
 
-/* Modern Modal & Popup Styles */
+.main-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+.main-section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
 .modalBack,.zoomBack,.noticePopup{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:150;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
 .modalBack.open,.zoomBack.open,.noticePopup.open{display:flex;}
-.modal,.zoomModal{width:500px;max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:30px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
-.zoomModal{width:850px;padding:0;overflow:hidden;display:flex;flex-direction:column;}
+.modal,.zoomModal{width:min(500px, 92%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:30px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+.zoomModal{width:min(850px, 95%);padding:0;overflow:hidden;display:flex;flex-direction:column;}
 .close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.9);border:none;width:40px;height:40px;border-radius:50%;font-size:24px;color:var(--ink);z-index:10;box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:0.2s;}
 .close:hover{background:var(--primary);color:#fff;}
 
-/* Notice Popup Card */
 .noticeCard{background:linear-gradient(135deg, #fff, #fffafb); border:3px solid var(--gold); border-radius:24px; padding:30px; text-align:center; position:relative; max-width:450px; width:90%; box-shadow:0 20px 50px rgba(201,154,61,0.3); animation:popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
 @keyframes popIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
 .noticeCard img{max-width:100%; border-radius:12px; margin-top:15px; display:none; max-height:250px; object-fit:cover;}
@@ -62,9 +67,9 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 .hero{position:relative;padding:80px 0;background-size:cover;background-position:center;background-color:#f7edf4;min-height:500px;display:flex;align-items:center;background-image:url('assets/banner.jpg'); transition: background-image 0.5s;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.4) 100%);}
 .hero-content{position:relative;z-index:2;max-width:750px;}
-.hero-title{font-size:85px;font-weight:900;line-height:1.05;margin:15px 0 10px;letter-spacing:-1.5px;background:linear-gradient(135deg, var(--primary), var(--primary2), var(--gold));background-size:200% auto;color:transparent;-webkit-background-clip:text;background-clip:text;animation:shine 4s linear infinite;}
+.hero-title{font-size:clamp(45px, 8vw, 85px);font-weight:900;line-height:1.05;margin:15px 0 10px;letter-spacing:-1.5px;background:linear-gradient(135deg, var(--primary), var(--primary2), var(--gold));background-size:200% auto;color:transparent;-webkit-background-clip:text;background-clip:text;animation:shine 4s linear infinite;}
 @keyframes shine { to { background-position:200% center; } }
-.hero-subtitle{font-size:26px;font-weight:800;color:var(--ink);text-transform:capitalize;margin-bottom:25px;}
+.hero-subtitle{font-size:clamp(18px, 4vw, 26px);font-weight:800;color:var(--ink);text-transform:capitalize;margin-bottom:25px;}
 .admin-badge{display:none;background:#ff3b3b;color:#fff;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:bold;margin-left:10px;}
 
 .global-loader{display:flex;align-items:center;justify-content:center;padding:10px;background:#ffeef6;color:var(--primary);font-weight:bold;font-size:14px;border-bottom:1px solid var(--line);}
@@ -74,7 +79,9 @@ section{padding:70px 0;}
 .sectionHead h2{font-size:36px;margin:0 0 10px;letter-spacing:-1px;}
 .sectionHead p{font-size:18px;color:var(--muted);max-width:600px;margin:auto;}
 
-.service-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:25px;}
+.service-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:25px;}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:20px;}
+
 .service-tile{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.04);cursor:pointer;transition:transform 0.3s, box-shadow 0.3s;border:1px solid var(--line);}
 .service-tile:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--primary2);}
 .service-img{width:100%;height:200px;object-fit:cover;background:#eee;}
@@ -82,7 +89,6 @@ section{padding:70px 0;}
 .service-info h3{margin:0 0 8px;font-size:20px;color:var(--primary);}
 .s-meta{font-size:13px;color:var(--gold);font-weight:800;display:flex;gap:10px;margin-bottom:12px;text-transform:uppercase;}
 
-/* Smooth Native Gallery Slider */
 .slider-section{padding:50px 0;overflow:hidden;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
 .slider-container{width:100%; overflow-x:auto; padding:15px 0; scroll-behavior:smooth; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;}
 .slider-container::-webkit-scrollbar { display: none; }
@@ -99,12 +105,13 @@ section{padding:70px 0;}
 
 .bookingWrap{display:grid;grid-template-columns:1fr;max-width:650px;margin:auto;}
 .formCard{background:#fff;border:1px solid var(--line);border-radius:30px;padding:35px;box-shadow:var(--shadow)}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
 .field{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
 .field label{font-size:14px;font-weight:800;color:var(--ink);}
-.field input,.field textarea,.field select{border:2px solid var(--line);border-radius:14px;padding:14px;outline:none;background:#fcfcfc;font-size:15px;transition:0.2s;}
+.field input,.field textarea,.field select{border:2px solid var(--line);border-radius:14px;padding:14px;outline:none;background:#fcfcfc;font-size:15px;transition:0.2s; width: 100%; box-sizing: border-box;}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px var(--soft);}
 
-.review-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:20px;}
 .review-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
 .review-meta{font-size:13px;color:var(--muted);margin-bottom:8px;}
 .review-meta b{color:var(--ink);font-size:15px;}
@@ -115,16 +122,16 @@ section{padding:70px 0;}
 .tab-btn.active{background:var(--primary); color:#fff;box-shadow:var(--glow);}
 
 #adminDashboard{display:none;background:#fff;border:3px solid var(--primary);border-radius:24px;padding:30px;margin-bottom:50px;box-shadow:var(--shadow);}
-.admin-tabs{display:flex;gap:12px;margin-bottom:25px;border-bottom:2px solid var(--line);padding-bottom:15px;}
+.admin-tabs{display:flex;gap:12px;margin-bottom:25px;border-bottom:2px solid var(--line);padding-bottom:15px;overflow-x:auto;}
 .admin-tab{background:var(--soft);border:none;padding:12px 24px;border-radius:12px;font-weight:900;cursor:pointer;white-space:nowrap;}
 .admin-tab.active{background:var(--primary);color:#fff;}
 .admin-section{display:none;}
 .admin-section.active{display:block;}
-.admin-table{width:100%;border-collapse:collapse;margin-top:20px;}
+.admin-table{width:100%;border-collapse:collapse;margin-top:20px; min-width: 600px;}
+.admin-table-wrapper { overflow-x: auto; }
 .admin-table th,.admin-table td{padding:15px;text-align:left;border-bottom:1px solid var(--line);}
 .admin-table th{background:var(--soft);color:var(--primary);font-weight:900;}
 
-/* Contact Section Styles - Desktop Only Layout */
 .contact{background:#fff;border-top:1px solid var(--line)}
 .contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center}
 .contactBox{padding:25px;border-radius:25px;background:var(--soft);border:1px solid var(--line)}
@@ -134,6 +141,23 @@ section{padding:70px 0;}
 
 footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 .footer-title{font-size:28px;background:linear-gradient(135deg, var(--gold), #fff);-webkit-background-clip:text;color:transparent;margin:0 0 15px;}
+
+@media (max-width: 768px) {
+  .navlinks { width: 100%; justify-content: center; gap: 5px; margin-top: 10px; }
+  .navlinks a { font-size: 13px; padding: 8px 10px; }
+  .brand { justify-content: center; width: 100%; }
+  
+  .hero { padding: 40px 0; min-height: 400px; text-align: center; }
+  .hero-content { display: flex; flex-direction: column; align-items: center; }
+  .hero-title { font-size: 45px; margin: 10px 0; }
+  .hero-subtitle { font-size: 18px; }
+  
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .contactGrid { grid-template-columns: 1fr; }
+  
+  .formCard, .track-box { padding: 20px; }
+  .sectionHead h2 { font-size: 28px; }
+}
 </style>
 </head>
 <body>
@@ -152,7 +176,7 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 
 <header>
   <div class="container nav">
-    <a href="#home" class="brand">
+    <a href="javascript:void(0)" onclick="switchTab('homeSection')" class="brand">
       <div class="logo">✦</div>
       <div class="brand-text">
         <span data-i18n="navTitle">Beauty Plus Forever</span>
@@ -160,11 +184,15 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
       </div>
       <span class="admin-badge" id="adminBadge">ADMIN MODE</span>
     </a>
+    
     <nav class="navlinks">
-      <a href="#services" data-i18n="navServices">Services</a>
-      <a href="#booking" data-i18n="navBook">Book & Track</a>
-      <a href="#reviews" data-i18n="navReviews">Reviews</a>
-      <a href="#contact" data-i18n="navContact">Contact</a>
+      <a href="javascript:void(0)" class="tab-link active" onclick="switchTab('homeSection')" data-i18n="navHome">Home</a>
+      <a href="javascript:void(0)" class="tab-link" onclick="switchTab('services')" data-i18n="navServices">Services</a>
+      <a href="javascript:void(0)" class="tab-link" onclick="switchTab('gallerySection')" data-i18n="navGallery">Gallery</a>
+      <a href="javascript:void(0)" class="tab-link" onclick="switchTab('booking')" data-i18n="navBook">Book & Track</a>
+      <a href="javascript:void(0)" class="tab-link" onclick="switchTab('reviews')" data-i18n="navReviews">Reviews</a>
+      <a href="javascript:void(0)" class="tab-link" onclick="switchTab('contact')" data-i18n="navContact">Contact</a>
+      
       <select class="lang-select" id="langSwitcher" onchange="changeLang(this.value)">
         <option value="en">English</option>
         <option value="hi">हिंदी</option>
@@ -176,15 +204,8 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </header>
 
-<!-- INLINE OFFER SECTION (Visible after Popup Closes) -->
-<div id="publicNoticeBoard" class="notice-board">
-  <div class="container">
-    <h2 style="margin:0; font-size:24px;">🎉 Special Offer Section 🎉</h2>
-    <img id="publicNoticeImg" class="notice-img" src="" style="display:none;">
-  </div>
-</div>
-
 <main>
+
 <!-- ADMIN DASHBOARD -->
 <section id="adminDashboard" class="container">
   <h2>⚙️ Admin Control Panel</h2>
@@ -195,10 +216,10 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 
   <div id="adminBookings" class="admin-section active">
     <button class="btn primary" onclick="fetchAdminBookings()">Refresh Live Bookings</button>
-    <div style="overflow-x:auto;">
+    <div class="admin-table-wrapper">
       <table class="admin-table">
         <thead>
-          <tr><th>ID</th><th>Customer</th><th>Service</th><th>Date</th><th>Status</th><th>Action</th></tr>
+          <tr><th>ID</th><th>Customer / Email</th><th>Service</th><th>Date</th><th>Status</th><th>Action</th></tr>
         </thead>
         <tbody id="adminBookingsTable">
           <tr><td colspan="6" style="text-align:center;padding:30px;">Click "Refresh Live Bookings" to load data.</td></tr>
@@ -229,31 +250,37 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
       </div>
       <button class="btn primary" onclick="saveAdminSettings()" id="btnSaveSettings">Save All Settings</button>
     </div>
-    <p style="margin-top:20px; font-size:14px; color:var(--muted);"><i>Note: Hero banners and slider images are managed automatically. Just upload/replace the files inside your GitHub "assets" folder (banner.jpg, slider1.jpg, etc.).</i></p>
   </div>
 </section>
 
-<!-- HERO SECTION -->
-<section class="hero" id="heroSection">
-  <div class="hero-overlay"></div>
-  <div class="container hero-content">
-    <span class="badge" style="background:#f4e1eb;padding:6px 14px;border-radius:20px;color:var(--primary);font-weight:900;letter-spacing:1px;" data-i18n="heroBadge">WELCOME TO</span>
-    <h1 class="hero-title" data-i18n="heroTitle">Beauty Plus Forever</h1>
-    <p class="hero-subtitle" data-i18n="heroSub">A special ladies beauty parlour</p>
-    
-    <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap;">
-      <a class="btn primary" href="#services" data-i18n="btnViewServices">✨ View Services</a>
-      <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call Now</a>
-      <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WhatsApp</a>
-      
-      <!-- Dynamic App Download Button -->
-      <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" target="_blank" data-i18n="btnDownloadApp">📱 Download App</a>
+<!-- TAB 1: HOME SECTION -->
+<div id="homeSection" class="main-section active">
+  <div id="publicNoticeBoard" class="notice-board">
+    <div class="container">
+      <h2 style="margin:0; font-size:24px;">🎉 Special Offer Section 🎉</h2>
+      <img id="publicNoticeImg" class="notice-img" src="" style="display:none;">
     </div>
   </div>
-</section>
 
-<!-- SERVICE TILES -->
-<section id="services">
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <span class="badge" style="background:#f4e1eb;padding:6px 14px;border-radius:20px;color:var(--primary);font-weight:900;letter-spacing:1px;" data-i18n="heroBadge">WELCOME TO</span>
+      <h1 class="hero-title" data-i18n="heroTitle">Beauty Plus Forever</h1>
+      <p class="hero-subtitle" data-i18n="heroSub">A special ladies beauty parlour</p>
+      
+      <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap; justify-content:center;">
+        <button class="btn primary" onclick="switchTab('services')" data-i18n="btnViewServices">✨ View Services</button>
+        <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call Now</a>
+        <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WhatsApp</a>
+        <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" target="_blank" data-i18n="btnDownloadApp">📱 Download App</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- TAB 2: SERVICES SECTION -->
+<section id="services" class="main-section">
   <div class="container">
     <div class="sectionHead">
       <h2 data-i18n="secServicesTitle">Our Premium Services</h2>
@@ -263,8 +290,8 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </section>
 
-<!-- GALLERY SLIDER (Smooth Native Scroll) -->
-<section class="slider-section">
+<!-- TAB 3: GALLERY SECTION -->
+<section id="gallerySection" class="slider-section main-section">
   <div class="container">
     <div class="sectionHead" style="margin-bottom:30px;">
       <h2 data-i18n="secGalleryTitle">Our Gallery</h2>
@@ -282,8 +309,8 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </section>
 
-<!-- BOOKING (Placed Above Tracking) -->
-<section id="booking" style="background:#fffafb;">
+<!-- TAB 4: BOOKING & TRACKING SECTION -->
+<section id="booking" class="main-section" style="background:#fffafb;">
   <div class="container">
     <div class="sectionHead">
       <h2 data-i18n="secBookTitle">Book & Track</h2>
@@ -294,9 +321,19 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
       <div class="formCard">
         <h3 style="margin-top:0; font-size:28px; color:var(--primary); text-align:center; margin-bottom:25px;" data-i18n="formNewBooking">Secure a New Appointment</h3>
         <form id="bookingForm">
-          <div class="field"><label data-i18n="labelName">Your Name</label><input id="bName" required></div>
           
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+          <!-- SPAM TRAP -->
+          <div style="display:none; opacity:0; position:absolute; left:-9999px;">
+            <label>Leave this empty if you are human</label>
+            <input type="text" id="botCheckField" autocomplete="off">
+          </div>
+
+          <div class="form-row">
+            <div class="field"><label data-i18n="labelName">Your Name</label><input id="bName" required></div>
+            <div class="field"><label data-i18n="labelEmail">Email Address</label><input type="email" id="bEmail" required></div>
+          </div>
+          
+          <div class="form-row">
             <div class="field"><label data-i18n="labelGender">Gender</label>
               <select id="bGender" required>
                 <option value="Female" data-i18n="optFemale">Female</option>
@@ -312,7 +349,7 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
           
           <div class="field"><label data-i18n="labelService">Select Service</label><select id="bService" required></select></div>
           
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+          <div class="form-row">
             <div class="field"><label data-i18n="labelDate">Date</label><input type="date" id="bDate" required></div>
             <div class="field"><label data-i18n="labelTime">Time</label><input type="time" id="bTime" required></div>
           </div>
@@ -322,7 +359,7 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
       </div>
     </div>
 
-    <!-- TRACKING SECTION (Placed Below Booking) -->
+    <!-- TRACKING SECTION -->
     <div class="track-box">
       <h3 style="margin-top:0;font-size:24px;" data-i18n="trackTitle">Track Your Booking Live</h3>
       <div style="display:flex;gap:10px;margin-top:20px; flex-wrap:wrap;">
@@ -334,8 +371,8 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </section>
 
-<!-- FEEDBACK & REVIEWS SYSTEM -->
-<section id="reviews">
+<!-- TAB 5: REVIEWS SECTION -->
+<section id="reviews" class="main-section">
   <div class="container">
     <div class="sectionHead">
       <h2 data-i18n="secReviewTitle">Customer Experiences</h2>
@@ -355,8 +392,8 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </div>
 </section>
 
-<!-- ORIGINAL CONTACT SECTION RESTORED WITH EXACT DETAILS -->
-<section class="contact" id="contact">
+<!-- TAB 6: CONTACT SECTION -->
+<section id="contact" class="contact main-section">
   <div class="container contactGrid">
     <div>
       <div style="color:var(--primary);font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:1.5px" data-i18n="contactUs">Contact Us</div>
@@ -374,6 +411,7 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     </div>
   </div>
 </section>
+
 </main>
 
 <footer>
@@ -419,7 +457,7 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     
     <form id="signupForm" style="display:none;">
       <div class="field"><label data-i18n="labelFullName">Full Name</label><input id="regName" required></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="form-row">
         <div class="field"><label data-i18n="labelGender">Gender</label>
           <select id="regGender" required>
             <option value="Female" data-i18n="optFemale">Female</option>
@@ -440,44 +478,47 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 
 <script>
 // ==========================================
-// CONFIGURATION
+// CONFIGURATION (INSERT YOUR NEW URL HERE)
 // ==========================================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZJcDicKPqaowJcELUHJMcvqHt6-a2Ck8LzNDxbmLcy4Ta1MXedmFSngM0P7l2eNci/exec"; 
 const IMGBB_API_KEY = "d6c99723d410aaeee4d5ac016fc0a3d3"; 
-
-const ADMIN_USER = "Vishakha62014";
-const ADMIN_PASS = "Vishakha@78068";
 const PRIMARY_WA_NUMBER = "919297562362"; 
 
+// ==========================================
+// SECURE GLOBALS 
+// Note: Password is no longer in this code!
+// ==========================================
 let currentUser = JSON.parse(localStorage.getItem("bpf_user")) || null;
 let isAdmin = localStorage.getItem("bpf_admin") === "true";
+let adminSecureToken = localStorage.getItem("bpf_admin_token") || null;
+
 let selectedServiceForBooking = "";
 let currentLang = localStorage.getItem("bpf_lang") || "en";
 let top5Reviews = [];
 
 const translations = {
   en: {
-    navContact: "Contact", contactUs: "Contact Us", contactText: "Visit or contact us for your beauty service and appointment.", address: "Address", phone: "Phone", serviceType: "Service", serviceTypeText: "Ladies Beauty Parlour",
+    navHome: "Home", navGallery: "Gallery", navContact: "Contact", contactUs: "Contact Us", contactText: "Visit or contact us for your beauty service and appointment.", address: "Address", phone: "Phone", serviceType: "Service", serviceTypeText: "Ladies Beauty Parlour",
     navTitle: "Beauty Plus Forever", tagline: "A special ladies beauty parlour", navServices: "Services", navBook: "Book & Track", navReviews: "Reviews", navLogin: "Login / Sign Up", navLogout: "Logout",
     heroBadge: "WELCOME TO", heroTitle: "Beauty Plus Forever", heroSub: "A special ladies beauty parlour",
     btnViewServices: "✨ View Services", btnCall: "📞 Call Now", btnWhatsApp: "💬 WhatsApp", btnDownloadApp: "📱 Download App",
     secServicesTitle: "Our Premium Services", secServicesSub: "Tap any service tile to view benefits, duration, and to book instantly.",
     secGalleryTitle: "Our Gallery", secBookTitle: "Book & Track", secBookSub: "Reserve your beauty time or check the live status of an existing booking.",
     trackTitle: "Track Your Booking Live", trackPlaceholder: "Enter Booking ID (e.g., BPF...)", trackBtn: "Track Status",
-    formNewBooking: "Secure a New Appointment", labelName: "Your Name", labelGender: "Gender", optFemale: "Female", optMale: "Male", optOther: "Other", labelPhone: "Mobile Number (10 Digits)", labelService: "Select Service", labelDate: "Date", labelTime: "Time", btnConfirm: "Confirm Appointment",
+    formNewBooking: "Secure a New Appointment", labelName: "Your Name", labelEmail: "Email Address", labelGender: "Gender", optFemale: "Female", optMale: "Male", optOther: "Other", labelPhone: "Mobile Number (10 Digits)", labelService: "Select Service", labelDate: "Date", labelTime: "Time", btnConfirm: "Confirm Appointment",
     zoomBenefitsTitle: "Key Benefits", btnBookZoom: "Book This Service Now",
     secReviewTitle: "Customer Experiences", secReviewSub: "Recent feedback from our lovely clients.", formReviewTitle: "Share Your Experience", labelFeedback: "Your Feedback", labelPhoto: "Upload Service Photo", btnPostReview: "Post Review",
     tabLogin: "Login", tabSignup: "Sign Up", labelUsername: "Username or Login ID", labelPassword: "Password", btnSignIn: "Sign In", labelFullName: "Full Name", labelAge: "Age", labelAddress: "Address", labelChooseUser: "Choose Username", labelChoosePass: "Choose Password", btnCreateAcc: "Create Account"
   },
   hi: {
-    navContact: "संपर्क", contactUs: "संपर्क करें", contactText: "ब्यूटी सेवा और अपॉइंटमेंट के लिए हमसे संपर्क करें।", address: "पता", phone: "फोन", serviceType: "सेवा", serviceTypeText: "लेडीज़ ब्यूटी पार्लर",
+    navHome: "होम", navGallery: "गैलरी", navContact: "संपर्क", contactUs: "संपर्क करें", contactText: "ब्यूटी सेवा और अपॉइंटमेंट के लिए हमसे संपर्क करें।", address: "पता", phone: "फोन", serviceType: "सेवा", serviceTypeText: "लेडीज़ ब्यूटी पार्लर",
     navTitle: "ब्यूटी प्लस फॉरएवर", tagline: "एक विशेष लेडीज ब्यूटी पार्लर", navServices: "सेवाएं", navBook: "बुक और ट्रैक", navReviews: "समीक्षा", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
     heroBadge: "आपका स्वागत है", heroTitle: "ब्यूटी प्लस फॉरएवर", heroSub: "एक विशेष लेडीज ब्यूटी पार्लर",
     btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 अभी कॉल करें", btnWhatsApp: "💬 वॉट्सऐप", btnDownloadApp: "📱 ऐप डाउनलोड करें",
     secServicesTitle: "हमारी प्रीमियम सेवाएं", secServicesSub: "फायदे, अवधि देखने और तुरंत बुक करने के लिए किसी भी सेवा पर टैप करें।",
     secGalleryTitle: "हमारी गैलरी", secBookTitle: "बुक और ट्रैक करें", secBookSub: "अपना ब्यूटी टाइम रिज़र्व करें या अपनी बुकिंग का लाइव स्टेटस चेक करें।",
     trackTitle: "अपनी बुकिंग का लाइव स्टेटस चेक करें", trackPlaceholder: "बुकिंग आईडी दर्ज करें (जैसे, BPF...)", trackBtn: "स्टेटस चेक करें",
-    formNewBooking: "नया अपॉइंटमेंट सुरक्षित करें", labelName: "आपका नाम", labelGender: "लिंग", optFemale: "महिला", optMale: "पुरुष", optOther: "अन्य", labelPhone: "मोबाइल नंबर (10 अंक)", labelService: "सेवा चुनें", labelDate: "तारीख", labelTime: "समय", btnConfirm: "अपॉइंटमेंट कन्फर्म करें",
+    formNewBooking: "नया अपॉइंटमेंट सुरक्षित करें", labelName: "आपका नाम", labelEmail: "ईमेल एड्रेस", labelGender: "लिंग", optFemale: "महिला", optMale: "पुरुष", optOther: "अन्य", labelPhone: "मोबाइल नंबर (10 अंक)", labelService: "सेवा चुनें", labelDate: "तारीख", labelTime: "समय", btnConfirm: "अपॉइंटमेंट कन्फर्म करें",
     zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "यह सेवा अभी बुक करें",
     secReviewTitle: "ग्राहक के अनुभव", secReviewSub: "हमारे प्यारे ग्राहकों की हालिया प्रतिक्रिया।", formReviewTitle: "अपना अनुभव साझा करें", labelFeedback: "आपकी प्रतिक्रिया", labelPhoto: "सेवा की फोटो अपलोड करें", btnPostReview: "समीक्षा पोस्ट करें",
     tabLogin: "लॉगिन", tabSignup: "साइन अप", labelUsername: "यूजरनेम या लॉगिन आईडी", labelPassword: "पासवर्ड", btnSignIn: "साइन इन करें", labelFullName: "पूरा नाम", labelAge: "उम्र", labelAddress: "पता", labelChooseUser: "यूजरनेम चुनें", labelChoosePass: "पासवर्ड चुनें", btnCreateAcc: "अकाउंट बनाएं"
@@ -494,7 +535,20 @@ const servicesData = [
 ];
 
 // ==========================================
-// BYPASS CORS WITH URL-ENCODED FORM DATA
+// TAB SYSTEM LOGIC
+// ==========================================
+function switchTab(tabId) {
+  document.querySelectorAll('.main-section').forEach(sec => sec.classList.remove('active'));
+  document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+  const targetSection = document.getElementById(tabId);
+  if(targetSection) targetSection.classList.add('active');
+  const activeLink = document.querySelector(`[onclick="switchTab('${tabId}')"]`);
+  if(activeLink) activeLink.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ==========================================
+// SECURE API CALL
 // ==========================================
 function apiCall(payload) {
   const formBody = Object.keys(payload).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(payload[key])).join('&');
@@ -552,16 +606,19 @@ function closeNotice() {
   document.getElementById("noticeModal").classList.remove("open"); 
 }
 
+// 🔒 SECURE SAVE SETTINGS (Requires Token)
 function saveAdminSettings() {
   const btn = document.getElementById("btnSaveSettings"); btn.disabled = true; btn.textContent = "Saving...";
   apiCall({
     action: "save_settings",
+    token: adminSecureToken,
     noticeTitle: document.getElementById("set_noticeTitle").value,
     noticeMsg: document.getElementById("set_noticeMsg").value,
     noticeImg: document.getElementById("set_noticeImg").value,
     apkLink: document.getElementById("set_apkLink").value
   }).then(d => {
-    alert("Settings Saved!"); fetchGlobalData();
+    if(d.status === "success") { alert("Settings Saved!"); fetchGlobalData(); }
+    else { alert("Error: " + d.message); }
   }).catch(e => alert("Network error")).finally(() => { btn.disabled = false; btn.textContent = "Save All Settings"; });
 }
 
@@ -619,7 +676,12 @@ function openZoom(i) {
   document.getElementById("zoomModal").classList.add("open"); document.body.style.overflow = "hidden";
 }
 function closeZoom() { document.getElementById("zoomModal").classList.remove("open"); document.body.style.overflow = "auto"; }
-function bookFromZoom() { closeZoom(); document.getElementById("bService").value = selectedServiceForBooking; document.getElementById("booking").scrollIntoView({behavior: "smooth"}); }
+
+function bookFromZoom() { 
+  closeZoom(); 
+  document.getElementById("bService").value = selectedServiceForBooking; 
+  switchTab('booking');
+}
 
 function openAuthModal() { document.getElementById("authModal").classList.add("open"); }
 function closeAuthModal() { document.getElementById("authModal").classList.remove("open"); }
@@ -639,17 +701,28 @@ document.getElementById("signupForm").addEventListener("submit", (e) => {
   }).catch(e => document.getElementById("authError").textContent = "Network Error").finally(() => btn.disabled = false);
 });
 
+// 🔒 SECURE LOGIN PROCESS
 document.getElementById("loginForm").addEventListener("submit", (e) => {
   e.preventDefault(); const u = document.getElementById("loginUsername").value.trim(); const p = document.getElementById("loginPassword").value.trim();
-  if (u === ADMIN_USER && p === ADMIN_PASS) { localStorage.setItem("bpf_admin", "true"); isAdmin = true; currentUser = null; closeAuthModal(); updateUI(); return; }
   const btn = document.getElementById("loginSubmitBtn"); btn.disabled = true;
+  
   apiCall({ action: "login", username: u, password: p }).then(d => {
-      if (d.status === "success") { localStorage.setItem("bpf_user", JSON.stringify(d.user)); currentUser = d.user; isAdmin = false; closeAuthModal(); updateUI(); } 
+      if (d.status === "success") { 
+         if(d.role === "admin") {
+            localStorage.setItem("bpf_admin", "true"); 
+            localStorage.setItem("bpf_admin_token", d.token); // Save Key
+            isAdmin = true; currentUser = null; adminSecureToken = d.token;
+         } else {
+            localStorage.setItem("bpf_user", JSON.stringify(d.user)); 
+            currentUser = d.user; isAdmin = false;
+         }
+         closeAuthModal(); updateUI(); 
+      } 
       else { document.getElementById("authError").textContent = d.message; }
   }).catch(e => document.getElementById("authError").textContent = "Network Error").finally(() => btn.disabled = false);
 });
 
-function logout() { localStorage.removeItem("bpf_admin"); localStorage.removeItem("bpf_user"); isAdmin = false; currentUser = null; updateUI(); }
+function logout() { localStorage.removeItem("bpf_admin"); localStorage.removeItem("bpf_admin_token"); localStorage.removeItem("bpf_user"); isAdmin = false; currentUser = null; adminSecureToken = null; updateUI(); }
 
 function updateUI() {
   if (currentUser || isAdmin) {
@@ -672,20 +745,27 @@ function switchAdminTab(t) {
   document.getElementById(t).classList.add('active'); event.target.classList.add('active');
 }
 
+// 🔒 SECURE FETCH BOOKINGS (Requires Token)
 function fetchAdminBookings() {
   const tb = document.getElementById("adminBookingsTable"); tb.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Fetching live bookings...</td></tr>";
-  apiCall({ action: "get_bookings" }).then(d => {
+  apiCall({ action: "get_bookings", token: adminSecureToken }).then(d => {
     if(d.status === "success") {
       tb.innerHTML = "";
       d.bookings.forEach(b => {
-        tb.innerHTML += `<tr><td><strong>${b.id}</strong></td><td>${b.name} <br> <small>${b.phone}</small></td><td>${b.service}</td><td>${new Date(b.date).toLocaleDateString()} <br> ${b.time}</td><td><select onchange="changeBookingStatus('${b.id}', this.value)"><option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option><option value="Confirmed" ${b.status==='Confirmed'?'selected':''}>Confirmed</option><option value="Hold" ${b.status==='Hold'?'selected':''}>Hold</option><option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option><option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option></select></td><td><button class="btn secondary" onclick="alert('Status auto-saves on change.')">💾</button></td></tr>`;
+        tb.innerHTML += `<tr><td><strong>${b.id}</strong></td><td>${b.name} <br> <small>${b.phone}</small><br><small style="color:var(--primary2);">${b.email||'No Email'}</small></td><td>${b.service}</td><td>${new Date(b.date).toLocaleDateString()} <br> ${b.time}</td><td><select onchange="changeBookingStatus('${b.id}', this.value)"><option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option><option value="Confirmed" ${b.status==='Confirmed'?'selected':''}>Confirmed</option><option value="Hold" ${b.status==='Hold'?'selected':''}>Hold</option><option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option><option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option></select></td><td><button class="btn secondary" onclick="alert('Status auto-saves on change.')">💾</button></td></tr>`;
       });
+    } else {
+      tb.innerHTML = `<tr><td colspan='6' style='text-align:center;color:red;'>${d.message}</td></tr>`;
     }
   });
 }
 
+// 🔒 SECURE UPDATE BOOKING (Requires Token)
 function changeBookingStatus(id, newStatus) {
-  apiCall({ action: "update_booking", bookingId: id, newStatus: newStatus }).then(d => { if(d.status === "success") alert("Status updated to " + newStatus); else alert("Update failed."); });
+  apiCall({ action: "update_booking", bookingId: id, newStatus: newStatus, token: adminSecureToken }).then(d => { 
+    if(d.status === "success") alert("Status updated to " + newStatus + ". Email sent to customer."); 
+    else alert("Error: " + d.message); 
+  });
 }
 
 setInterval(() => {
@@ -704,14 +784,37 @@ function generateOrderID() {
 }
 
 document.getElementById("bookingForm").addEventListener("submit", (e) => {
-  e.preventDefault(); const btn = document.getElementById("bookingSubmitBtn"); btn.disabled = true;
-  const name = document.getElementById("bName").value; const gender = document.getElementById("bGender").value; const phone = document.getElementById("bPhone").value; const selElement = document.getElementById("bService"); const serviceName = selElement.options[selElement.selectedIndex].text; const date = document.getElementById("bDate").value; const time = document.getElementById("bTime").value;
+  e.preventDefault(); 
+  
+  // SPAM TRAP
+  const botTrap = document.getElementById("botCheckField").value;
+  if(botTrap !== "") { alert("Spam detected! Booking blocked."); return; }
+
+  const btn = document.getElementById("bookingSubmitBtn"); btn.disabled = true;
+  const name = document.getElementById("bName").value.trim(); 
+  const email = document.getElementById("bEmail").value.trim(); 
+  const gender = document.getElementById("bGender").value; 
+  const phone = document.getElementById("bPhone").value.trim(); 
+  const selElement = document.getElementById("bService"); 
+  const serviceName = selElement.options[selElement.selectedIndex].text; 
+  const date = document.getElementById("bDate").value; 
+  const time = document.getElementById("bTime").value;
+
+  const isFakeNumber = /^(.)\1{9}$/.test(phone) || phone === "1234567890" || phone === "0987654321";
+  if(isFakeNumber) { alert(currentLang === 'hi' ? "कृपया सही मोबाइल नंबर दर्ज करें।" : "Please enter a valid mobile number."); btn.disabled = false; return; }
   
   const newOrderId = generateOrderID();
 
+  // 🔒 SERVER-SIDE SPAM CHECK ENFORCED HERE
   apiCall({
-    action: "book", bookingId: newOrderId, name: name, gender: gender, phone: phone, service: serviceName, date: date, time: time
+    action: "book", bookingId: newOrderId, name: name, email: email, gender: gender, phone: phone, service: serviceName, date: date, time: time
   }).then(data => {
+      if(data.status === "cooldown_error") {
+         alert(data.message);
+         btn.disabled = false;
+         return;
+      }
+
       alert(currentLang === 'hi' ? `बुकिंग सफलतापूर्वक सहेजी गई!\n\nआपकी बुकिंग आईडी है: ${data.bookingId}` : `Booking saved successfully!\n\nYour Booking ID is: ${data.bookingId}`);
       const waMsg = `Hello Beauty Plus Forever! ✨\n\nI would like to confirm my appointment.\n\n*Name:* ${name}\n*Service:* ${serviceName}\n*System Order ID:* ${data.bookingId}\n\nPlease confirm availability.`;
       window.location.href = `https://api.whatsapp.com/send?phone=${PRIMARY_WA_NUMBER}&text=${encodeURIComponent(waMsg)}`;
