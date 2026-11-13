@@ -4,741 +4,195 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="theme-color" content="#8d3d68">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Beauty Plus Forever">
 <meta name="description" content="A Special Ladies Beauty Parlour in Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, East Champaran, Bihar 845305.">
 <title>Beauty Plus Forever | A Special Ladies Beauty Parlour</title>
 
-<link rel="icon" type="image/png" href="assets/favicon.png" id="dynamicFavicon">
-<link rel="apple-touch-icon" href="assets/favicon.png" id="dynamicAppleIcon">
-
-<script>
-// Capture beforeinstallprompt immediately in <head> before DOM finishes loading
-window.deferredInstallPrompt = null;
-window.addEventListener("beforeinstallprompt", function(e) {
-  e.preventDefault();
-  window.deferredInstallPrompt = e;
-});
-
-// Synchronously generate 192x192 & 512x512 PNG icons and inject Manifest BEFORE page load completes
-(function initImmediateManifest() {
-  try {
-    function makeIcon(size) {
-      var c = document.createElement("canvas");
-      c.width = size; c.height = size;
-      var ctx = c.getContext("2d");
-      var g = ctx.createLinearGradient(0, 0, size, size);
-      g.addColorStop(0, "#632446");
-      g.addColorStop(0.55, "#8d3d68");
-      g.addColorStop(1, "#c99a3d");
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, size, size);
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "bold " + Math.floor(size * 0.5) + "px serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("✦", size / 2, size / 2);
-      return c.toDataURL("image/png");
-    }
-    var icon192 = makeIcon(192);
-    var icon512 = makeIcon(512);
-    var appleEl = document.getElementById("dynamicAppleIcon");
-    if (appleEl && icon192) appleEl.href = icon192;
-
-    var startUrl = window.location.href.split("#")[0];
-    var manifestData = {
-      id: startUrl,
-      name: "Beauty Plus Forever | Ladies Beauty Parlour",
-      short_name: "BeautyPlus",
-      description: "A Special Ladies Beauty Parlour in Raxaul, Bihar.",
-      start_url: startUrl,
-      scope: "./",
-      display: "standalone",
-      orientation: "portrait",
-      background_color: "#fffafb",
-      theme_color: "#8d3d68",
-      icons: [
-        { src: icon192, sizes: "192x192", type: "image/png", purpose: "any" },
-        { src: icon512, sizes: "512x512", type: "image/png", purpose: "any" }
-      ]
-    };
-    var blob = new Blob([JSON.stringify(manifestData)], { type: "application/manifest+json" });
-    var link = document.createElement("link");
-    link.rel = "manifest";
-    link.id = "dynamicManifest";
-    link.href = URL.createObjectURL(blob);
-    document.head.appendChild(link);
-  } catch (err) {}
-})();
-</script>
-
-<!-- Google Fonts: Inter & Playfair Display for Luxury Salon Aesthetics -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,600&display=swap" rel="stylesheet">
-
-<!-- Tailwind CSS CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="manifest" id="pwaManifestLink">
 
 <style>
 :root{
-  --primary:#8d3d68;
-  --primary-dark:#632446;
-  --primary2:#b85b87;
-  --soft:#fff5fa;
-  --soft-gold:#fdf8ee;
-  --gold:#c99a3d;
-  --gold-light:#f3d285;
-  --ink:#29232a;
-  --muted:#746b72;
-  --white:#fff;
-  --line:#eadde5;
-  --shadow:0 14px 40px rgba(76,35,58,.13);
-  --glow:0 0 25px rgba(141,61,104,0.45);
-  --gold-glow:0 15px 45px rgba(201,154,61,0.35);
+  --primary:#8d3d68;--primary2:#b85b87;--soft:#fff5fa;--gold:#c99a3d;
+  --ink:#29232a;--muted:#746b72;--white:#fff;--line:#eadde5;
+  --shadow:0 12px 35px rgba(76,35,58,.12);
+  --glow:0 0 20px rgba(141,61,104,0.4);
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:'Inter', system-ui, -apple-system, sans-serif;
-  color:var(--ink);
-  background:radial-gradient(circle at top right, #fff0f7 0%, #fffafb 45%, #fdfbf7 100%);
-  line-height:1.55;
-  overflow-x:hidden;
-  -webkit-user-select:none;
-  user-select:none;
-}
-input,textarea,select{
-  -webkit-user-select:text;
-  user-select:text;
-}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.55;}
+button,input,select,textarea{font:inherit} button{cursor:pointer}
 a{text-decoration:none;color:inherit}
 
-.container{width:min(1180px, 92%);margin:auto}
+.container{width:min(1160px, 92%);margin:auto}
 
-/* LUXURY GLASS HEADER */
-header{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:rgba(255,255,255,.90);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(234,221,229,0.85);
-  box-shadow:0 8px 30px rgba(141,61,104,0.06);
-}
-.nav{
-  min-height:78px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  flex-wrap:wrap;
-  padding:10px 0;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-weight:900;
-  transition:transform 0.25s ease;
-}
-.brand:hover{transform:translateY(-1px)}
-.logo{
-  width:50px;
-  height:50px;
-  border-radius:16px;
-  background:linear-gradient(135deg, var(--primary-dark), var(--primary), var(--gold));
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-size:24px;
-  box-shadow:0 8px 20px rgba(141,61,104,0.3);
-  flex-shrink:0;
-  position:relative;
-  overflow:hidden;
-}
-.logo::after{
-  content:"";
-  position:absolute;
-  inset:-50%;
-  background:linear-gradient(45deg, transparent, rgba(255,255,255,0.35), transparent);
-  transform:rotate(45deg);
-  animation:logoSweep 4s infinite;
-}
-@keyframes logoSweep{
-  0%{transform:translateX(-120%) rotate(45deg)}
-  100%{transform:translateX(120%) rotate(45deg)}
-}
-.brand-text{font-size:19px;line-height:1.2;letter-spacing:-0.3px;}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 4px 15px rgba(0,0,0,0.03);}
+.nav{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:15px; flex-wrap: wrap; padding: 10px 0;}
+.brand{display:flex;align-items:center;gap:11px;font-weight:900;}
+.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:grid;place-items:center;font-size:24px;box-shadow:var(--shadow); flex-shrink: 0;}
+.brand-text{font-size:18px; line-height:1.2;}
 .brand small{display:block;color:var(--primary);font-weight:700;font-size:12px;text-transform:capitalize;}
-.navlinks{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-.navlinks a.tab-link{
-  padding:9px 13px;
-  border-radius:12px;
-  font-size:14px;
-  font-weight:800;
-  transition:all 0.25s ease;
-  color:var(--ink);
-}
-.navlinks a.tab-link.active{
-  background:linear-gradient(135deg, var(--soft), #fce4f0);
-  color:var(--primary);
-  box-shadow:0 0 0 1.5px var(--primary2), 0 4px 12px rgba(141,61,104,0.12);
-}
-.navlinks a.tab-link:hover{
-  background:var(--soft);
-  color:var(--primary);
-  transform:translateY(-1px);
-}
+.navlinks{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.navlinks a{padding:9px 12px;border-radius:12px;font-size:14px;font-weight:800;transition:0.2s;}
 
-.lang-select{
-  padding:8px 12px;
-  border-radius:12px;
-  border:2px solid var(--primary);
-  color:var(--primary);
-  font-weight:800;
-  background:#fff;
-  outline:none;
-  cursor:pointer;
-  transition:0.2s;
-  font-size:13px;
-}
+.navlinks a.tab-link.active{background:var(--soft);color:var(--primary); box-shadow: 0 0 0 1px var(--primary2);}
+.navlinks a:hover{background:var(--soft);color:var(--primary)}
+
+.lang-select{padding:8px 12px;border-radius:10px;border:2px solid var(--primary);color:var(--primary);font-weight:bold;background:#fff;outline:none;cursor:pointer;transition:0.2s;}
 .lang-select:hover{background:var(--soft);}
-
-/* BUTTONS */
-.btn{
-  border:0;
-  border-radius:16px;
-  padding:12px 20px;
-  font-weight:800;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  transition:all .3s cubic-bezier(0.16, 1, 0.3, 1);
-  font-size:15px;
-  position:relative;
-  overflow:hidden;
-}
-.btn.primary{
-  background:linear-gradient(135deg, var(--primary), var(--primary2));
-  color:#fff;
-  box-shadow:var(--shadow);
-}
+.btn{border:0;border-radius:16px;padding:12px 20px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.3s;font-size:15px;}
+.btn.primary{background:linear-gradient(135deg, var(--primary), var(--primary2));color:#fff;box-shadow:var(--shadow)}
 .btn.primary:hover{transform:translateY(-2px);box-shadow:var(--glow);}
-.btn.secondary{
-  background:#fff;
-  color:var(--primary);
-  border:2px solid var(--line);
-  box-shadow:0 4px 12px rgba(0,0,0,0.03);
-}
-.btn.secondary:hover{border-color:var(--primary);background:var(--soft);transform:translateY(-2px);}
+.btn.secondary{background:#fff;color:var(--primary);border:2px solid var(--line)}
+.btn.secondary:hover{border-color:var(--primary);background:var(--soft);}
 .btn.danger{background:#e74c3c;color:#fff;}
-.btn.success{
-  background:linear-gradient(135deg, #2d8a62, #1b5e20);
-  color:#fff;
-  box-shadow:0 8px 22px rgba(45,138,98,.3);
-}
-.btn.install-btn{
-  background:linear-gradient(135deg, #c99a3d, #9e731e);
-  color:#fff;
-  box-shadow:0 8px 22px rgba(201,154,61,0.35);
-  border:1px solid rgba(255,255,255,0.4);
-}
-.btn.install-btn:hover{
-  transform:translateY(-2px) scale(1.02);
-  box-shadow:0 12px 28px rgba(201,154,61,0.5);
-}
-.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;}
+.btn.success{background:linear-gradient(135deg, #2d8a62, #1b5e20);color:#fff;box-shadow:0 8px 22px rgba(45,138,98,.3);}
+.btn.install-btn{background:linear-gradient(135deg, var(--gold), #b38224);color:#fff;box-shadow:0 6px 18px rgba(201,154,61,0.35);padding:9px 15px;font-size:13px;border-radius:12px;}
+.btn.install-btn:hover{transform:translateY(-2px);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;}
 
-/* SECTION TRANSITIONS */
-.main-section { display: none; animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1); }
+.main-section { display: none; animation: fadeIn 0.4s ease-in-out; }
 .main-section.active { display: block; }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-/* MODALS & POPUPS */
-.modalBack,.zoomBack,.noticePopup{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(24, 12, 20, 0.78);
-  z-index:200;
-  align-items:center;
-  justify-content:center;
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  padding:16px;
-}
+.modalBack,.zoomBack,.noticePopup{display:none;position:fixed;inset:0;background:rgba(20,10,16,.76);z-index:150;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:16px;}
 .modalBack.open,.zoomBack.open,.noticePopup.open{display:flex;}
+.modal,.zoomModal{width:min(500px, 94%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:30px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+.zoomModal{width:min(850px, 95%);padding:0;overflow:hidden;display:flex;flex-direction:column;}
+.zoom-img{width:100%;max-height:340px;object-fit:cover;background:#eee;}
+.zoom-content{padding:28px;overflow-y:auto;}
+.close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.95);border:2px solid var(--line);width:40px;height:40px;border-radius:50%;font-size:24px;color:var(--ink);z-index:10;box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:0.2s;line-height:1;}
+.close:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
 
-.modal,.zoomModal{
-  width:min(510px, 95%);
-  max-height:90vh;
-  overflow-y:auto;
-  background:#fff;
-  border-radius:28px;
-  padding:30px;
-  position:relative;
-  box-shadow:0 25px 60px rgba(0,0,0,0.35);
-  border:1px solid var(--line);
-}
-.zoomModal{
-  width:min(850px, 96%);
-  padding:0;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-}
-.zoom-img{
-  width:100%;
-  max-height:360px;
-  object-fit:cover;
-  background:#f4e1eb;
-}
-.zoom-content{padding:28px;}
-.zoom-benefits{
-  background:var(--soft);
-  padding:20px;
-  border-radius:20px;
-  margin:20px 0;
-  border:1px solid var(--line);
-}
-.zoom-benefits ul{margin:10px 0 0;padding-left:20px;}
-.zoom-benefits li{margin-bottom:6px;font-weight:600;color:var(--ink);}
-
-.close{
-  position:absolute;
-  top:16px;
-  right:16px;
-  background:rgba(255,255,255,0.95);
-  border:2px solid var(--line);
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  font-size:24px;
-  line-height:1;
-  color:var(--ink);
-  z-index:20;
-  box-shadow:0 6px 18px rgba(0,0,0,0.15);
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  transition:0.25s;
-}
-.close:hover{background:var(--primary);color:#fff;border-color:var(--primary);transform:rotate(90deg);}
-
-/* =====================================================
-   UPGRADED DYNAMIC OFFER POPUP (#noticeModal)
-   ===================================================== */
+/* UPGRADED DYNAMIC OFFER POPUP */
 .noticeCard{
-  background:linear-gradient(155deg, #2b1120 0%, #4d1d38 55%, #2b1120 100%);
-  color:#fff;
+  background:linear-gradient(145deg, #ffffff 0%, #fff5fa 60%, #fff0f7 100%);
   border:3px solid var(--gold);
-  border-radius:30px;
+  border-radius:28px;
   padding:28px 24px 24px;
   text-align:center;
   position:relative;
   max-width:520px;
   width:100%;
-  max-height:92vh;
+  max-height:90vh;
   overflow-y:auto;
-  box-shadow:0 25px 70px rgba(0,0,0,0.65), 0 0 40px rgba(201,154,61,0.45);
-  animation:popInOffer 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow:0 25px 60px rgba(0,0,0,0.45), 0 0 30px rgba(201,154,61,0.4);
+  animation:popIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-@keyframes popInOffer {
-  0% { transform:scale(0.75) translateY(30px); opacity:0; }
-  100% { transform:scale(1) translateY(0); opacity:1; }
-}
-.notice-badge-pill{
+@keyframes popIn { from { transform:scale(0.82) translateY(20px); opacity:0; } to { transform:scale(1) translateY(0); opacity:1; } }
+
+.offer-pill{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  background:linear-gradient(90deg, var(--gold), #f7d784, var(--gold));
-  background-size:200% auto;
-  color:#2b1120;
-  font-weight:900;
+  background:linear-gradient(135deg, var(--gold), #e0b456);
+  color:#fff;
   font-size:12px;
+  font-weight:900;
   letter-spacing:1.2px;
   text-transform:uppercase;
   padding:6px 16px;
-  border-radius:999px;
+  border-radius:99px;
   margin-bottom:12px;
-  box-shadow:0 4px 15px rgba(201,154,61,0.4);
-  animation:shine 3s linear infinite;
+  box-shadow:0 4px 12px rgba(201,154,61,0.35);
 }
-.noticeCard h2#nTitle{
-  font-family:'Playfair Display', serif;
-  color:#fff !important;
-  background:linear-gradient(135deg, #fff 0%, #ffe6a3 50%, #f3c15a 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  margin:4px 0 10px !important;
-  font-size:clamp(24px, 5vw, 32px) !important;
-  line-height:1.2;
-  font-weight:800;
+.noticeCard h2{
+  color:var(--primary);
+  margin:4px 0 10px;
+  font-size:clamp(22px, 5vw, 30px);
+  line-height:1.25;
+  font-weight:900;
 }
-.noticeCard p#nMsg{
-  font-size:15.5px !important;
-  color:#f9e6f0 !important;
-  line-height:1.6;
+.noticeCard p{
+  font-size:16px;
+  color:var(--ink);
   margin:0 auto 14px;
+  line-height:1.6;
   white-space:pre-line;
-  max-width:440px;
 }
-.notice-img-frame{
-  position:relative;
-  margin:14px auto;
-  border-radius:18px;
-  overflow:hidden;
-  border:2px solid rgba(243, 210, 133, 0.65);
-  background:rgba(0,0,0,0.25);
-  box-shadow:0 12px 30px rgba(0,0,0,0.35);
-}
-.noticeCard img#nImg{
+.noticeCard img{
   width:100%;
-  max-height:48vh;
+  max-height:52vh;
   object-fit:contain;
   border-radius:16px;
-  margin:0 auto;
+  margin:12px auto 16px;
   display:none;
-  background:#1c0a14;
+  border:2px solid var(--line);
+  background:#201119;
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
 }
-.notice-actions{
+.offer-actions{
   display:flex;
   gap:10px;
   justify-content:center;
   flex-wrap:wrap;
-  margin-top:18px;
-}
-.btn-offer-gold{
-  background:linear-gradient(135deg, #f5d37e 0%, #c99a3d 100%);
-  color:#29121e;
-  font-weight:900;
-  padding:13px 24px;
-  border-radius:16px;
-  border:none;
-  box-shadow:0 8px 25px rgba(201,154,61,0.45);
-  transition:all 0.25s ease;
-  font-size:15px;
-}
-.btn-offer-gold:hover{
-  transform:translateY(-2px) scale(1.02);
-  box-shadow:0 12px 30px rgba(201,154,61,0.65);
+  margin-top:12px;
 }
 
-/* =====================================================
-   UPGRADED HOME OFFER SHOWCASE BANNER (#publicNoticeBoard)
-   ===================================================== */
-.notice-board{
-  display:none !important;
-  padding:22px 0 10px;
-  background:linear-gradient(180deg, #fff0f7 0%, transparent 100%);
+/* STATIC HOME PAGE NOTICE BOARD HIDDEN PERMANENTLY AS REQUESTED */
+#publicNoticeBoard, .notice-board {
+  display: none !important;
 }
-.offer-showcase-card{
-  background:linear-gradient(135deg, #351427 0%, #632446 50%, #3d172c 100%);
-  border:2px solid var(--gold);
-  border-radius:28px;
-  padding:24px 28px;
-  color:#fff;
-  box-shadow:0 18px 45px rgba(99,36,70,0.25), 0 0 0 4px rgba(201,154,61,0.15);
-  position:relative;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:1.2fr 0.8fr;
-  gap:24px;
-  align-items:center;
-}
-.offer-showcase-card.no-img{
-  grid-template-columns:1fr;
-  text-align:center;
-}
-.offer-showcase-card::before{
-  content:"";
-  position:absolute;
-  top:-50%;
-  right:-20%;
-  width:380px;
-  height:380px;
-  background:radial-gradient(circle, rgba(201,154,61,0.25) 0%, transparent 70%);
-  pointer-events:none;
-}
-.offer-tag-live{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:rgba(201,154,61,0.22);
-  border:1px solid var(--gold-light);
-  color:#ffe59e;
-  padding:5px 14px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  margin-bottom:10px;
-}
-.pulse-dot{
-  width:8px;
-  height:8px;
-  background:#4ade80;
-  border-radius:50%;
-  box-shadow:0 0 0 0 rgba(74, 222, 128, 0.7);
-  animation:pulseGreen 1.8s infinite;
-}
-@keyframes pulseGreen{
-  0%{box-shadow:0 0 0 0 rgba(74, 222, 128, 0.7)}
-  70%{box-shadow:0 0 0 8px rgba(74, 222, 128, 0)}
-  100%{box-shadow:0 0 0 0 rgba(74, 222, 128, 0)}
-}
-.offer-showcase-title{
-  font-family:'Playfair Display', serif;
-  font-size:clamp(22px, 3.5vw, 32px);
-  font-weight:800;
-  margin:0 0 8px;
-  background:linear-gradient(90deg, #fff, #ffe39f);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-.offer-showcase-msg{
-  color:#f5dceb;
-  font-size:15px;
-  margin:0 0 16px;
-  line-height:1.55;
-  white-space:pre-line;
-}
-.notice-img{
-  width:100%;
-  max-height:240px;
-  object-fit:contain;
-  border-radius:18px;
-  border:2px solid rgba(243,210,133,0.6);
-  box-shadow:0 12px 28px rgba(0,0,0,0.4);
-  cursor:pointer;
-  transition:transform 0.3s ease;
-  background:#1f0b17;
-}
-.notice-img:hover{transform:scale(1.03);}
 
-/* FLOATING OFFER RE-OPEN TRIGGER */
-.floating-offer-fab{
+/* FLOATING REOPEN OFFER BUTTON */
+.floating-offer-btn{
   position:fixed;
   bottom:22px;
   right:22px;
-  z-index:90;
-  background:linear-gradient(135deg, #3b1429, #8d3d68);
-  color:#ffe6a3;
-  border:2px solid var(--gold);
-  border-radius:999px;
-  padding:11px 18px;
-  font-weight:900;
-  font-size:13.5px;
-  display:none;
-  align-items:center;
-  gap:8px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.35), 0 0 20px rgba(201,154,61,0.45);
-  cursor:pointer;
-  animation:floatBounce 3s ease-in-out infinite;
-}
-.floating-offer-fab:hover{
-  transform:scale(1.06);
-}
-@keyframes floatBounce{
-  0%, 100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
-}
-
-/* HERO SECTION */
-.hero{
-  position:relative;
-  padding:85px 0;
-  background-size:cover;
-  background-position:center;
-  background-color:#f7edf4;
-  min-height:520px;
-  display:flex;
-  align-items:center;
-  background-image:url('assets/banner.jpg');
-  transition:background-image 0.5s;
-  overflow:hidden;
-}
-.hero-overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(95deg, rgba(255,255,255,0.98) 0%, rgba(255,248,252,0.90) 55%, rgba(255,245,250,0.55) 100%);
-}
-.hero-content{position:relative;z-index:2;max-width:760px;}
-.hero-title{
-  font-family:'Playfair Display', serif;
-  font-size:clamp(44px, 7.5vw, 82px);
-  font-weight:900;
-  line-height:1.06;
-  margin:16px 0 12px;
-  letter-spacing:-1px;
-  background:linear-gradient(135deg, var(--primary-dark), var(--primary), var(--gold), var(--primary2));
-  background-size:220% auto;
-  color:transparent;
-  -webkit-background-clip:text;
-  background-clip:text;
-  animation:shine 5s linear infinite;
-}
-@keyframes shine { to { background-position:200% center; } }
-.hero-subtitle{
-  font-size:clamp(18px, 3.5vw, 25px);
-  font-weight:800;
-  color:var(--ink);
-  text-transform:capitalize;
-  margin-bottom:25px;
-}
-.admin-badge{
-  display:none;
-  background:linear-gradient(135deg, #ff3b3b, #c0392b);
+  z-index:95;
+  background:linear-gradient(135deg, var(--primary), var(--gold));
   color:#fff;
-  padding:5px 10px;
-  border-radius:8px;
-  font-size:11px;
+  border:2px solid #fff;
+  border-radius:99px;
+  padding:12px 20px;
   font-weight:900;
-  margin-left:10px;
-  letter-spacing:0.5px;
+  font-size:14px;
+  box-shadow:0 10px 28px rgba(141,61,104,0.45);
+  display:none;
+  align-items:center;
+  gap:8px;
+  animation:pulseFloat 2.2s infinite ease-in-out;
+}
+@keyframes pulseFloat {
+  0%, 100% { transform:translateY(0) scale(1); }
+  50% { transform:translateY(-4px) scale(1.04); }
 }
 
-.global-loader{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:10px;
-  background:linear-gradient(90deg, #ffeef6, #fff8eb, #ffeef6);
-  color:var(--primary);
-  font-weight:800;
-  font-size:13.5px;
-  border-bottom:1px solid var(--line);
-}
+.hero{position:relative;padding:80px 0;background-size:cover;background-position:center;background-color:#f7edf4;min-height:500px;display:flex;align-items:center;background-image:url('assets/banner.jpg'); transition: background-image 0.5s;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.4) 100%);}
+.hero-content{position:relative;z-index:2;max-width:750px;}
+.hero-title{font-size:clamp(45px, 8vw, 85px);font-weight:900;line-height:1.05;margin:15px 0 10px;letter-spacing:-1.5px;background:linear-gradient(135deg, var(--primary), var(--primary2), var(--gold));background-size:200% auto;color:transparent;-webkit-background-clip:text;background-clip:text;animation:shine 4s linear infinite;}
+@keyframes shine { to { background-position:200% center; } }
+.hero-subtitle{font-size:clamp(18px, 4vw, 26px);font-weight:800;color:var(--ink);text-transform:capitalize;margin-bottom:25px;}
+.admin-badge{display:none;background:#ff3b3b;color:#fff;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:bold;margin-left:10px;}
+
+.global-loader{display:flex;align-items:center;justify-content:center;padding:10px;background:#ffeef6;color:var(--primary);font-weight:bold;font-size:14px;border-bottom:1px solid var(--line);}
 
 section{padding:70px 0;}
-.sectionHead{text-align:center;margin-bottom:44px;}
-.sectionHead h2{
-  font-family:'Playfair Display', serif;
-  font-size:clamp(30px, 5vw, 42px);
-  margin:0 0 10px;
-  letter-spacing:-0.5px;
-  color:var(--primary-dark);
-}
-.sectionHead p{font-size:17px;color:var(--muted);max-width:600px;margin:auto;}
+.sectionHead{text-align:center;margin-bottom:40px;}
+.sectionHead h2{font-size:36px;margin:0 0 10px;letter-spacing:-1px;}
+.sectionHead p{font-size:18px;color:var(--muted);max-width:600px;margin:auto;}
 
-/* SERVICES GRID */
-.service-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(310px, 1fr));
-  gap:26px;
-}
-.review-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-  gap:22px;
-}
+.service-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:25px;}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:20px;}
 
-.service-tile{
-  background:#fff;
-  border-radius:26px;
-  overflow:hidden;
-  box-shadow:0 10px 28px rgba(76,35,58,0.06);
-  cursor:pointer;
-  transition:all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  border:1.5px solid var(--line);
-  position:relative;
-  display:flex;
-  flex-direction:column;
-}
-.service-tile:hover{
-  transform:translateY(-8px);
-  box-shadow:0 20px 42px rgba(141,61,104,0.16);
-  border-color:var(--primary2);
-}
-.service-img-wrap{
-  position:relative;
-  overflow:hidden;
-  height:215px;
-  background:#f6eaf0;
-}
-.service-img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform 0.5s ease;
-}
-.service-tile:hover .service-img{transform:scale(1.07);}
-.service-info{padding:24px;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
-.service-info h3{margin:0 0 8px;font-size:21px;font-weight:800;color:var(--primary);}
-.s-meta{
-  font-size:12.5px;
-  color:var(--gold);
-  font-weight:800;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-bottom:12px;
-  text-transform:uppercase;
-  background:var(--soft-gold);
-  padding:5px 12px;
-  border-radius:999px;
-  border:1px solid rgba(201,154,61,0.25);
-  width:fit-content;
-}
+.service-tile{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.04);cursor:pointer;transition:transform 0.3s, box-shadow 0.3s;border:1px solid var(--line);}
+.service-tile:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--primary2);}
+.service-img{width:100%;height:200px;object-fit:cover;background:#eee;}
+.service-info{padding:22px;}
+.service-info h3{margin:0 0 8px;font-size:20px;color:var(--primary);}
+.s-meta{font-size:13px;color:var(--gold);font-weight:800;display:flex;gap:10px;margin-bottom:12px;text-transform:uppercase;}
 
-/* SLIDER GALLERY */
-.slider-section{
-  padding:60px 0;
-  overflow:hidden;
-  background:#fff;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-}
-.slider-container{
-  width:100%;
-  overflow-x:auto;
-  padding:15px 4px;
-  scroll-behavior:smooth;
-  scroll-snap-type:x mandatory;
-  -ms-overflow-style:none;
-  scrollbar-width:none;
-}
+.slider-section{padding:50px 0;overflow:hidden;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.slider-container{width:100%; overflow-x:auto; padding:15px 0; scroll-behavior:smooth; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;}
 .slider-container::-webkit-scrollbar { display: none; }
-.slider-track{display:flex; gap:22px; width:max-content;}
-.slide{
-  width:290px;
-  height:290px;
-  border-radius:26px;
-  object-fit:cover;
-  box-shadow:0 12px 30px rgba(0,0,0,0.1);
-  flex-shrink:0;
-  background:#f4e8ef;
-  scroll-snap-align:start;
-  border:2px solid var(--line);
-  transition:transform 0.3s ease;
-}
-.slide:hover{transform:scale(1.02);border-color:var(--gold);}
+.slider-track{display:flex; gap:20px; width:max-content;}
+.slide{width:280px;height:280px;border-radius:24px;object-fit:cover;box-shadow:0 8px 25px rgba(0,0,0,0.08);flex-shrink:0;background:#eee; scroll-snap-align: start;}
 
-/* TRACKING & BOOKING */
-.track-box{
-  background:linear-gradient(135deg, #fffafb, #fff);
-  border:2px solid var(--line);
-  border-radius:28px;
-  padding:35px;
-  max-width:650px;
-  margin:45px auto 0;
-  box-shadow:var(--shadow);
-  text-align:center;
-}
+.track-box{background:linear-gradient(135deg, #fffafb, #fff);border:2px solid var(--line);border-radius:24px;padding:35px;max-width:550px;margin:50px auto 0;box-shadow:var(--shadow);text-align:center;}
 .track-result{margin-top:20px;padding:20px;border-radius:16px;display:none;text-align:left;}
 .status-Pending{background:#fff3cd;color:#856404;border:2px solid #ffeeba;}
 .status-Confirmed{background:#d4edda;color:#155724;border:2px solid #c3e6cb;}
@@ -747,77 +201,25 @@ section{padding:70px 0;}
 .status-Hold{background:#e2e3e5;color:#383d41;border:2px solid #d6d8db;}
 
 .bookingWrap{display:grid;grid-template-columns:1fr;max-width:650px;margin:auto;}
-.formCard{
-  background:#fff;
-  border:1.5px solid var(--line);
-  border-radius:30px;
-  padding:35px;
-  box-shadow:var(--shadow);
-}
+.formCard{background:#fff;border:1px solid var(--line);border-radius:30px;padding:35px;box-shadow:var(--shadow)}
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
 .field{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
 .field label{font-size:14px;font-weight:800;color:var(--ink);}
-.field input,.field textarea,.field select{
-  border:2px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-  outline:none;
-  background:#fcfcfc;
-  font-size:15px;
-  transition:0.2s;
-  width:100%;
-  box-sizing:border-box;
-}
-.field input:focus,.field textarea:focus,.field select:focus{
-  border-color:var(--primary);
-  background:#fff;
-  box-shadow:0 0 0 4px var(--soft);
-}
+.field input,.field textarea,.field select{border:2px solid var(--line);border-radius:14px;padding:14px;outline:none;background:#fcfcfc;font-size:15px;transition:0.2s; width: 100%; box-sizing: border-box;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px var(--soft);}
 
-/* REVIEWS */
-.review-card{
-  background:#fff;
-  border:1.5px solid var(--line);
-  border-radius:24px;
-  padding:20px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.05);
-  transition:transform 0.25s ease;
-}
-.review-card:hover{transform:translateY(-4px);}
-.review-card img{
-  width:100%;
-  height:210px;
-  object-fit:cover;
-  border-radius:16px;
-  margin-bottom:14px;
-  background:#f7edf4;
-}
+.review-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
+.review-card img{width:100%;height:200px;object-fit:cover;border-radius:14px;margin-bottom:12px;}
 .review-meta{font-size:13px;color:var(--muted);margin-bottom:8px;}
-.review-meta b{color:var(--primary);font-size:15px;}
-.review-form-area{
-  display:none;
-  background:linear-gradient(135deg, #fff, var(--soft));
-  padding:28px;
-  border-radius:24px;
-  border:2px dashed var(--primary2);
-  margin-bottom:40px;
-}
+.review-meta b{color:var(--ink);font-size:15px;}
+.review-form-area{display:none;background:linear-gradient(135deg, #fff, var(--soft));padding:25px;border-radius:24px;border:2px dashed var(--primary2);margin-bottom:40px;}
 
 .auth-tabs{display:flex; gap:12px; margin-bottom:25px; border-bottom:2px solid var(--line); padding-bottom:15px;}
 .tab-btn{flex:1; padding:12px; background:var(--soft); color:var(--ink); border:none; border-radius:14px; font-weight:800; transition:0.2s;}
 .tab-btn.active{background:var(--primary); color:#fff;box-shadow:var(--glow);}
 
-/* ADMIN DASHBOARD */
-#adminDashboard{
-  display:none;
-  background:#fff;
-  border:3px solid var(--primary);
-  border-radius:28px;
-  padding:30px;
-  margin:25px auto 40px;
-  box-shadow:var(--shadow);
-}
+#adminDashboard{display:none;background:#fff;border:3px solid var(--primary);border-radius:24px;padding:30px;margin-bottom:50px;box-shadow:var(--shadow);}
 .admin-tabs{display:flex;gap:12px;margin-bottom:25px;border-bottom:2px solid var(--line);padding-bottom:15px;overflow-x:auto;}
 .admin-tab{background:var(--soft);border:none;padding:12px 24px;border-radius:12px;font-weight:900;cursor:pointer;white-space:nowrap;}
 .admin-tab.active{background:var(--primary);color:#fff;}
@@ -828,207 +230,58 @@ section{padding:70px 0;}
 .admin-table th,.admin-table td{padding:15px;text-align:left;border-bottom:1px solid var(--line);}
 .admin-table th{background:var(--soft);color:var(--primary);font-weight:900;}
 
-/* CONTACT */
 .contact{background:#fff;border-top:1px solid var(--line)}
-.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
-.contactBox{
-  padding:28px;
-  border-radius:26px;
-  background:linear-gradient(135deg, var(--soft), #fff);
-  border:1.5px solid var(--line);
-  box-shadow:var(--shadow);
-}
-.contactItem{display:flex;gap:14px;align-items:flex-start;margin:16px 0}
-.contactItem b{display:block;color:var(--primary-dark);}
+.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:25px;align-items:center}
+.contactBox{padding:25px;border-radius:25px;background:var(--soft);border:1px solid var(--line)}
+.contactItem{display:flex;gap:13px;align-items:flex-start;margin:13px 0}
+.contactItem b{display:block}
 .contactItem span{color:var(--muted)}
 
-/* FOOTER */
-footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
-.footer-title{
-  font-family:'Playfair Display', serif;
-  font-size:30px;
-  background:linear-gradient(135deg, var(--gold-light), #fff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  margin:0 0 12px;
-}
-
-/* CUSTOM TOAST NOTIFICATION (Replaces browser alert) */
-#customToastContainer{
-  position:fixed;
-  top:20px;
-  right:20px;
-  z-index:9999;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  max-width:380px;
-  width:calc(100% - 40px);
-  pointer-events:none;
-}
-.custom-toast{
-  pointer-events:auto;
-  background:#fff;
-  color:var(--ink);
-  border-left:6px solid var(--primary);
-  border-radius:16px;
-  padding:16px 18px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.22);
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:12px;
-  font-weight:700;
-  font-size:14.5px;
-  animation:slideInToast 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  white-space:pre-line;
-}
-@keyframes slideInToast{
-  from{transform:translateX(100%);opacity:0;}
-  to{transform:translateX(0);opacity:1;}
-}
-
-/* INSTALL APP GUIDE STEPS */
-.install-step{
-  display:flex;
-  align-items:flex-start;
-  gap:14px;
-  background:var(--soft);
-  border:1px solid var(--line);
-  padding:14px 16px;
-  border-radius:18px;
-  margin-bottom:12px;
-  text-align:left;
-}
-.install-step-num{
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  background:var(--primary);
-  color:#fff;
-  font-weight:900;
-  display:grid;
-  place-items:center;
-  flex-shrink:0;
-  font-size:14px;
-}
+footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
+.footer-title{font-size:28px;background:linear-gradient(135deg, var(--gold), #fff);-webkit-background-clip:text;color:transparent;margin:0 0 15px;}
 
 @media (max-width: 768px) {
-  .navlinks { width: 100%; justify-content: center; gap: 6px; margin-top: 8px; }
-  .navlinks a.tab-link { font-size: 13px; padding: 7px 10px; }
+  .navlinks { width: 100%; justify-content: center; gap: 5px; margin-top: 10px; }
+  .navlinks a { font-size: 13px; padding: 8px 10px; }
   .brand { justify-content: center; width: 100%; }
   
-  .hero { padding: 45px 0; min-height: 420px; text-align: center; }
+  .hero { padding: 40px 0; min-height: 400px; text-align: center; }
   .hero-content { display: flex; flex-direction: column; align-items: center; }
-  .hero-title { font-size: 44px; margin: 10px 0; }
+  .hero-title { font-size: 45px; margin: 10px 0; }
   .hero-subtitle { font-size: 18px; }
   
-  .offer-showcase-card { grid-template-columns: 1fr; text-align: center; padding: 20px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .contactGrid { grid-template-columns: 1fr; }
   
-  .formCard, .track-box { padding: 22px; }
+  .formCard, .track-box { padding: 20px; }
   .sectionHead h2 { font-size: 28px; }
-  .floating-offer-fab { bottom: 16px; right: 16px; padding: 10px 15px; font-size: 12.5px; }
 }
 </style>
 </head>
 <body>
 
-<!-- NON-BLOCKING CUSTOM MESSAGE / TOAST CONTAINER -->
-<div id="customToastContainer"></div>
+<div id="syncLoader" class="global-loader">⏳ Syncing secure data from server...</div>
 
-<div id="syncLoader" class="global-loader">
-  <span>⏳ Syncing secure data from server...</span>
-</div>
-
-<!-- ==========================================
-     UPGRADED FESTIVE SPECIAL OFFER POPUP MODAL
-     ========================================== -->
-<div class="noticePopup" id="noticeModal" onclick="if(event.target===this) closeNotice()">
+<!-- DYNAMIC NOTICE / OFFER POPUP MODAL -->
+<div class="noticePopup" id="noticeModal" onclick="if(event.target===this)closeNotice()">
   <div class="noticeCard">
-    <button class="close" onclick="closeNotice()" aria-label="Close Offer">×</button>
-    <div class="notice-badge-pill">✨ LIMITED TIME SPECIAL OFFER ✨</div>
-    <h2 id="nTitle" style="color:var(--primary);margin-top:0;font-size:28px;">Special Offer</h2>
-    <p id="nMsg" style="font-size:16px;color:var(--muted);"></p>
-    <div class="notice-img-frame" id="nImgFrame" style="display:none;">
-      <img id="nImg" src="" alt="Offer Image" onerror="this.parentElement.style.display='none'">
-    </div>
-    <div class="notice-actions">
-      <button type="button" class="btn-offer-gold" onclick="claimOfferNow()">
-        ✨ <span id="claimOfferBtnText">Book This Offer Now</span>
-      </button>
-      <button type="button" class="btn secondary" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.25);" onclick="closeNotice()">
-        Close
-      </button>
+    <button class="close" onclick="closeNotice()" aria-label="Close">×</button>
+    <div class="offer-pill">✨ Special Festival & Parlour Offer ✨</div>
+    <h2 id="nTitle">Special Offer</h2>
+    <p id="nMsg"></p>
+    <img id="nImg" src="" alt="Offer Image">
+    <div class="offer-actions">
+      <button class="btn primary" onclick="closeNotice(); switchTab('booking');">✨ Book Appointment Now</button>
+      <button class="btn secondary" onclick="closeNotice()">Close</button>
     </div>
   </div>
 </div>
 
-<!-- FLOATING QUICK-OPEN OFFER BUTTON -->
-<button id="floatingOfferBtn" class="floating-offer-fab" onclick="openNoticePopupManual()" title="View Special Offer">
-  <span>🎁</span>
-  <span id="floatingOfferText">Special Offer</span>
+<!-- FLOATING BUTTON TO RE-OPEN OFFER POPUP ANYTIME -->
+<button id="reopenOfferBtn" class="floating-offer-btn" onclick="openNoticePopup()">
+  🎁 Special Offer
 </button>
 
-<!-- ==========================================
-     UNIVERSAL BROWSER INSTALL APP MODAL (PWA)
-     ========================================== -->
-<div class="modalBack" id="installAppModal" onclick="if(event.target===this) closeInstallModal()">
-  <div class="modal" style="text-align:center;">
-    <button class="close" onclick="closeInstallModal()">×</button>
-    <div style="width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,var(--primary),var(--gold));color:#fff;font-size:32px;display:grid;place-items:center;margin:0 auto 14px;box-shadow:var(--shadow);">
-      ✦
-    </div>
-    <h2 style="margin:0 0 6px;color:var(--primary-dark);font-family:'Playfair Display',serif;font-size:26px;" id="instModalTitle">
-      Install Beauty Plus Forever
-    </h2>
-    <p style="color:var(--muted);font-size:14px;margin:0 0 20px;" id="instModalSub">
-      Add our parlour app to your home screen for 1-tap booking, live status tracking & festive offers!
-    </p>
-
-    <div id="nativePromptContainer" style="display:none;margin-bottom:18px;">
-      <button class="btn install-btn" style="width:100%;font-size:16px;padding:15px;" onclick="triggerNativeInstall()">
-        📲 Install App Instantly
-      </button>
-    </div>
-
-    <div id="manualInstallSteps">
-      <div class="install-step">
-        <div class="install-step-num">1</div>
-        <div>
-          <strong style="color:var(--primary);display:block;font-size:14.5px;">Android / Chrome / Edge / Brave</strong>
-          <span style="font-size:13.5px;color:var(--muted);">Tap the browser menu <b>(⋮)</b> at the top-right and select <b>"Install app"</b> or <b>"Add to Home screen"</b>.</span>
-        </div>
-      </div>
-      <div class="install-step">
-        <div class="install-step-num">2</div>
-        <div>
-          <strong style="color:var(--primary);display:block;font-size:14.5px;">iPhone / iPad (Safari)</strong>
-          <span style="font-size:13.5px;color:var(--muted);">Tap the <b>Share icon (📤)</b> at the bottom bar and tap <b>"Add to Home Screen"</b>.</span>
-        </div>
-      </div>
-      <div class="install-step">
-        <div class="install-step-num">3</div>
-        <div>
-          <strong style="color:var(--primary);display:block;font-size:14.5px;">Computer / Laptop Browser</strong>
-          <span style="font-size:13.5px;color:var(--muted);">Click the <b>Install icon (⊕)</b> on the right side of the address bar.</span>
-        </div>
-      </div>
-    </div>
-
-    <div id="modalApkFallback" style="display:none;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);">
-      <a id="modalApkBtn" href="#" target="_blank" class="btn success" style="width:100%;">
-        🤖 Download Android APK Directly
-      </a>
-    </div>
-
-    <button class="btn secondary" style="width:100%;margin-top:12px;" onclick="closeInstallModal()">Got It</button>
-  </div>
-</div>
-
-<!-- HEADER NAVBAR -->
 <header>
   <div class="container nav">
     <a href="javascript:void(0)" onclick="switchTab('homeSection')" class="brand">
@@ -1048,19 +301,14 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
       <a href="javascript:void(0)" class="tab-link" onclick="switchTab('reviews')" data-i18n="navReviews">Reviews</a>
       <a href="javascript:void(0)" class="tab-link" onclick="switchTab('contact')" data-i18n="navContact">Contact</a>
       
-      <select class="lang-select" id="langSwitcher" onchange="changeLang(this.value)" aria-label="Language Switcher">
+      <select class="lang-select" id="langSwitcher" onchange="changeLang(this.value)">
         <option value="en">English</option>
         <option value="hi">हिंदी</option>
       </select>
-
-      <!-- UNIVERSAL BROWSER INSTALL APP BUTTON -->
-      <button type="button" class="btn install-btn" id="navInstallBtn" onclick="handleInstallAppClick()" style="padding:8px 14px;font-size:13px;border-radius:12px;">
-        📲 <span id="navInstallText">Install App</span>
-      </button>
-
-      <button class="btn secondary" id="authBtn" onclick="openAuthModal()" data-i18n="navLogin" style="padding:8px 14px;font-size:13px;border-radius:12px;">Login / Sign Up</button>
-      <div id="userGreeting" style="display:none; font-weight:900; color:var(--primary); font-size:14px; padding:0 6px;"></div>
-      <button class="btn secondary" id="logoutBtn" style="display:none; padding:8px 14px; font-size:13px; border-radius:12px;" onclick="logout()" data-i18n="navLogout">Logout</button>
+      <button class="btn install-btn" id="headerInstallBtn" onclick="installApp()">📲 Install App</button>
+      <button class="btn secondary" id="authBtn" onclick="openAuthModal()" data-i18n="navLogin">Login / Sign Up</button>
+      <div id="userGreeting" style="display:none; font-weight:900; color:var(--primary); font-size:15px;"></div>
+      <button class="btn secondary" id="logoutBtn" style="display:none; padding:8px 14px; font-size:13px;" onclick="logout()" data-i18n="navLogout">Logout</button>
     </nav>
   </div>
 </header>
@@ -1069,10 +317,7 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
 
 <!-- ADMIN DASHBOARD -->
 <section id="adminDashboard" class="container">
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:15px;">
-    <h2 style="margin:0;color:var(--primary-dark);">⚙️ Admin Control Panel</h2>
-    <button type="button" class="btn secondary" onclick="openNoticePopupManual()">👁️ Preview Offer Popup</button>
-  </div>
+  <h2>⚙️ Admin Control Panel</h2>
   <div class="admin-tabs">
     <button class="admin-tab active" onclick="switchAdminTab('adminBookings')">Manage Bookings</button>
     <button class="admin-tab" onclick="switchAdminTab('adminSettings')">Settings & Notice Board</button>
@@ -1093,15 +338,15 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
   </div>
 
   <div id="adminSettings" class="admin-section">
-    <p style="color:var(--muted);margin-bottom:18px;">Use this area to trigger a Popup Notice or update your APK download link.</p>
+    <p>Use this area to trigger a Popup Notice or update your APK download link.</p>
     <div class="formCard" style="max-width:100%; border:2px dashed var(--primary2);">
       <div class="field">
         <label>Popup Title (Leave blank to hide popup entirely)</label>
-        <input type="text" id="set_noticeTitle" placeholder="e.g. Navratri Special Offer!">
+        <input type="text" id="set_noticeTitle" placeholder="e.g. Chhath Puja & Wedding Special Offer!">
       </div>
       <div class="field">
         <label>Popup Message</label>
-        <textarea id="set_noticeMsg" rows="3" placeholder="Get 20% off on Bridal Makeover..."></textarea>
+        <textarea id="set_noticeMsg" rows="3" placeholder="Get special festive discount on Bridal & Party Makeup..."></textarea>
       </div>
       <div class="field">
         <label>Popup Image Link (Optional, paste a URL or 'assets/offer.jpg')</label>
@@ -1112,48 +357,25 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
         <label>Android APK Download Link (Paste URL to enable App Download button)</label>
         <input type="url" id="set_apkLink" placeholder="https://...">
       </div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <button class="btn primary" onclick="saveAdminSettings()" id="btnSaveSettings">Save All Settings</button>
-        <button type="button" class="btn secondary" onclick="previewAdminDraftOffer()">✨ Live Test Popup Now</button>
-      </div>
+      <button class="btn primary" onclick="saveAdminSettings()" id="btnSaveSettings">Save All Settings</button>
     </div>
   </div>
 </section>
 
 <!-- TAB 1: HOME SECTION -->
 <div id="homeSection" class="main-section active">
-  
-  <!-- UPGRADED DYNAMIC SPECIAL OFFER SHOWCASE SECTION (HIDDEN STATICALLY) -->
+  <!-- Kept hidden so static offer section never stays on Home page -->
   <div id="publicNoticeBoard" class="notice-board" style="display:none !important;">
     <div class="container">
-      <div class="offer-showcase-card" id="offerShowcaseCard">
-        <div>
-          <div class="offer-tag-live">
-            <span class="pulse-dot"></span>
-            <span>🎉 Special Offer Section 🎉</span>
-          </div>
-          <h2 class="offer-showcase-title" id="publicNoticeTitle">Special Offer</h2>
-          <p class="offer-showcase-msg" id="publicNoticeMsg"></p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:inherit;">
-            <button type="button" class="btn-offer-gold" onclick="claimOfferNow()">
-              ✨ Book Offer Appointment
-            </button>
-            <button type="button" class="btn secondary" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.3);" onclick="openNoticePopupManual()">
-              🔍 View Full Offer Popup
-            </button>
-          </div>
-        </div>
-        <div id="publicNoticeImgWrap" style="display:none;text-align:center;">
-          <img id="publicNoticeImg" class="notice-img" src="" alt="Special Offer Banner" onclick="openNoticePopupManual()" title="Click to enlarge offer">
-        </div>
-      </div>
+      <h2 style="margin:0; font-size:24px;">🎉 Special Offer Section 🎉</h2>
+      <img id="publicNoticeImg" class="notice-img" src="" style="display:none;">
     </div>
   </div>
 
   <section class="hero">
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <span class="badge" style="background:#f4e1eb;padding:7px 16px;border-radius:20px;color:var(--primary);font-weight:900;letter-spacing:1.2px;font-size:12.5px;border:1px solid rgba(141,61,104,0.2);" data-i18n="heroBadge">WELCOME TO</span>
+      <span class="badge" style="background:#f4e1eb;padding:6px 14px;border-radius:20px;color:var(--primary);font-weight:900;letter-spacing:1px;" data-i18n="heroBadge">WELCOME TO</span>
       <h1 class="hero-title" data-i18n="heroTitle">Beauty Plus Forever</h1>
       <p class="hero-subtitle" data-i18n="heroSub">A special ladies beauty parlour</p>
       
@@ -1161,10 +383,8 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
         <button class="btn primary" onclick="switchTab('services')" data-i18n="btnViewServices">✨ View Services</button>
         <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call Now</a>
         <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WhatsApp</a>
-        <button type="button" class="btn install-btn" id="heroInstallBtn" onclick="handleInstallAppClick()">
-          📲 <span id="heroInstallText">Install Web App</span>
-        </button>
-        <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" target="_blank" data-i18n="btnDownloadApp">📱 Download App</a>
+        <button class="btn success" onclick="installApp()" data-i18n="btnDownloadApp">📱 Install App</button>
+        <a id="apkDownloadBtn" class="btn success" href="#" style="display:none;" target="_blank">📥 Download APK</a>
       </div>
     </div>
   </section>
@@ -1189,12 +409,12 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
     </div>
     <div class="slider-container" id="sliderContainer">
       <div class="slider-track" id="sliderTrack">
-        <img class="slide" src="assets/slider1.jpg" alt="Gallery 1" onerror="this.src='https://picsum.photos/seed/bpf1/300/300'">
-        <img class="slide" src="assets/slider2.jpg" alt="Gallery 2" onerror="this.src='https://picsum.photos/seed/bpf2/300/300'">
-        <img class="slide" src="assets/slider3.jpg" alt="Gallery 3" onerror="this.src='https://picsum.photos/seed/bpf3/300/300'">
-        <img class="slide" src="assets/slider4.jpg" alt="Gallery 4" onerror="this.src='https://picsum.photos/seed/bpf4/300/300'">
-        <img class="slide" src="assets/slider5.jpg" alt="Gallery 5" onerror="this.src='https://picsum.photos/seed/bpf5/300/300'">
-        <img class="slide" src="assets/slider6.jpg" alt="Gallery 6" onerror="this.src='https://picsum.photos/seed/bpf6/300/300'">
+        <img class="slide" src="assets/slider1.jpg" onerror="this.src='https://picsum.photos/seed/bpf1/300/300'">
+        <img class="slide" src="assets/slider2.jpg" onerror="this.src='https://picsum.photos/seed/bpf2/300/300'">
+        <img class="slide" src="assets/slider3.jpg" onerror="this.src='https://picsum.photos/seed/bpf3/300/300'">
+        <img class="slide" src="assets/slider4.jpg" onerror="this.src='https://picsum.photos/seed/bpf4/300/300'">
+        <img class="slide" src="assets/slider5.jpg" onerror="this.src='https://picsum.photos/seed/bpf5/300/300'">
+        <img class="slide" src="assets/slider6.jpg" onerror="this.src='https://picsum.photos/seed/bpf6/300/300'">
       </div>
     </div>
   </div>
@@ -1210,7 +430,7 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
     
     <div class="bookingWrap">
       <div class="formCard">
-        <h3 style="margin-top:0; font-size:28px; color:var(--primary); text-align:center; margin-bottom:25px; font-family:'Playfair Display',serif;" data-i18n="formNewBooking">Secure a New Appointment</h3>
+        <h3 style="margin-top:0; font-size:28px; color:var(--primary); text-align:center; margin-bottom:25px;" data-i18n="formNewBooking">Secure a New Appointment</h3>
         <form id="bookingForm">
           
           <!-- SPAM TRAP -->
@@ -1252,9 +472,9 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
 
     <!-- TRACKING SECTION -->
     <div class="track-box">
-      <h3 style="margin-top:0;font-size:24px;color:var(--primary-dark);font-family:'Playfair Display',serif;" data-i18n="trackTitle">Track Your Booking Live</h3>
+      <h3 style="margin-top:0;font-size:24px;" data-i18n="trackTitle">Track Your Booking Live</h3>
       <div style="display:flex;gap:10px;margin-top:20px; flex-wrap:wrap;">
-        <input type="text" id="trackId" placeholder="Enter Booking ID (e.g., BPF...)" data-i18n-ph="trackPlaceholder" style="flex:1;padding:15px;border:2px solid var(--line);border-radius:14px;outline:none;font-size:16px;font-weight:bold; min-width:200px;">
+        <input type="text" id="trackId" placeholder="Enter Booking ID (e.g., BPF...)" data-i18n-ph="trackPlaceholder" style="flex:1;padding:15px;border:2px solid #ccc;border-radius:14px;outline:none;font-size:16px;font-weight:bold; min-width:200px;">
         <button class="btn primary" id="trackBtn" onclick="trackOrder()" data-i18n="trackBtn">Track Status</button>
       </div>
       <div id="trackResult" class="track-result"></div>
@@ -1288,8 +508,8 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
   <div class="container contactGrid">
     <div>
       <div style="color:var(--primary);font-weight:900;text-transform:uppercase;font-size:12px;letter-spacing:1.5px" data-i18n="contactUs">Contact Us</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:36px;margin:8px 0 12px;color:var(--primary-dark);">Beauty Plus Forever</h2>
-      <p data-i18n="contactText" style="color:var(--muted);font-size:17px;">Visit or contact us for your beauty service and appointment.</p>
+      <h2>Beauty Plus Forever</h2>
+      <p data-i18n="contactText">Visit or contact us for your beauty service and appointment.</p>
       <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:23px">
         <a class="btn primary" href="tel:9798013636">📞 9798013636</a>
         <a class="btn secondary" href="https://wa.me/919297562362" target="_blank">💬 WhatsApp</a>
@@ -1308,30 +528,30 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
 <footer>
   <div class="container">
     <h3 class="footer-title">Beauty Plus Forever</h3>
-    <div style="opacity:0.6;font-size:14px;letter-spacing:1px;">© <span id="year"></span> BEAUTY PLUS FOREVER</div>
+    <div style="opacity:0.5;font-size:14px;letter-spacing:1px;">© <span id="year"></span> BEAUTY PLUS FOREVER</div>
   </div>
 </footer>
 
 <!-- SERVICE ZOOM MODAL -->
-<div class="zoomBack" id="zoomModal" onclick="if(event.target===this) closeZoom()">
+<div class="zoomBack" id="zoomModal" onclick="if(event.target===this)closeZoom()">
   <div class="zoomModal">
     <button class="close" onclick="closeZoom()">×</button>
-    <img id="zImg" class="zoom-img" src="" alt="Service Preview" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80'">
+    <img id="zImg" class="zoom-img" src="">
     <div class="zoom-content">
-      <h2 id="zTitle" style="margin:0 0 10px;color:var(--primary-dark);font-family:'Playfair Display',serif;font-size:30px;">Service Name</h2>
-      <div class="s-meta" style="font-size:14px;"><span>⏱ <span id="zDuration"></span></span></div>
-      <p id="zDesc" style="color:var(--muted);font-size:17px;line-height:1.6;margin-top:10px;"></p>
+      <h2 id="zTitle">Service Name</h2>
+      <div class="s-meta" style="font-size:16px;"><span>⏱ <span id="zDuration"></span></span></div>
+      <p id="zDesc" style="color:var(--muted);font-size:18px;line-height:1.6;margin-top:10px;"></p>
       <div class="zoom-benefits">
-        <h3 style="margin-top:0;font-size:20px;color:var(--primary);" data-i18n="zoomBenefitsTitle">Key Benefits</h3>
+        <h3 style="margin-top:0;font-size:22px;" data-i18n="zoomBenefitsTitle">Key Benefits</h3>
         <ul id="zBenefits"></ul>
       </div>
-      <button class="btn primary" style="width:100%;font-size:19px;padding:17px;margin-top:10px;" onclick="bookFromZoom()" data-i18n="btnBookZoom">Book This Service Now</button>
+      <button class="btn primary" style="width:100%;font-size:20px;padding:18px;margin-top:10px;" onclick="bookFromZoom()" data-i18n="btnBookZoom">Book This Service Now</button>
     </div>
   </div>
 </div>
 
-<!-- AUTH MODAL -->
-<div class="modalBack" id="authModal" onclick="if(event.target===this) closeAuthModal()">
+<!-- LOGIN / SIGNUP MODAL -->
+<div class="modalBack" id="authModal" onclick="if(event.target===this)closeAuthModal()">
   <div class="modal">
     <button class="close" onclick="closeAuthModal()">×</button>
     <div class="auth-tabs">
@@ -1370,142 +590,114 @@ footer{background:#1a1117;color:#fff;padding:45px 0;text-align:center;}
 
 <script>
 // ==========================================
-// UNIVERSAL PWA (INSTALL APP) ENGINE & ANTI-THEFT SECURITY
+// CONFIGURATION
 // ==========================================
-function initSecurityProtection() {
-  // 1. Disable Right-Click Context Menu to protect source code
-  document.addEventListener("contextmenu", function(e) {
-    e.preventDefault();
-    return false;
-  });
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZJcDicKPqaowJcELUHJMcvqHt6-a2Ck8LzNDxbmLcy4Ta1MXedmFSngM0P7l2eNci/exec"; 
+const IMGBB_API_KEY = "d6c99723d410aaeee4d5ac016fc0a3d3"; 
+const PRIMARY_WA_NUMBER = "919297562362"; 
 
-  // 2. Disable Dragging of Images & Elements
-  document.addEventListener("dragstart", function(e) {
-    e.preventDefault();
-    return false;
-  });
+// ==========================================
+// SECURE GLOBALS 
+// ==========================================
+let currentUser = JSON.parse(localStorage.getItem("bpf_user")) || null;
+let isAdmin = localStorage.getItem("bpf_admin") === "true";
+let adminSecureToken = localStorage.getItem("bpf_admin_token") || null;
 
-  // 3. Block Keyboard Shortcuts: Ctrl+S (Save HTML), Ctrl+U (View Source), Ctrl+Shift+I/J/C, F12
-  document.addEventListener("keydown", function(e) {
-    const key = (e.key || "").toLowerCase();
-    const isCmdOrCtrl = e.ctrlKey || e.metaKey;
+let selectedServiceForBooking = "";
+let currentLang = localStorage.getItem("bpf_lang") || "en";
+let top5Reviews = [];
+let deferredInstallPrompt = null;
+let configuredApkUrl = "";
 
-    if (
-      e.key === "F12" ||
-      (isCmdOrCtrl && (key === "s" || key === "u" || key === "p")) ||
-      (isCmdOrCtrl && e.shiftKey && (key === "i" || key === "j" || key === "c"))
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-      showMessage(
-        currentLang === "hi"
-          ? "🔒 सुरक्षा कारणों से पेज कोड सेव या कॉपी करना प्रतिबंधित है।"
-          : "🔒 Saving page or viewing source code is protected.",
-        "#e74c3c"
-      );
-      return false;
-    }
-  });
-}
+const translations = {
+  en: {
+    navHome: "Home", navGallery: "Gallery", navContact: "Contact", contactUs: "Contact Us", contactText: "Visit or contact us for your beauty service and appointment.", address: "Address", phone: "Phone", serviceType: "Service", serviceTypeText: "Ladies Beauty Parlour",
+    navTitle: "Beauty Plus Forever", tagline: "A special ladies beauty parlour", navServices: "Services", navBook: "Book & Track", navReviews: "Reviews", navLogin: "Login / Sign Up", navLogout: "Logout",
+    heroBadge: "WELCOME TO", heroTitle: "Beauty Plus Forever", heroSub: "A special ladies beauty parlour",
+    btnViewServices: "✨ View Services", btnCall: "📞 Call Now", btnWhatsApp: "💬 WhatsApp", btnDownloadApp: "📱 Install App",
+    secServicesTitle: "Our Premium Services", secServicesSub: "Tap any service tile to view benefits, duration, and to book instantly.",
+    secGalleryTitle: "Our Gallery", secBookTitle: "Book & Track", secBookSub: "Reserve your beauty time or check the live status of an existing booking.",
+    trackTitle: "Track Your Booking Live", trackPlaceholder: "Enter Booking ID (e.g., BPF...)", trackBtn: "Track Status",
+    formNewBooking: "Secure a New Appointment", labelName: "Your Name", labelEmail: "Email Address", labelGender: "Gender", optFemale: "Female", optMale: "Male", optOther: "Other", labelPhone: "Mobile Number (10 Digits)", labelService: "Select Service", labelDate: "Date", labelTime: "Time", btnConfirm: "Confirm Appointment",
+    zoomBenefitsTitle: "Key Benefits", btnBookZoom: "Book This Service Now",
+    secReviewTitle: "Customer Experiences", secReviewSub: "Recent feedback from our lovely clients.", formReviewTitle: "Share Your Experience", labelFeedback: "Your Feedback", labelPhoto: "Upload Service Photo", btnPostReview: "Post Review",
+    tabLogin: "Login", tabSignup: "Sign Up", labelUsername: "Username or Login ID", labelPassword: "Password", btnSignIn: "Sign In", labelFullName: "Full Name", labelAge: "Age", labelAddress: "Address", labelChooseUser: "Choose Username", labelChoosePass: "Choose Password", btnCreateAcc: "Create Account"
+  },
+  hi: {
+    navHome: "होम", navGallery: "गैलरी", navContact: "संपर्क", contactUs: "संपर्क करें", contactText: "ब्यूटी सेवा और अपॉइंटमेंट के लिए हमसे संपर्क करें।", address: "पता", phone: "फोन", serviceType: "सेवा", serviceTypeText: "लेडीज़ ब्यूटी पार्लर",
+    navTitle: "ब्यूटी प्लस फॉरएवर", tagline: "एक विशेष लेडीज ब्यूटी पार्लर", navServices: "सेवाएं", navBook: "बुक और ट्रैक", navReviews: "समीक्षा", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
+    heroBadge: "आपका स्वागत है", heroTitle: "ब्यूटी प्लस फॉरएवर", heroSub: "एक विशेष लेडीज ब्यूटी पार्लर",
+    btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 अभी कॉल करें", btnWhatsApp: "💬 वॉट्सऐप", btnDownloadApp: "📱 ऐप इंस्टॉल करें",
+    secServicesTitle: "हमारी प्रीमियम सेवाएं", secServicesSub: "फायदे, अवधि देखने और तुरंत बुक करने के लिए किसी भी सेवा पर टैप करें।",
+    secGalleryTitle: "हमारी गैलरी", secBookTitle: "बुक और ट्रैक करें", secBookSub: "अपना ब्यूटी टाइम रिज़र्व करें या अपनी बुकिंग का लाइव स्टेटस चेक करें।",
+    trackTitle: "अपनी बुकिंग का लाइव स्टेटस चेक करें", trackPlaceholder: "बुकिंग आईडी दर्ज करें (जैसे, BPF...)", trackBtn: "स्टेटस चेक करें",
+    formNewBooking: "नया अपॉइंटमेंट सुरक्षित करें", labelName: "आपका नाम", labelEmail: "ईमेल एड्रेस", labelGender: "लिंग", optFemale: "महिला", optMale: "पुरुष", optOther: "अन्य", labelPhone: "मोबाइल नंबर (10 अंक)", labelService: "सेवा चुनें", labelDate: "तारीख", labelTime: "समय", btnConfirm: "अपॉइंटमेंट कन्फर्म करें",
+    zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "यह सेवा अभी बुक करें",
+    secReviewTitle: "ग्राहक के अनुभव", secReviewSub: "हमारे प्यारे ग्राहकों की हालिया प्रतिक्रिया।", formReviewTitle: "अपना अनुभव साझा करें", labelFeedback: "आपकी प्रतिक्रिया", labelPhoto: "सेवा की फोटो अपलोड करें", btnPostReview: "समीक्षा पोस्ट करें",
+    tabLogin: "लॉगिन", tabSignup: "साइन अप", labelUsername: "यूजरनेम या लॉगिन आईडी", labelPassword: "पासवर्ड", btnSignIn: "साइन इन करें", labelFullName: "पूरा नाम", labelAge: "उम्र", labelAddress: "पता", labelChooseUser: "यूजरनेम चुनें", labelChoosePass: "पासवर्ड चुनें", btnCreateAcc: "अकाउंट बनाएं"
+  }
+};
 
-function setupUniversalPWA() {
-  initSecurityProtection();
+const servicesData = [
+  { id: "Bridal Makeover", name: { en: "Bridal Makeover", hi: "ब्राइडल मेकओवर" }, duration: { en: "3-4 Hours", hi: "3-4 घंटे" }, desc: { en: "A dedicated bridal makeup, hair styling, and finishing session meticulously planned.", hi: "दुल्हन के खास दिन के लिए समर्पित ब्राइडल मेकअप और हेयर स्टाइलिंग।" }, benefits: { en: ["Complete HD Makeup & Base", "Advanced Hair Styling", "Saree/Lehenga Draping", "Premium Products"], hi: ["कंप्लीट एचडी मेकअप", "एडवांस हेयर स्टाइलिंग", "साड़ी/लहंगा ड्रेपिंग", "प्रीमियम प्रोडक्ट्स"] }, img: "assets/service1.jpg" },
+  { id: "Advanced Facial", name: { en: "Advanced Facial", hi: "एडवांस फेशियल" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "A relaxing skin-care service featuring exfoliation and deep tissue massage.", hi: "आरामदायक त्वचा देखभाल सेवा।" }, benefits: { en: ["Deep Pore Cleansing", "Skin Brightening", "Anti-aging properties", "Relaxing Massage"], hi: ["डीप पोर क्लींजिंग", "स्किन ब्राइटनिंग", "एंटी-एजिंग गुण", "आरामदायक मसाज"] }, img: "assets/service2.jpg" },
+  { id: "Hair Spa", name: { en: "Hair Spa & Treatment", hi: "हेयर स्पा और ट्रीटमेंट" }, duration: { en: "45 Mins", hi: "45 मिनट" }, desc: { en: "A rejuvenating hair-care routine focused on deep cleansing and scalp massage.", hi: "डीप क्लींजिंग और स्कैल्प मसाज पर केंद्रित हेयर-केयर रूटीन।" }, benefits: { en: ["Dandruff Removal", "Smooth Texture", "Deep Nourishment", "Stress Relief"], hi: ["रूसी से छुटकारा", "मुलायम बाल", "स्कैल्प को पोषण", "तनाव से राहत"] }, img: "assets/service3.jpg" },
+  { id: "Party Makeup", name: { en: "Party Makeup", hi: "पार्टी मेकअप" }, duration: { en: "90 Mins", hi: "90 मिनट" }, desc: { en: "Professional makeup styling for parties and special occasions.", hi: "पार्टियों और खास मौकों के लिए प्रोफेशनल मेकअप स्टाइलिंग।" }, benefits: { en: ["Flawless Base", "Custom Eye Makeup", "Long-lasting finish", "Basic Hair Styling"], hi: ["फ्लॉलेस बेस", "कस्टम आई मेकअप", "लंबे समय तक टिकने वाला", "बेसिक हेयर स्टाइलिंग"] }, img: "assets/service4.jpg" },
+  { id: "Mani Pedi", name: { en: "Manicure & Pedicure", hi: "मैनिक्योर और पेडिक्योर" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "Hand, foot, and nail care designed for a clean, refreshed feel.", hi: "हाथ, पैर और नाखूनों की देखभाल।" }, benefits: { en: ["Tan Removal", "Nail Shaping", "Cuticle Care", "Soft Hands & Feet"], hi: ["टैन हटाना", "नाखूनों की शेपिंग", "क्यूटिकल की देखभाल", "मुलायम हाथ और पैर"] }, img: "assets/service5.jpg" },
+  { id: "Threading Waxing", name: { en: "Threading & Waxing", hi: "थ्रेडिंग और वैक्सिंग" }, duration: { en: "30 Mins", hi: "30 मिनट" }, desc: { en: "Precise facial hair shaping and body hair removal services.", hi: "फेशियल हेयर शेपिंग और बॉडी हेयर रिमूवल सेवा।" }, benefits: { en: ["Painless technique", "Long-lasting smoothness", "Clean shapes", "Soothes skin"], hi: ["दर्द रहित तकनीक", "लंबे समय तक स्मूथनेस", "साफ शेप", "त्वचा को आराम"] }, img: "assets/service6.jpg" }
+];
+
+// ==========================================
+// PWA / HOME SCREEN WEB-APK INSTALL SETUP
+// ==========================================
+(function setupPWA() {
   try {
-    if ("serviceWorker" in navigator && (window.location.protocol === "https:" || window.location.hostname === "localhost")) {
-      const swCode = `
-        self.addEventListener('install', (e) => self.skipWaiting());
-        self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-        self.addEventListener('fetch', (e) => { e.respondWith(fetch(e.request).catch(() => caches.match(e.request))); });
-      `;
-      const swBlob = new Blob([swCode], { type: "application/javascript" });
-      const swUrl = URL.createObjectURL(swBlob);
-      navigator.serviceWorker.register(swUrl).catch(() => {});
-    }
+    const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8d3d68"/><stop offset="100%" stop-color="#b85b87"/></linearGradient></defs><rect width="512" height="512" rx="120" fill="url(#g)"/><text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" font-size="280" fill="#ffffff" font-family="sans-serif">✦</text></svg>`;
+    const iconUrl = "data:image/svg+xml;utf8," + encodeURIComponent(iconSvg);
+    const manifestObj = {
+      name: "Beauty Plus Forever",
+      short_name: "BeautyPlus",
+      description: "A Special Ladies Beauty Parlour in Raxaul",
+      start_url: window.location.href,
+      display: "standalone",
+      background_color: "#fffafb",
+      theme_color: "#8d3d68",
+      icons: [
+        { src: iconUrl, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+        { src: iconUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+      ]
+    };
+    const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: "application/json" });
+    const manifestLink = document.getElementById("pwaManifestLink");
+    if (manifestLink) manifestLink.href = URL.createObjectURL(manifestBlob);
   } catch (err) {}
-}
+})();
 
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
-  window.deferredInstallPrompt = e;
-  const nativeContainer = document.getElementById("nativePromptContainer");
-  if (nativeContainer) nativeContainer.style.display = "block";
+  deferredInstallPrompt = e;
 });
 
-window.addEventListener("appinstalled", () => {
-  window.deferredInstallPrompt = null;
-  closeInstallModal();
-  showMessage(currentLang === "hi" ? "🎉 ब्यूटी प्लस फॉरएवर ऐप आपके होम स्क्रीन पर इंस्टॉल हो गया!" : "🎉 Beauty Plus Forever App installed on your Home Screen!", "#2d8a62");
-});
-
-function triggerInstallApp() {
-  // 1. Check if already running as installed Home Screen App
-  const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-  if (isStandalone) {
-    showMessage(
-      currentLang === "hi"
-        ? "✅ यह ऐप पहले से ही आपके होम स्क्रीन पर इंस्टॉल है!"
-        : "✅ App is already installed on your Home Screen!",
-      "#2d8a62"
-    );
-    return;
-  }
-
-  // 2. If native browser WebAPK / Home Screen prompt is ready, trigger it directly (NO HTML download)
-  if (window.deferredInstallPrompt) {
-    window.deferredInstallPrompt.prompt();
-    window.deferredInstallPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult && choiceResult.outcome === "accepted") {
-        showMessage(
-          currentLang === "hi"
-            ? "📲 होम स्क्रीन पर ऐप जोड़ा जा रहा है..."
-            : "📲 Adding Beauty Plus Forever App to Home Screen...",
-          "#2d8a62"
-        );
-      }
-      window.deferredInstallPrompt = null;
+function installApp() {
+  // 1. Native Browser WebAPK Install to Home Screen
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(() => {
+      deferredInstallPrompt = null;
     });
     return;
   }
-
-  // 3. If Admin has configured a direct Android .APK link in Settings, download the .APK directly
-  if (currentApkLink && currentApkLink.trim() !== "") {
-    showMessage(
-      currentLang === "hi"
-        ? "📲 एंड्रॉइड APK डाउनलोड शुरू हो रहा है..."
-        : "📲 Downloading Android APK...",
-      "#2d8a62"
-    );
-    window.location.href = currentApkLink.trim();
+  // 2. Direct APK Link if configured in Admin Settings
+  if (configuredApkUrl && configuredApkUrl.trim() !== "") {
+    window.open(configuredApkUrl, "_blank");
     return;
   }
-
-  // 4. Otherwise, open the clean Home Screen Install sheet (NEVER downloads .html code)
-  const nativeContainer = document.getElementById("nativePromptContainer");
-  if (nativeContainer) {
-    nativeContainer.style.display = window.deferredInstallPrompt ? "block" : "none";
-  }
-  document.getElementById("installAppModal").classList.add("open");
-}
-
-function handleInstallAppClick() {
-  triggerInstallApp();
-}
-
-function triggerNativeInstall() {
-  if (window.deferredInstallPrompt) {
-    window.deferredInstallPrompt.prompt();
-    window.deferredInstallPrompt.userChoice.then(() => {
-      window.deferredInstallPrompt = null;
-      closeInstallModal();
-    });
-  } else if (currentApkLink && currentApkLink.trim() !== "") {
-    window.location.href = currentApkLink.trim();
-    closeInstallModal();
-  }
-}
-
-function closeInstallModal() {
-  document.getElementById("installAppModal").classList.remove("open");
+  // 3. Friendly instruction if already installed or on iOS/unsupported local mode
+  alert(
+    currentLang === "hi"
+      ? "होम स्क्रीन पर ऐप जोड़ने के लिए: अपने ब्राउज़र के ऊपर कोने में (⋮) मेनू पर टैप करें और 'Add to Home screen' या 'Install App' चुनें।"
+      : "To add Beauty Plus Forever to your Home Screen: Tap your browser's (⋮) menu and select 'Install App' or 'Add to Home screen'."
+  );
 }
 
 // ==========================================
@@ -1518,7 +710,7 @@ function switchTab(tabId) {
   if(targetSection) targetSection.classList.add('active');
   const activeLink = document.querySelector(`[onclick="switchTab('${tabId}')"]`);
   if(activeLink) activeLink.classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo(0, 0);
 }
 
 // ==========================================
@@ -1537,7 +729,7 @@ function fetchGlobalData() {
   apiCall({ action: "init_data" }).then(d => {
     if(d.status === "success") {
       top5Reviews = d.reviews; renderReviews();
-      applySettings(d.settings || {});
+      applySettings(d.settings);
     }
     document.getElementById("syncLoader").style.display = "none";
   }).catch(e => {
@@ -1545,100 +737,63 @@ function fetchGlobalData() {
   });
 }
 
-// ==========================================
-// UPGRADED OFFER POPUP & SHOWCASE CONTROLLER
-// ==========================================
 function applySettings(settings) {
-  if (!settings) settings = {};
+  if(!settings) return;
   if(document.getElementById("set_noticeTitle")) document.getElementById("set_noticeTitle").value = settings.noticeTitle || "";
   if(document.getElementById("set_noticeMsg")) document.getElementById("set_noticeMsg").value = settings.noticeMsg || "";
   if(document.getElementById("set_noticeImg")) document.getElementById("set_noticeImg").value = settings.noticeImg || "";
   if(document.getElementById("set_apkLink")) document.getElementById("set_apkLink").value = settings.apkLink || "";
 
-  currentApkLink = settings.apkLink || "";
+  configuredApkUrl = settings.apkLink || "";
   const apkBtn = document.getElementById("apkDownloadBtn");
-  const modalApkFallback = document.getElementById("modalApkFallback");
-  const modalApkBtn = document.getElementById("modalApkBtn");
-
   if(settings.apkLink && apkBtn) {
      apkBtn.href = settings.apkLink;
      apkBtn.style.display = "inline-flex";
-     if(modalApkFallback && modalApkBtn) {
-       modalApkBtn.href = settings.apkLink;
-       modalApkFallback.style.display = "block";
-     }
   } else if (apkBtn) {
      apkBtn.style.display = "none";
-     if(modalApkFallback) modalApkFallback.style.display = "none";
   }
 
-  const hasOfferContent = Boolean(
+  // Keep static notice board permanently hidden
+  const staticBoard = document.getElementById("publicNoticeBoard");
+  if(staticBoard) staticBoard.style.display = "none";
+
+  // Show Popup Offer if Title, Message, or Image is configured
+  const hasOffer = Boolean(
     (settings.noticeTitle && settings.noticeTitle.trim() !== "") ||
     (settings.noticeMsg && settings.noticeMsg.trim() !== "") ||
     (settings.noticeImg && settings.noticeImg.trim() !== "")
   );
 
-  const nTitle = document.getElementById("nTitle");
-  const nMsg = document.getElementById("nMsg");
-  const nImg = document.getElementById("nImg");
-  const nImgFrame = document.getElementById("nImgFrame");
+  const reopenBtn = document.getElementById("reopenOfferBtn");
 
-  const pubBoard = document.getElementById("publicNoticeBoard");
-  if (pubBoard) pubBoard.style.display = "none";
-  const fabBtn = document.getElementById("floatingOfferBtn");
-
-  if(hasOfferContent) {
-     const displayTitle = settings.noticeTitle || (currentLang === 'hi' ? "🎉 विशेष त्यौहार ऑफर!" : "🎉 Special Festive Offer!");
-     const displayMsg = settings.noticeMsg || "";
-
-     nTitle.textContent = displayTitle;
-     nMsg.textContent = displayMsg;
-
+  if(hasOffer) {
+     document.getElementById("nTitle").textContent = settings.noticeTitle || "Special Offer";
+     document.getElementById("nMsg").textContent = settings.noticeMsg || "";
+     const nImg = document.getElementById("nImg");
      if(settings.noticeImg && settings.noticeImg.trim() !== "") {
         nImg.src = settings.noticeImg;
         nImg.style.display = "block";
-        if (nImgFrame) nImgFrame.style.display = "block";
      } else {
         nImg.style.display = "none";
-        if (nImgFrame) nImgFrame.style.display = "none";
      }
      
-     if (fabBtn) fabBtn.style.display = "inline-flex";
-
-     // Always pop up cleanly on load so the offer never fails to appear
-     setTimeout(() => {
-        document.getElementById("noticeModal").classList.add("open");
-     }, 350);
+     if(reopenBtn) reopenBtn.style.display = "inline-flex";
+     document.getElementById("noticeModal").classList.add("open");
   } else {
-     if (fabBtn) fabBtn.style.display = "none";
+     if(reopenBtn) reopenBtn.style.display = "none";
+     document.getElementById("noticeModal").classList.remove("open");
   }
 }
 
-function openNoticePopupManual() {
+function openNoticePopup() {
   document.getElementById("noticeModal").classList.add("open");
-}
-
-function previewAdminDraftOffer() {
-  const draftSettings = {
-    noticeTitle: document.getElementById("set_noticeTitle").value || "✨ Special Festive Makeover Offer!",
-    noticeMsg: document.getElementById("set_noticeMsg").value || "Book your Bridal or Party Makeover today at Beauty Plus Forever!",
-    noticeImg: document.getElementById("set_noticeImg").value || "",
-    apkLink: document.getElementById("set_apkLink").value || ""
-  };
-  applySettings(draftSettings);
-  openNoticePopupManual();
-}
-
-function claimOfferNow() {
-  closeNotice();
-  switchTab('booking');
 }
 
 function closeNotice() { 
   document.getElementById("noticeModal").classList.remove("open"); 
 }
 
-// 🔒 SECURE SAVE SETTINGS (Requires Token)
+// SECURE SAVE SETTINGS (Requires Token)
 function saveAdminSettings() {
   const btn = document.getElementById("btnSaveSettings"); btn.disabled = true; btn.textContent = "Saving...";
   apiCall({
@@ -1649,9 +804,9 @@ function saveAdminSettings() {
     noticeImg: document.getElementById("set_noticeImg").value,
     apkLink: document.getElementById("set_apkLink").value
   }).then(d => {
-    if(d.status === "success") { showMessage("Settings Saved!", "#2d8a62"); fetchGlobalData(); }
-    else { showMessage("Error: " + d.message, "#e74c3c"); }
-  }).catch(e => showMessage("Network error", "#e74c3c")).finally(() => { btn.disabled = false; btn.textContent = "Save All Settings"; });
+    if(d.status === "success") { alert("Settings Saved!"); fetchGlobalData(); }
+    else { alert("Error: " + d.message); }
+  }).catch(e => alert("Network error")).finally(() => { btn.disabled = false; btn.textContent = "Save All Settings"; });
 }
 
 function uploadToImgBB(file, callback, errorCallback) {
@@ -1669,11 +824,11 @@ document.getElementById("reviewForm").addEventListener("submit", function(e) {
     
     uploadToImgBB(fileInput, function(directUrl) {
       apiCall({ action: "post_review", name: isAdmin ? "Admin (Vishakha)" : currentUser.name, text: text, fileUrl: directUrl }).then(d => {
-        if(d.status === "success") { showMessage(currentLang === 'hi' ? "समीक्षा सफलतापूर्वक पोस्ट की गई!" : "Review posted successfully!", "#2d8a62"); document.getElementById("reviewForm").reset(); fetchGlobalData(); }
-        else { showMessage("Error saving review.", "#e74c3c"); }
-      }).catch(err => showMessage("Network error.", "#e74c3c")).finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review"; });
+        if(d.status === "success") { alert(currentLang === 'hi' ? "समीक्षा सफलतापूर्वक पोस्ट की गई!" : "Review posted successfully!"); document.getElementById("reviewForm").reset(); fetchGlobalData(); }
+        else { alert("Error saving review."); }
+      }).catch(err => alert("Network error.")).finally(() => { btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review"; });
     }, function(err) {
-      showMessage("Image upload failed. Try a smaller image.", "#e74c3c"); btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review";
+      alert("Image upload failed. Try a smaller image."); btn.disabled = false; btn.textContent = currentLang === 'hi' ? "समीक्षा पोस्ट करें" : "Post Review";
     });
   }
 });
@@ -1681,21 +836,13 @@ document.getElementById("reviewForm").addEventListener("submit", function(e) {
 function renderReviews() {
   const list = document.getElementById("reviewList"); list.innerHTML = "";
   if(!top5Reviews || top5Reviews.length === 0) { list.innerHTML = `<p style="color:var(--muted);">${currentLang === 'hi' ? "अभी तक कोई समीक्षा नहीं।" : "No reviews yet."}</p>`; return; }
-  top5Reviews.forEach(r => { list.innerHTML += `<div class="review-card"><img src="${r.photo}" alt="Client Review" onerror="this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=500&q=80'"><div class="review-meta"><b>${r.name}</b> • ${r.date}</div><p style="margin:0;font-size:15px;line-height:1.5;">"${r.text}"</p></div>`; });
+  top5Reviews.forEach(r => { list.innerHTML += `<div class="review-card"><img src="${r.photo}"><div class="review-meta"><b>${r.name}</b> • ${r.date}</div><p style="margin:0;font-size:15px;line-height:1.5;">"${r.text}"</p></div>`; });
 }
 
 function changeLang(lang) {
   currentLang = lang; localStorage.setItem("bpf_lang", lang); document.getElementById("langSwitcher").value = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => { const key = el.getAttribute("data-i18n"); if (translations[lang][key]) el.innerHTML = translations[lang][key]; });
   document.querySelectorAll("[data-i18n-ph]").forEach(el => { const key = el.getAttribute("data-i18n-ph"); if (translations[lang][key]) el.placeholder = translations[lang][key]; });
-  
-  const navInst = document.getElementById("navInstallText");
-  const heroInst = document.getElementById("heroInstallText");
-  const fabOffer = document.getElementById("floatingOfferText");
-  if (navInst) navInst.textContent = lang === 'hi' ? "ऐप इंस्टॉल करें" : "Install App";
-  if (heroInst) heroInst.textContent = lang === 'hi' ? "ऐप इंस्टॉल करें" : "Install Web App";
-  if (fabOffer) fabOffer.textContent = lang === 'hi' ? "स्पेशल ऑफर" : "Special Offer";
-
   initServices(); renderReviews();
 }
 
@@ -1703,23 +850,7 @@ function initServices() {
   const grid = document.getElementById("serviceGrid"); const select = document.getElementById("bService");
   grid.innerHTML = ""; select.innerHTML = `<option value="">-- ${currentLang === 'hi' ? 'सेवा चुनें' : 'Choose a Service'} --</option>`;
   servicesData.forEach((s, i) => {
-    grid.innerHTML += `
-      <div class="service-tile" onclick="openZoom(${i})">
-        <div class="service-img-wrap">
-          <img src="${s.img}" class="service-img" alt="${s.name[currentLang]}" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80'">
-        </div>
-        <div class="service-info">
-          <div>
-            <div class="s-meta">⏱ ${s.duration[currentLang]}</div>
-            <h3>${s.name[currentLang]}</h3>
-            <p style="font-size:14px;color:var(--muted);margin:0 0 14px;">${s.benefits[currentLang][0]} • ${s.benefits[currentLang][1] || ''}</p>
-          </div>
-          <div style="font-size:13.5px;font-weight:800;color:var(--primary);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;">
-            <span>${currentLang === 'hi' ? 'विवरण और बुकिंग देखें' : 'View Details & Book'}</span>
-            <span>→</span>
-          </div>
-        </div>
-      </div>`;
+    grid.innerHTML += `<div class="service-tile" onclick="openZoom(${i})"><img src="${s.img}" class="service-img" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80'"><div class="service-info"><h3>${s.name[currentLang]}</h3><div class="s-meta">⏱ ${s.duration[currentLang]}</div><p style="font-size:13px;color:var(--muted);margin:0;">${s.benefits[currentLang][0]}...</p></div></div>`;
     select.innerHTML += `<option value="${s.id}">${s.name[currentLang]}</option>`;
   });
 }
@@ -1757,7 +888,7 @@ document.getElementById("signupForm").addEventListener("submit", (e) => {
   }).catch(e => document.getElementById("authError").textContent = "Network Error").finally(() => btn.disabled = false);
 });
 
-// 🔒 SECURE LOGIN PROCESS
+// SECURE LOGIN PROCESS
 document.getElementById("loginForm").addEventListener("submit", (e) => {
   e.preventDefault(); const u = document.getElementById("loginUsername").value.trim(); const p = document.getElementById("loginPassword").value.trim();
   const btn = document.getElementById("loginSubmitBtn"); btn.disabled = true;
@@ -1766,7 +897,7 @@ document.getElementById("loginForm").addEventListener("submit", (e) => {
       if (d.status === "success") { 
          if(d.role === "admin") {
             localStorage.setItem("bpf_admin", "true"); 
-            localStorage.setItem("bpf_admin_token", d.token); // Save Key
+            localStorage.setItem("bpf_admin_token", d.token);
             isAdmin = true; currentUser = null; adminSecureToken = d.token;
          } else {
             localStorage.setItem("bpf_user", JSON.stringify(d.user)); 
@@ -1801,14 +932,14 @@ function switchAdminTab(t) {
   document.getElementById(t).classList.add('active'); event.target.classList.add('active');
 }
 
-// 🔒 SECURE FETCH BOOKINGS (Requires Token)
+// SECURE FETCH BOOKINGS (Requires Token)
 function fetchAdminBookings() {
   const tb = document.getElementById("adminBookingsTable"); tb.innerHTML = "<tr><td colspan='6' style='text-align:center;'>Fetching live bookings...</td></tr>";
   apiCall({ action: "get_bookings", token: adminSecureToken }).then(d => {
     if(d.status === "success") {
       tb.innerHTML = "";
       d.bookings.forEach(b => {
-        tb.innerHTML += `<tr><td><strong>${b.id}</strong></td><td>${b.name} <br> <small>${b.phone}</small><br><small style="color:var(--primary2);">${b.email||'No Email'}</small></td><td>${b.service}</td><td>${new Date(b.date).toLocaleDateString()} <br> ${b.time}</td><td><select onchange="changeBookingStatus('${b.id}', this.value)"><option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option><option value="Confirmed" ${b.status==='Confirmed'?'selected':''}>Confirmed</option><option value="Hold" ${b.status==='Hold'?'selected':''}>Hold</option><option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option><option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option></select></td><td><button class="btn secondary" onclick="showMessage('Status auto-saves on change.')">💾</button></td></tr>`;
+        tb.innerHTML += `<tr><td><strong>${b.id}</strong></td><td>${b.name} <br> <small>${b.phone}</small><br><small style="color:var(--primary2);">${b.email||'No Email'}</small></td><td>${b.service}</td><td>${new Date(b.date).toLocaleDateString()} <br> ${b.time}</td><td><select onchange="changeBookingStatus('${b.id}', this.value)"><option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option><option value="Confirmed" ${b.status==='Confirmed'?'selected':''}>Confirmed</option><option value="Hold" ${b.status==='Hold'?'selected':''}>Hold</option><option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option><option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option></select></td><td><button class="btn secondary" onclick="alert('Status auto-saves on change.')">💾</button></td></tr>`;
       });
     } else {
       tb.innerHTML = `<tr><td colspan='6' style='text-align:center;color:red;'>${d.message}</td></tr>`;
@@ -1816,19 +947,19 @@ function fetchAdminBookings() {
   });
 }
 
-// 🔒 SECURE UPDATE BOOKING (Requires Token)
+// SECURE UPDATE BOOKING (Requires Token)
 function changeBookingStatus(id, newStatus) {
   apiCall({ action: "update_booking", bookingId: id, newStatus: newStatus, token: adminSecureToken }).then(d => { 
-    if(d.status === "success") showMessage("Status updated to " + newStatus + ". Email sent to customer.", "#2d8a62"); 
-    else showMessage("Error: " + d.message, "#e74c3c"); 
+    if(d.status === "success") alert("Status updated to " + newStatus + ". Email sent to customer."); 
+    else alert("Error: " + d.message); 
   });
 }
 
-// FIXED: Smooth Native Scroll Autoplay for Gallery
+// Smooth Native Scroll Autoplay for Gallery
 setInterval(() => {
     const container = document.getElementById("sliderContainer");
     if(container && container.children[0] && container.children[0].children[0]) {
-      const slideWidth = container.children[0].children[0].offsetWidth + 22; 
+      const slideWidth = container.children[0].children[0].offsetWidth + 20; 
       if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
          container.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
@@ -1847,7 +978,7 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
   
   // SPAM TRAP
   const botTrap = document.getElementById("botCheckField").value;
-  if(botTrap !== "") { showMessage("Spam detected! Booking blocked.", "#e74c3c"); return; }
+  if(botTrap !== "") { alert("Spam detected! Booking blocked."); return; }
 
   const btn = document.getElementById("bookingSubmitBtn"); btn.disabled = true;
   const name = document.getElementById("bName").value.trim(); 
@@ -1860,21 +991,20 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
   const time = document.getElementById("bTime").value;
 
   const isFakeNumber = /^(.)\1{9}$/.test(phone) || phone === "1234567890" || phone === "0987654321";
-  if(isFakeNumber) { showMessage(currentLang === 'hi' ? "कृपया सही मोबाइल नंबर दर्ज करें।" : "Please enter a valid mobile number.", "#e74c3c"); btn.disabled = false; return; }
+  if(isFakeNumber) { alert(currentLang === 'hi' ? "कृपया सही मोबाइल नंबर दर्ज करें।" : "Please enter a valid mobile number."); btn.disabled = false; return; }
   
   const newOrderId = generateOrderID();
 
-  // 🔒 SERVER-SIDE SPAM CHECK ENFORCED HERE
   apiCall({
     action: "book", bookingId: newOrderId, name: name, email: email, gender: gender, phone: phone, service: serviceName, date: date, time: time
   }).then(data => {
       if(data.status === "cooldown_error") {
-         showMessage(data.message, "#e74c3c");
+         alert(data.message);
          btn.disabled = false;
          return;
       }
 
-      showMessage(currentLang === 'hi' ? `बुकिंग सफलतापूर्वक सहेजी गई!\n\nआपकी बुकिंग आईडी है: ${data.bookingId}` : `Booking saved successfully!\n\nYour Booking ID is: ${data.bookingId}`, "#2d8a62");
+      alert(currentLang === 'hi' ? `बुकिंग सफलतापूर्वक सहेजी गई!\n\nआपकी बुकिंग आईडी है: ${data.bookingId}` : `Booking saved successfully!\n\nYour Booking ID is: ${data.bookingId}`);
       const waMsg = `Hello Beauty Plus Forever! ✨\n\nI would like to confirm my appointment.\n\n*Name:* ${name}\n*Service:* ${serviceName}\n*System Order ID:* ${data.bookingId}\n\nPlease confirm availability.`;
       window.location.href = `https://api.whatsapp.com/send?phone=${PRIMARY_WA_NUMBER}&text=${encodeURIComponent(waMsg)}`;
       document.getElementById("bookingForm").reset(); updateUI(); 
@@ -1886,13 +1016,13 @@ document.getElementById("bookingForm").addEventListener("submit", (e) => {
 
 function trackOrder() {
   const tid = document.getElementById("trackId").value.trim().toUpperCase(); const btn = document.getElementById("trackBtn"); const res = document.getElementById("trackResult");
-  if(!tid) return showMessage("Enter Booking ID", "#e74c3c");
+  if(!tid) return alert("Enter Booking ID");
   btn.disabled = true; res.style.display = "none"; res.className = "track-result";
   apiCall({ action: "track", bookingId: tid }).then(d => {
       res.style.display = "block";
       if(d.status === "success") { res.classList.add("status-" + d.orderStatus); res.innerHTML = `<strong>Booking: ${d.bookingId}</strong><br>Service: ${d.service} <br> Date: ${new Date(d.date).toLocaleDateString()} <br><div style="font-size:22px; font-weight:900;">Status: ${d.orderStatus.toUpperCase()}</div>`;
       } else { res.style.background = "#fff"; res.style.border = "1px solid #ccc"; res.style.color = "red"; res.innerHTML = `<strong>Error:</strong> ${d.message}`; }
-  }).catch(e => { res.style.display = "block"; res.style.color = "red"; res.innerHTML = "Network Error."; }).finally(() => { btn.disabled = false; });
+  }).catch(e => { res.style.display = "block"; res.style.color = "red"; res.innerHTML = "Network Error."; }).finally(() => btn.disabled = false);
 }
 
 // INIT
@@ -1903,7 +1033,6 @@ const tzoffset = (new Date()).getTimezoneOffset() * 60000;
 const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().split('T')[0];
 document.getElementById("bDate").setAttribute('min', localISOTime);
 
-setupUniversalPWA();
 changeLang(currentLang);
 fetchGlobalData();
 updateUI(); 
