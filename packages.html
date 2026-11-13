@@ -6,178 +6,108 @@
 <meta name="theme-color" content="#8d3d68">
 <title>Wedding & Festive Combo Packages | Beauty Plus Forever</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<style>
-  :root{
-    --primary:#8d3d68;--primary2:#b85b87;--soft:#fff5fa;--gold:#c99a3d;
-    --ink:#29232a;--muted:#746b72;--white:#fff;--line:#eadde5;
-    --shadow:0 12px 35px rgba(141,61,104,0.12);
-  }
-  *{box-sizing:border-box} html{scroll-behavior:smooth}
-  body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.6;padding-bottom:75px;}
-  a{text-decoration:none;color:inherit}
-
-  header{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 0;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,0.03);}
-  .nav-container{width:min(1160px, 92%);margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
-  .brand-title{font-size:18px;font-weight:900;color:var(--primary);margin:0;display:flex;align-items:center;gap:8px;}
-  .logo-dot{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:grid;place-items:center;font-size:16px;}
-  .nav-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-  .nav-btn{background:var(--soft);color:var(--primary);border:1px solid var(--primary2);padding:7px 13px;border-radius:12px;font-weight:800;font-size:13px;transition:0.25s;display:inline-flex;align-items:center;gap:5px;}
-  .nav-btn:hover,.nav-btn.active{background:var(--primary);color:#fff;}
-
-  .hero-banner{background:linear-gradient(135deg, var(--primary), var(--primary2));color:#fff;padding:55px 20px;text-align:center;}
-  .hero-banner h1{font-size:clamp(28px, 6vw, 46px);margin:0 0 10px;font-weight:900;}
-  .hero-banner p{font-size:clamp(15px, 3vw, 18px);max-width:700px;margin:auto;opacity:0.95;}
-
-  .container{width:min(1160px, 92%);margin:auto;padding:45px 0;}
-  .section-header{text-align:center;margin-bottom:38px;}
-  .section-header h2{color:var(--primary);font-size:clamp(24px, 4vw, 32px);margin:0 0 8px;font-weight:900;}
-  .section-header p{color:var(--muted);font-size:16px;max-width:600px;margin:auto;}
-
-  /* PACKAGE CARDS GRID */
-  .package-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(310px, 1fr));gap:28px;}
-  .package-card{background:#fff;border-radius:26px;overflow:hidden;box-shadow:var(--shadow);border:2px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;transition:transform 0.3s ease;position:relative;}
-  .package-card.featured{border-color:var(--gold);box-shadow:0 15px 45px rgba(201,154,61,0.22);}
-  .package-card:hover{transform:translateY(-6px);}
-
-  .popular-badge{position:absolute;top:15px;right:15px;background:linear-gradient(135deg, var(--gold), #e0b456);color:#fff;padding:5px 14px;border-radius:99px;font-size:12px;font-weight:900;box-shadow:0 4px 12px rgba(201,154,61,0.35);z-index:2;}
-
-  .package-header{background:linear-gradient(135deg, var(--soft), #fff);padding:26px 24px;border-bottom:1px solid var(--line);text-align:center;}
-  .package-title{font-size:22px;font-weight:900;color:var(--primary);margin:0 0 6px;}
-  .package-subtitle{font-size:14px;color:var(--muted);margin:0 0 14px;}
-  .package-price-box{display:flex;justify-content:center;align-items:baseline;gap:10px;}
-  .price-offer{font-size:32px;font-weight:900;color:var(--primary);}
-  .price-mrp{font-size:16px;color:var(--muted);text-decoration:line-through;font-weight:700;}
-
-  .package-body{padding:24px;flex:1;}
-  .includes-title{font-size:13px;font-weight:900;color:var(--ink);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
-  .includes-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
-  .includes-list li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--muted);}
-  .includes-list li b{color:var(--ink);}
-  .check-icon{color:#27ae60;font-weight:bold;}
-
-  .package-footer{padding:18px 24px;background:var(--soft);border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;}
-  .book-pkg-btn{background:linear-gradient(135deg, var(--primary), var(--primary2));color:#fff;border:none;padding:11px 20px;border-radius:14px;font-weight:900;cursor:pointer;font-size:14px;transition:0.3s;box-shadow:0 4px 15px rgba(141,61,104,0.3);}
-  .book-pkg-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(141,61,104,0.45);}
-
-  /* STICKY MOBILE BOTTOM NAV */
-  .mobile-bottom-nav{
-    position:fixed;bottom:0;left:0;right:0;height:62px;background:rgba(255,255,255,0.98);
-    backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -4px 20px rgba(0,0,0,0.06);
-    z-index:98;display:grid;grid-template-columns:repeat(5, 1fr);align-items:center;
-  }
-  .mob-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted);gap:2px;}
-  .mob-nav-item span.icon{font-size:18px;line-height:1;}
-  .mob-nav-item.active,.mob-nav-item:hover{color:var(--primary);}
-
-  footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;margin-top:50px;}
-  .footer-title{font-size:24px;color:var(--gold);margin:0 0 8px;font-weight:900;}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div id="customerGreetingBanner" class="greeting-banner" style="display:none;"></div>
+
 <header>
-  <div class="nav-container">
-    <a href="index.html" class="brand-title"><span class="logo-dot">✦</span> Beauty Plus Forever</a>
-    <div class="nav-links">
-      <a href="index.html" class="nav-btn">🏠 Home</a>
-      <a href="services-detail.html" class="nav-btn">📋 Services & Steps</a>
-      <a href="packages.html" class="nav-btn active">🎁 Packages</a>
-      <a href="bridal.html" class="nav-btn">✨ Bridal Gallery</a>
-      <a href="before-after.html" class="nav-btn">📸 Transformations</a>
-      <a href="about.html" class="nav-btn">👩‍🎨 About</a>
-      <a href="index.html#booking" class="nav-btn">🛒 Cart (<span id="navCartCount">0</span>)</a>
-    </div>
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <div class="logo">✦</div>
+      <div class="brand-text"><span>Beauty Plus Forever</span><small>Festive & Bridal Combos</small></div>
+    </a>
+    <nav class="navlinks">
+      <a href="index.html" class="ext-page">🏠 Home</a>
+      <a href="services-detail.html" class="ext-page">📋 Process</a>
+      <a href="packages.html" class="ext-page active">🎁 Packages</a>
+      <a href="bridal.html" class="ext-page">✨ Bridal</a>
+      <a href="before-after.html" class="ext-page">📸 Results</a>
+      <a href="about.html" class="ext-page">👩‍🎨 About</a>
+      <a href="index.html#booking" class="cart-nav-btn">🛒 <span class="cart-count-badge" id="navCartCount">0</span></a>
+      <select class="lang-select" id="langSwitcher" onchange="changeLang(this.value)">
+        <option value="en">EN</option>
+        <option value="hi">हिंदी</option>
+      </select>
+    </nav>
   </div>
 </header>
 
-<div class="hero-banner">
+<div class="subpage-hero">
   <h1>🎁 Exclusive Wedding & Festive Combo Packages</h1>
-  <p>Save big on our specially curated pre-bridal, wedding day, and party glow combo bundles. Premium branded products with guaranteed stunning results.</p>
+  <p>Save up to ₹2,500 on our curated pre-bridal, wedding day, and festive glow packages. Apply code BRIDAL500 at checkout for extra ₹500 OFF on orders above ₹3,000!</p>
 </div>
 
-<div class="container">
-  <div class="section-header">
-    <h2>Choose Your Perfect Festive Package</h2>
-    <p>Designed to give you head-turning radiance for weddings, receptions, Chhath Puja, Teej, and family celebrations.</p>
-  </div>
-
+<div class="container" style="padding:45px 0;">
   <div class="package-grid">
-    
+
     <!-- Package 1 -->
-    <div class="package-card">
+    <div class="package-card" data-svc-id="Essential Festive Combo">
       <div class="package-header">
         <h3 class="package-title">🌸 Essential Festive Glow Combo</h3>
-        <p class="package-subtitle">Perfect for quick party readiness & festive evenings</p>
-        <div class="package-price-box">
-          <span class="price-offer">₹1,499</span>
-          <span class="price-mrp">₹2,200</span>
-        </div>
+        <p style="font-size:13.5px;color:var(--muted);margin:0 0 10px;">Perfect for quick party readiness & festive evenings</p>
+        <div><span class="price-offer dyn-price">₹1499</span> <span class="price-mrp dyn-mrp">₹2200</span></div>
       </div>
       <div class="package-body">
         <div class="includes-title">Package Includes:</div>
         <ul class="includes-list">
-          <li><span class="check-icon">✓</span> <div><b>Advanced O3+ Fruit/Botanical Facial</b> for instant radiance</div></li>
-          <li><span class="check-icon">✓</span> <div><b>Party Hair Styling</b> (Blow-dry curls or sleek open hair)</div></li>
-          <li><span class="check-icon">✓</span> <div><b>Threading & Upper-Lip Shaping</b></div></li>
-          <li><span class="check-icon">✓</span> <div><b>Express Face De-Tan & Clean-up</b></div></li>
+          <li><b>Advanced O3+ Botanical Facial</b> for instant radiance</li>
+          <li><b>Party Hair Styling</b> (Blow-dry curls or sleek open hair)</li>
+          <li><b>Threading & Upper-Lip Shaping</b></li>
+          <li><b>Express Face De-Tan & Clean-up</b></li>
         </ul>
       </div>
       <div class="package-footer">
-        <span style="font-size:13px;font-weight:800;color:var(--primary);">Save ₹701 Instantly</span>
-        <button class="book-pkg-btn" onclick="addPackageToCart('Essential Festive Combo', '🌸 Essential Festive Glow Combo', 1499, 2200)">🛒 Book Package</button>
+        <span style="font-size:12.5px;font-weight:800;color:var(--primary);">Save ₹701</span>
+        <button class="btn primary sm" onclick="addServiceByIdToCart('Essential Festive Combo', '🌸 Essential Festive Glow Combo', 1499, 2200, true)">🛒 Book Package</button>
       </div>
     </div>
 
-    <!-- Package 2 (Featured) -->
-    <div class="package-card featured">
-      <div class="popular-badge">⭐ Most Popular</div>
+    <!-- Package 2 -->
+    <div class="package-card featured" data-svc-id="Royal Pre-Bridal Package">
+      <span class="popular-badge">⭐ Most Popular</span>
       <div class="package-header">
         <h3 class="package-title">👑 Royal Pre-Bridal Glow Package</h3>
-        <p class="package-subtitle">Complete head-to-toe skin & hair rejuvenation for brides</p>
-        <div class="package-price-box">
-          <span class="price-offer">₹3,999</span>
-          <span class="price-mrp">₹5,800</span>
-        </div>
+        <p style="font-size:13.5px;color:var(--muted);margin:0 0 10px;">Complete head-to-toe skin & hair rejuvenation for brides</p>
+        <div><span class="price-offer dyn-price">₹3999</span> <span class="price-mrp dyn-mrp">₹5800</span></div>
       </div>
       <div class="package-body">
         <div class="includes-title">Package Includes:</div>
         <ul class="includes-list">
-          <li><span class="check-icon">✓</span> <div><b>O3+ Diamond / Whitening Facial</b> (Deep glowing treatment)</div></li>
-          <li><span class="check-icon">✓</span> <div><b>Full Body Rica Waxing</b> (Silk smooth & painless)</div></li>
-          <li><span class="check-icon">✓</span> <div><b>L'Oreal Deep Nourishment Hair Spa</b></div></li>
-          <li><span class="check-icon">✓</span> <div><b>Luxury OPI Spa Manicure & Pedicure</b></div></li>
-          <li><span class="check-icon">✓</span> <div><b>Full Face De-Tan & Herbal Bleach</b></div></li>
+          <li><b>O3+ Diamond / Whitening Facial</b> (Deep glow treatment)</li>
+          <li><b>Full Body Painless Rica Waxing</b></li>
+          <li><b>L'Oreal Deep Nourishment Hair Spa</b></li>
+          <li><b>Luxury OPI Spa Manicure & Pedicure</b></li>
+          <li><b>Full Face De-Tan & Herbal Bleach</b></li>
         </ul>
       </div>
       <div class="package-footer">
-        <span style="font-size:13px;font-weight:800;color:var(--primary);">Save ₹1,801 Instantly</span>
-        <button class="book-pkg-btn" onclick="addPackageToCart('Royal Pre-Bridal Package', '👑 Royal Pre-Bridal Glow Package', 3999, 5800)">🛒 Book Package</button>
+        <span style="font-size:12.5px;font-weight:800;color:var(--primary);">Save ₹1,801</span>
+        <button class="btn primary sm" onclick="addServiceByIdToCart('Royal Pre-Bridal Package', '👑 Royal Pre-Bridal Glow Package', 3999, 5800, true)">🛒 Book Package</button>
       </div>
     </div>
 
     <!-- Package 3 -->
-    <div class="package-card">
+    <div class="package-card" data-svc-id="Ultimate Wedding Day Glam">
       <div class="package-header">
         <h3 class="package-title">✨ Ultimate Wedding Day Glam Combo</h3>
-        <p class="package-subtitle">HD Bridal Makeover + Reception Look + Hair & Draping</p>
-        <div class="package-price-box">
-          <span class="price-offer">₹6,999</span>
-          <span class="price-mrp">₹9,500</span>
-        </div>
+        <p style="font-size:13.5px;color:var(--muted);margin:0 0 10px;">HD Bridal Makeover + Royal Hairstyle & Double Draping</p>
+        <div><span class="price-offer dyn-price">₹6999</span> <span class="price-mrp dyn-mrp">₹9500</span></div>
       </div>
       <div class="package-body">
         <div class="includes-title">Package Includes:</div>
         <ul class="includes-list">
-          <li><span class="check-icon">✓</span> <div><b>HD / Airbrush Bridal Makeover</b> (MAC & Kryolan products)</div></li>
-          <li><span class="check-icon">✓</span> <div><b>Royal Bridal Hairstyle & Floral/Jewellery Setting</b></div></li>
-          <li><span class="check-icon">✓</span> <div><b>Professional Saree & Double Dupatta Lehenga Draping</b></div></li>
-          <li><span class="check-icon">✓</span> <div><b>Complimentary Premium Mink Eyelashes & Lens Fitting</b></div></li>
-          <li><span class="check-icon">✓</span> <div><b>Free Nail Paint & Touch-up Kit</b></div></li>
+          <li><b>HD / Airbrush Bridal Makeover</b> (MAC & Kryolan Pro)</li>
+          <li><b>Royal Bridal Hairstyle & Floral/Jewellery Setting</b></li>
+          <li><b>Professional Saree & Double Dupatta Lehenga Draping</b></li>
+          <li><b>Complimentary Mink Eyelashes & Lens Fitting</b></li>
+          <li><b>Free Nail Paint & Bridal Touch-up Kit</b></li>
         </ul>
       </div>
       <div class="package-footer">
-        <span style="font-size:13px;font-weight:800;color:var(--primary);">Save ₹2,501 Instantly</span>
-        <button class="book-pkg-btn" onclick="addPackageToCart('Ultimate Wedding Day Glam', '✨ Ultimate Wedding Day Glam Combo', 6999, 9500)">🛒 Book Package</button>
+        <span style="font-size:12.5px;font-weight:800;color:var(--primary);">Save ₹2,501</span>
+        <button class="btn primary sm" onclick="addServiceByIdToCart('Ultimate Wedding Day Glam', '✨ Ultimate Wedding Day Glam Combo', 6999, 9500, true)">🛒 Book Package</button>
       </div>
     </div>
 
@@ -193,32 +123,13 @@
 </nav>
 
 <footer>
-  <div style="width:min(1160px, 92%);margin:auto;">
+  <div class="container">
     <h3 class="footer-title">Beauty Plus Forever</h3>
-    <p style="opacity:0.6;font-size:14px;margin:0;">Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, Bihar • Ph: 9798013636</p>
+    <div class="dynamic-social-bar social-links-bar"></div>
+    <p style="opacity:0.6;font-size:13.5px;margin:0;">Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, Bihar • Ph: 9798013636</p>
   </div>
 </footer>
 
-<script>
-function addPackageToCart(id, nameEn, price, mrp) {
-  let cart = JSON.parse(localStorage.getItem("bpf_cart_v1")) || [];
-  let existing = cart.find(item => item.id === id);
-  if(existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ id: id, nameEn: nameEn, nameHi: nameEn, price: price, mrp: mrp, qty: 1 });
-  }
-  localStorage.setItem("bpf_cart_v1", JSON.stringify(cart));
-  window.location.href = "index.html#booking";
-}
-
-function updateCartBadges() {
-  let cart = JSON.parse(localStorage.getItem("bpf_cart_v1")) || [];
-  let count = cart.reduce((acc, item) => acc + (item.qty || 1), 0);
-  document.getElementById("navCartCount").textContent = count;
-  document.getElementById("mobCartBadge").textContent = count;
-}
-updateCartBadges();
-</script>
+<script src="script.js"></script>
 </body>
 </html>
