@@ -13,17 +13,22 @@
     --shadow:0 12px 35px rgba(141,61,104,0.12);
   }
   *{box-sizing:border-box} html{scroll-behavior:smooth}
-  body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.6;}
+  body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.6;padding-bottom:75px;}
+  a{text-decoration:none;color:inherit}
 
   header{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 0;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,0.03);}
   .nav-container{width:min(1160px, 92%);margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
-  .brand-title{font-size:18px;font-weight:900;color:var(--primary);margin:0;}
-  .back-btn{background:var(--soft);color:var(--primary);border:2px solid var(--primary2);padding:9px 18px;border-radius:14px;font-weight:bold;font-size:14px;text-decoration:none;transition:0.3s;display:inline-flex;align-items:center;gap:6px;}
-  .back-btn:hover{background:var(--primary);color:#fff;transform:translateY(-2px);}
+  .brand-title{font-size:18px;font-weight:900;color:var(--primary);margin:0;display:flex;align-items:center;gap:8px;}
+  .logo-dot{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:grid;place-items:center;font-size:16px;}
+  .nav-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .nav-btn{background:var(--soft);color:var(--primary);border:1px solid var(--primary2);padding:7px 13px;border-radius:12px;font-weight:800;font-size:13px;transition:0.25s;display:inline-flex;align-items:center;gap:5px;}
+  .nav-btn:hover,.nav-btn.active{background:var(--primary);color:#fff;}
+
+  .hero-banner{background:linear-gradient(135deg, var(--primary), var(--primary2));color:#fff;padding:50px 20px;text-align:center;}
+  .hero-banner h1{font-size:clamp(28px, 5vw, 44px);margin:0 0 10px;font-weight:900;}
+  .hero-banner p{font-size:clamp(15px, 3vw, 18px);max-width:680px;margin:auto;opacity:0.95;}
 
   .container{width:min(1160px, 92%);margin:auto;padding:45px 0;}
-  .page-title{text-align:center;color:var(--primary);font-size:clamp(28px, 5vw, 42px);margin:0 0 10px;font-weight:900;letter-spacing:-1px;}
-  .page-sub{text-align:center;color:var(--muted);margin:0 auto 40px;font-size:clamp(15px, 3vw, 18px);max-width:680px;}
 
   /* HIGHLY RESPONSIVE & DYNAMIC BRIDAL GRID */
   .bridal-grid{
@@ -42,7 +47,6 @@
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    position:relative;
   }
   .bridal-card:hover{
     transform:translateY(-8px);
@@ -54,323 +58,106 @@
     height:290px;
     overflow:hidden;
     background:#f7edf4;
+    position:relative;
+  }
+  .zoom-hint{
+    position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.65);color:#fff;
+    font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;pointer-events:none;
   }
   .bridal-card img{
     width:100%;
     height:100%;
-    object-fit:cover; /* Fit to tile uniformly */
+    object-fit:cover;
     display:block;
     transition:transform 0.5s ease;
   }
-  .bridal-card:hover img{
-    transform:scale(1.06);
-  }
+  .bridal-card:hover img{transform:scale(1.06);}
   .bridal-card-body{
     padding:20px;
     display:flex;
     flex-direction:column;
-    gap:6px;
+    gap:8px;
     flex:1;
     background:linear-gradient(180deg, #fff 0%, #fff8fc 100%);
   }
-  .bridal-card-title{
-    font-weight:900;
-    font-size:18px;
-    color:var(--primary);
-    margin:0;
+  .bridal-card-title{font-weight:900;font-size:18px;color:var(--primary);margin:0;}
+  .bridal-card-desc{font-size:14px;color:var(--muted);margin:0;line-height:1.5;flex:1;}
+  .card-book-btn{
+    margin-top:8px;background:var(--primary);color:#fff;border:none;padding:10px 14px;
+    border-radius:12px;font-weight:800;font-size:13.5px;cursor:pointer;width:100%;transition:0.2s;
   }
-  .bridal-card-desc{
-    font-size:14px;
-    color:var(--muted);
-    margin:0;
-    line-height:1.5;
-  }
+  .card-book-btn:hover{background:var(--primary2);}
 
-  /* LIGHTBOX ZOOM MODAL (FIXED: PHOTO NEVER GETS CUT OFF) */
+  /* LIGHTBOX ZOOM MODAL (FULL ORIGINAL SIZE WITHOUT CROPPING) */
   .lightbox-modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(20,10,16,0.92);
-    z-index:1000;
-    align-items:center;
-    justify-content:center;
-    backdrop-filter:blur(10px);
-    padding:20px;
+    display:none;position:fixed;inset:0;background:rgba(20,10,16,0.92);
+    z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(10px);padding:16px;
   }
   .lightbox-modal.open{display:flex;}
-  
   .lightbox-content{
-    position:relative;
-    max-width:700px;
-    width:100%;
-    background:#fff;
-    border-radius:28px;
-    overflow:hidden;
-    box-shadow:0 30px 70px rgba(0,0,0,0.7);
-    border:3px solid var(--gold);
-    animation:popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display:flex;
-    flex-direction:column;
-    max-height:92vh;
+    position:relative;max-width:720px;width:100%;background:#fff;border-radius:26px;
+    overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,0.7);border:3px solid var(--gold);
+    animation:popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);display:flex;flex-direction:column;max-height:92vh;
   }
-  @keyframes popIn { from { transform:scale(0.8); opacity:0; } to { transform:scale(1); opacity:1; } }
-
-  /* IMAGE CONTAINER: SHOWS FULL ORIGINAL SIZE WITHOUT CROPPING */
+  @keyframes popIn { from { transform:scale(0.82); opacity:0; } to { transform:scale(1); opacity:1; } }
   .lightbox-img-box{
-    width:100%;
-    background:#12070e;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    max-height:65vh;
-    overflow:hidden;
-    padding:10px;
+    width:100%;background:#12070e;display:flex;align-items:center;justify-content:center;
+    max-height:66vh;overflow:hidden;padding:10px;
   }
   .lightbox-content img{
-    max-width:100%;
-    max-height:62vh;
-    width:auto;
-    height:auto;
-    object-fit:contain; /* Ensures full photo appears without cutting */
-    border-radius:12px;
-    display:block;
+    max-width:100%;max-height:63vh;width:auto;height:auto;object-fit:contain;border-radius:12px;display:block;
   }
-
-  .lightbox-details{
-    padding:22px 25px;
-    text-align:center;
-    background:#fff;
-    overflow-y:auto;
-  }
-  .lightbox-title{
-    font-size:22px;
-    font-weight:900;
-    color:var(--primary);
-    margin:0 c 6px;
-  }
-  .lightbox-desc{
-    font-size:15px;
-    color:var(--muted);
-    margin:0;
-    line-height:1.6;
-  }
+  .lightbox-details{padding:20px 24px;text-align:center;background:#fff;overflow-y:auto;}
+  .lightbox-title{font-size:21px;font-weight:900;color:var(--primary);margin:0 0 6px;}
+  .lightbox-desc{font-size:15px;color:var(--muted);margin:0 0 14px;line-height:1.5;}
   .lightbox-close{
-    position:absolute;
-    top:15px;
-    right:15px;
-    background:rgba(255,255,255,0.95);
-    border:2px solid var(--gold);
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    font-size:24px;
-    font-weight:bold;
-    color:var(--ink);
-    cursor:pointer;
-    display:grid;
-    place-items:center;
-    box-shadow:0 6px 20px rgba(0,0,0,0.35);
-    z-index:20;
-    transition:0.2s;
+    position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.95);border:2px solid var(--gold);
+    width:40px;height:40px;border-radius:50%;font-size:24px;font-weight:bold;color:var(--ink);
+    cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,0.35);z-index:20;
   }
-  .lightbox-close:hover{background:var(--primary);color:#fff;border-color:#fff;}
+  .lightbox-close:hover{background:var(--primary);color:#fff;}
 
-  footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;margin-top:60px;}
+  /* STICKY MOBILE BOTTOM NAV */
+  .mobile-bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;height:62px;background:rgba(255,255,255,0.98);
+    backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -4px 20px rgba(0,0,0,0.06);
+    z-index:98;display:grid;grid-template-columns:repeat(5, 1fr);align-items:center;
+  }
+  .mob-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted);gap:2px;}
+  .mob-nav-item span.icon{font-size:18px;line-height:1;}
+  .mob-nav-item.active,.mob-nav-item:hover{color:var(--primary);}
+
+  footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;margin-top:50px;}
   .footer-title{font-size:24px;color:var(--gold);margin:0 0 8px;font-weight:900;}
-
-  @media(max-width:600px){
-    .container{padding:25px 0;}
-    .bridal-img-wrap{height:250px;}
-    .lightbox-content{max-height:95vh;}
-  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="nav-container">
-    <h3 class="brand-title">Beauty Plus Forever</h3>
-    <a href="index.html" class="back-btn">← Back to Home</a>
+    <a href="index.html" class="brand-title"><span class="logo-dot">✦</span> Beauty Plus Forever</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 Home</a>
+      <a href="services-detail.html" class="nav-btn">📋 Services & Steps</a>
+      <a href="packages.html" class="nav-btn">🎁 Packages</a>
+      <a href="bridal.html" class="nav-btn active">✨ Bridal Gallery</a>
+      <a href="before-after.html" class="nav-btn">📸 Transformations</a>
+      <a href="about.html" class="nav-btn">👩‍🎨 About</a>
+      <a href="index.html#booking" class="nav-btn">🛒 Cart (<span id="navCartCount">0</span>)</a>
+    </div>
   </div>
 </header>
 
-<div class="container">
-  <h1 class="page-title">✨ Exclusive Bridal Makeover Styles</h1>
-  <p class="page-sub">Explore our 15 signature bridal looks crafted to perfection for your special day. Tap any style to zoom in full view.</p>
-
-  <!-- DYNAMIC GRID -->
-  <div class="bridal-grid" id="bridalGrid">
-    
-    <!-- 1 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal1.jpg', '1. Traditional Bridal Makeup', 'Classic Indian bridal look with bold eyes, red lipstick and traditional styling.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal1.jpg" alt="Traditional Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">1. Traditional Bridal Makeup</h3>
-        <p class="bridal-card-desc">Classic Indian bridal look with bold eyes, red lipstick and traditional styling.</p>
-      </div>
-    </div>
-
-    <!-- 2 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal2.jpg', '2. HD Bridal Makeup', 'Smooth, flawless finish designed to look beautiful in high-definition photography.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal2.jpg" alt="HD Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">2. HD Bridal Makeup</h3>
-        <p class="bridal-card-desc">Smooth, flawless finish designed to look beautiful in high-definition photography.</p>
-      </div>
-    </div>
-
-    <!-- 3 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal3.jpg', '3. Airbrush Bridal Makeup', 'Lightweight, fine-mist foundation for an even and long-lasting finish.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal3.jpg" alt="Airbrush Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">3. Airbrush Bridal Makeup</h3>
-        <p class="bridal-card-desc">Lightweight, fine-mist foundation for an even and long-lasting finish.</p>
-      </div>
-    </div>
-
-    <!-- 4 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal4.jpg', '4. Natural Bridal Makeup', 'Soft, fresh and minimal makeup.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal4.jpg" alt="Natural Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">4. Natural Bridal Makeup</h3>
-        <p class="bridal-card-desc">Soft, fresh and minimal makeup.</p>
-      </div>
-    </div>
-
-    <!-- 5 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal5.jpg', '5. Dewy Bridal Makeup', 'Glowing, hydrated and radiant skin finish.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal5.jpg" alt="Dewy Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">5. Dewy Bridal Makeup</h3>
-        <p class="bridal-card-desc">Glowing, hydrated and radiant skin finish.</p>
-      </div>
-    </div>
-
-    <!-- 6 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal6.jpg', '6. Matte Bridal Makeup', 'Shine-free, velvety and elegant finish.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal6.jpg" alt="Matte Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">6. Matte Bridal Makeup</h3>
-        <p class="bridal-card-desc">Shine-free, velvety and elegant finish.</p>
-      </div>
-    </div>
-
-    <!-- 7 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal7.jpg', '7. Glamorous Bridal Makeup', 'Dramatic eyes, contouring and glamorous finish.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal7.jpg" alt="Glamorous Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">7. Glamorous Bridal Makeup</h3>
-        <p class="bridal-card-desc">Dramatic eyes, contouring and glamorous finish.</p>
-      </div>
-    </div>
-
-    <!-- 8 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal8.jpg', '8. Celebrity Bridal Makeup', 'Modern, luxurious and celebrity-inspired styling.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal8.jpg" alt="Celebrity Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">8. Celebrity Bridal Makeup</h3>
-        <p class="bridal-card-desc">Modern, luxurious and celebrity-inspired styling.</p>
-      </div>
-    </div>
-
-    <!-- 9 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal9.jpg', '9. Minimal Bridal Makeup', 'Very light makeup with subtle enhancement.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal9.jpg" alt="Minimal Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">9. Minimal Bridal Makeup</h3>
-        <p class="bridal-card-desc">Very light makeup with subtle enhancement.</p>
-      </div>
-    </div>
-
-    <!-- 10 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal10.jpg', '10. Soft Glam Bridal Makeup', 'Balanced look with soft eyes and glowing skin.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal10.jpg" alt="Soft Glam Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">10. Soft Glam Bridal Makeup</h3>
-        <p class="bridal-card-desc">Balanced look with soft eyes and glowing skin.</p>
-      </div>
-    </div>
-
-    <!-- 11 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal11.jpg', '11. Bengali Bridal Makeup', 'Traditional red-white styling with distinctive bridal decoration.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal11.jpg" alt="Bengali Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">11. Bengali Bridal Makeup</h3>
-        <p class="bridal-card-desc">Traditional red-white styling with distinctive bridal decoration.</p>
-      </div>
-    </div>
-
-    <!-- 12 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal12.jpg', '12. South Indian Bridal Makeup', 'Gold-toned eyes, traditional elegance and defined features.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal12.jpg" alt="South Indian Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">12. South Indian Bridal Makeup</h3>
-        <p class="bridal-card-desc">Gold-toned eyes, traditional elegance and defined features.</p>
-      </div>
-    </div>
-
-    <!-- 13 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal13.jpg', '13. Nikah Bridal Makeup', 'Elegant eyes, soft complexion and sophisticated styling.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal13.jpg" alt="Nikah Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">13. Nikah Bridal Makeup</h3>
-        <p class="bridal-card-desc">Elegant eyes, soft complexion and sophisticated styling.</p>
-      </div>
-    </div>
-
-    <!-- 14 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal14.jpg', '14. Pastel Bridal Makeup', 'Pink, peach and pastel shades for a soft romantic look.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal14.jpg" alt="Pastel Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">14. Pastel Bridal Makeup</h3>
-        <p class="bridal-card-desc">Pink, peach and pastel shades for a soft romantic look.</p>
-      </div>
-    </div>
-
-    <!-- 15 -->
-    <div class="bridal-card" onclick="openLightbox('bridal/bridal15.jpg', '15. Smokey Eye Bridal Makeup', 'Dark, blended eye makeup with a dramatic finish.')">
-      <div class="bridal-img-wrap">
-        <img src="bridal/bridal15.jpg" alt="Smokey Eye Bridal Makeup" onerror="this.closest('.bridal-card').style.display='none'">
-      </div>
-      <div class="bridal-card-body">
-        <h3 class="bridal-card-title">15. Smokey Eye Bridal Makeup</h3>
-        <p class="bridal-card-desc">Dark, blended eye makeup with a dramatic finish.</p>
-      </div>
-    </div>
-
-  </div>
+<div class="hero-banner">
+  <h1>✨ Exclusive Bridal Makeover Lookbook</h1>
+  <p>Explore our 15 signature bridal makeup styles crafted with authentic MAC & Kryolan products. Tap any photo to view full-size uncut zoom.</p>
 </div>
 
-<!-- LIGHTBOX ZOOM MODAL (UNCUT FULL SIZE VIEW) -->
+<div class="container">
+  <div class="bridal-grid" id="bridalGrid"></div>
+</div>
+
+<!-- LIGHTBOX ZOOM MODAL -->
 <div class="lightbox-modal" id="lightboxModal" onclick="if(event.target===this)closeLightbox()">
   <div class="lightbox-content">
     <button class="lightbox-close" onclick="closeLightbox()">×</button>
@@ -380,37 +167,103 @@
     <div class="lightbox-details">
       <h3 class="lightbox-title" id="lightboxTitle"></h3>
       <p class="lightbox-desc" id="lightboxDesc"></p>
+      <button class="card-book-btn" id="lightboxBookBtn" style="max-width:280px;">🛒 Add Bridal Look to Cart & Book</button>
     </div>
   </div>
 </div>
 
+<nav class="mobile-bottom-nav">
+  <a href="index.html" class="mob-nav-item"><span class="icon">🏠</span><span>Home</span></a>
+  <a href="services-detail.html" class="mob-nav-item"><span class="icon">📋</span><span>Services</span></a>
+  <a href="bridal.html" class="mob-nav-item active"><span class="icon">👰</span><span>Bridal</span></a>
+  <a href="packages.html" class="mob-nav-item"><span class="icon">🎁</span><span>Packages</span></a>
+  <a href="index.html#booking" class="mob-nav-item"><span class="icon">🛒</span><span>Book (<b id="mobCartBadge">0</b>)</span></a>
+</nav>
+
 <footer>
   <div style="width:min(1160px, 92%);margin:auto;">
     <h3 class="footer-title">Beauty Plus Forever</h3>
-    <p style="opacity:0.6;font-size:14px;margin:0;">Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, Bihar</p>
+    <p style="opacity:0.6;font-size:14px;margin:0;">Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, Bihar • Ph: 9798013636</p>
   </div>
 </footer>
 
 <script>
-function openLightbox(imgSrc, titleText, descText) {
-  const modal = document.getElementById("lightboxModal");
-  const img = document.getElementById("lightboxImg");
-  const title = document.getElementById("lightboxTitle");
-  const desc = document.getElementById("lightboxDesc");
-  
-  img.src = imgSrc;
-  title.textContent = titleText;
-  desc.textContent = descText;
-  modal.classList.add("open");
+const bridalStyles = [
+  { num: 1, title: "1. Traditional Bridal Makeup", desc: "Classic Indian bridal look with bold eyes, red lipstick and traditional styling.", price: 4999, img: "bridal/bridal1.jpg" },
+  { num: 2, title: "2. HD Bridal Makeup", desc: "Smooth, flawless finish designed to look beautiful in high-definition photography.", price: 5499, img: "bridal/bridal2.jpg" },
+  { num: 3, title: "3. Airbrush Bridal Makeup", desc: "Lightweight, fine-mist foundation for an even and long-lasting finish.", price: 6499, img: "bridal/bridal3.jpg" },
+  { num: 4, title: "4. Natural Bridal Makeup", desc: "Soft, fresh and minimal makeup.", price: 3999, img: "bridal/bridal4.jpg" },
+  { num: 5, title: "5. Dewy Bridal Makeup", desc: "Glowing, hydrated and radiant skin finish.", price: 4999, img: "bridal/bridal5.jpg" },
+  { num: 6, title: "6. Matte Bridal Makeup", desc: "Shine-free, velvety and elegant finish.", price: 4999, img: "bridal/bridal6.jpg" },
+  { num: 7, title: "7. Glamorous Bridal Makeup", desc: "Dramatic eyes, contouring and glamorous finish.", price: 5499, img: "bridal/bridal7.jpg" },
+  { num: 8, title: "8. Celebrity Bridal Makeup", desc: "Modern, luxurious and celebrity-inspired styling.", price: 5999, img: "bridal/bridal8.jpg" },
+  { num: 9, title: "9. Minimal Bridal Makeup", desc: "Very light makeup with subtle enhancement.", price: 3999, img: "bridal/bridal9.jpg" },
+  { num: 10, title: "10. Soft Glam Bridal Makeup", desc: "Balanced look with soft eyes and glowing skin.", price: 4999, img: "bridal/bridal10.jpg" },
+  { num: 11, title: "11. Bengali Bridal Makeup", desc: "Traditional red-white styling with distinctive bridal decoration.", price: 5499, img: "bridal/bridal11.jpg" },
+  { num: 12, title: "12. South Indian Bridal Makeup", desc: "Gold-toned eyes, traditional elegance and defined features.", price: 5499, img: "bridal/bridal12.jpg" },
+  { num: 13, title: "13. Nikah Bridal Makeup", desc: "Elegant eyes, soft complexion and sophisticated styling.", price: 4999, img: "bridal/bridal13.jpg" },
+  { num: 14, title: "14. Pastel Bridal Makeup", desc: "Pink, peach and pastel shades for a soft romantic look.", price: 4999, img: "bridal/bridal14.jpg" },
+  { num: 15, title: "15. Smokey Eye Bridal Makeup", desc: "Dark, blended eye makeup with a dramatic finish.", price: 5499, img: "bridal/bridal15.jpg" }
+];
+
+function renderBridalCards() {
+  const grid = document.getElementById("bridalGrid");
+  grid.innerHTML = bridalStyles.map((b, idx) => `
+    <div class="bridal-card" onclick="openLightbox(${idx})">
+      <div class="bridal-img-wrap">
+        <img src="${b.img}" alt="${b.title}" onerror="this.closest('.bridal-card').style.display='none'">
+        <span class="zoom-hint">🔍 Tap to Zoom</span>
+      </div>
+      <div class="bridal-card-body">
+        <h3 class="bridal-card-title">${b.title}</h3>
+        <p class="bridal-card-desc">${b.desc}</p>
+        <button type="button" class="card-book-btn" onclick="event.stopPropagation(); bookBridalStyle(${idx})">
+          🛒 Book This Look (₹${b.price})
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openLightbox(idx) {
+  const b = bridalStyles[idx];
+  if(!b) return;
+  document.getElementById("lightboxImg").src = b.img;
+  document.getElementById("lightboxTitle").textContent = b.title;
+  document.getElementById("lightboxDesc").textContent = b.desc;
+  document.getElementById("lightboxBookBtn").onclick = function() { bookBridalStyle(idx); };
+  document.getElementById("lightboxModal").classList.add("open");
   document.body.style.overflow = "hidden";
 }
 
 function closeLightbox() {
-  const modal = document.getElementById("lightboxModal");
-  modal.classList.remove("open");
+  document.getElementById("lightboxModal").classList.remove("open");
   document.body.style.overflow = "auto";
 }
-</script>
 
+function bookBridalStyle(idx) {
+  const b = bridalStyles[idx];
+  let cart = JSON.parse(localStorage.getItem("bpf_cart_v1")) || [];
+  const cleanName = b.title.replace(/^\d+\.\s*/, "");
+  const existing = cart.find(i => i.id === cleanName);
+  if(existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: cleanName, nameEn: cleanName, nameHi: cleanName, price: b.price, mrp: b.price + 1500, qty: 1 });
+  }
+  localStorage.setItem("bpf_cart_v1", JSON.stringify(cart));
+  window.location.href = "index.html#booking";
+}
+
+function updateCartBadges() {
+  let cart = JSON.parse(localStorage.getItem("bpf_cart_v1")) || [];
+  let count = cart.reduce((acc, item) => acc + (item.qty || 1), 0);
+  document.getElementById("navCartCount").textContent = count;
+  document.getElementById("mobCartBadge").textContent = count;
+}
+
+renderBridalCards();
+updateCartBadges();
+</script>
 </body>
 </html>
