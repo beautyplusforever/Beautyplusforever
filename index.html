@@ -15,6 +15,9 @@
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="manifest" id="pwaManifestLink">
 
+<!-- jsPDF Library for Auto-Downloading PDF Receipts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 :root{
   --primary:#8d3d68;--primary2:#b85b87;--soft:#fff5fa;--gold:#c99a3d;
@@ -23,7 +26,7 @@
   --glow:0 0 20px rgba(141,61,104,0.4);
 }
 *{box-sizing:border-box} html{scroll-behavior:smooth}
-body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.55;}
+body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.55;padding-bottom:80px;}
 button,input,select,textarea{font:inherit} button{cursor:pointer}
 a{text-decoration:none;color:inherit}
 
@@ -49,90 +52,89 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 .btn.secondary{background:#fff;color:var(--primary);border:2px solid var(--line)}
 .btn.secondary:hover{border-color:var(--primary);background:var(--soft);}
 .btn.danger{background:#e74c3c;color:#fff;}
+.btn.danger:hover{background:#c0392b;}
 .btn.success{background:linear-gradient(135deg, #2d8a62, #1b5e20);color:#fff;box-shadow:0 8px 22px rgba(45,138,98,.3);}
 .btn.install-btn{background:linear-gradient(135deg, var(--gold), #b38224);color:#fff;box-shadow:0 6px 18px rgba(201,154,61,0.35);padding:9px 15px;font-size:13px;border-radius:12px;}
 .btn.install-btn:hover{transform:translateY(-2px);}
+.btn.sm{padding:8px 14px;font-size:13px;border-radius:12px;}
 .btn:disabled{opacity:0.6;cursor:not-allowed;}
+
+/* CART BADGE BUTTON IN HEADER */
+.cart-nav-btn{
+  position:relative;
+  background:var(--soft);
+  color:var(--primary);
+  border:2px solid var(--primary2);
+  padding:8px 14px;
+  border-radius:12px;
+  font-weight:900;
+  font-size:14px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.cart-count-badge{
+  background:var(--primary);
+  color:#fff;
+  border-radius:99px;
+  padding:2px 8px;
+  font-size:12px;
+  font-weight:900;
+}
 
 .main-section { display: none; animation: fadeIn 0.4s ease-in-out; }
 .main-section.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-.modalBack,.zoomBack,.noticePopup{display:none;position:fixed;inset:0;background:rgba(20,10,16,.76);z-index:150;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:16px;}
+.modalBack,.zoomBack,.noticePopup{display:none;position:fixed;inset:0;background:rgba(15,8,12,.82);z-index:150;align-items:center;justify-content:center;backdrop-filter:blur(8px);padding:15px;}
 .modalBack.open,.zoomBack.open,.noticePopup.open{display:flex;}
-.modal,.zoomModal{width:min(500px, 94%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:30px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+.modal,.zoomModal{width:min(540px, 95%);max-height:90vh;overflow-y:auto;background:#fff;border-radius:28px;padding:28px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.3);}
 .zoomModal{width:min(850px, 95%);padding:0;overflow:hidden;display:flex;flex-direction:column;}
 .zoom-img{width:100%;max-height:340px;object-fit:cover;background:#eee;}
 .zoom-content{padding:28px;overflow-y:auto;}
-.close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.95);border:2px solid var(--line);width:40px;height:40px;border-radius:50%;font-size:24px;color:var(--ink);z-index:10;box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:0.2s;line-height:1;}
-.close:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+.close{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.95);border:2px solid var(--gold);width:40px;height:40px;border-radius:50%;font-size:24px;font-weight:bold;color:var(--ink);z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.35);display:grid;place-items:center;cursor:pointer;transition:0.2s;line-height:1;}
+.close:hover{background:var(--primary);color:#fff;border-color:#fff;}
 
-/* UPGRADED DYNAMIC OFFER POPUP */
+/* IMAGE-ONLY POPUP CARD */
 .noticeCard{
-  background:linear-gradient(145deg, #ffffff 0%, #fff5fa 60%, #fff0f7 100%);
-  border:3px solid var(--gold);
-  border-radius:28px;
-  padding:28px 24px 24px;
+  background:transparent;
+  border:none;
+  border-radius:22px;
+  padding:0;
   text-align:center;
   position:relative;
-  max-width:520px;
-  width:100%;
+  max-width:650px;
+  width:auto;
   max-height:90vh;
-  overflow-y:auto;
-  box-shadow:0 25px 60px rgba(0,0,0,0.45), 0 0 30px rgba(201,154,61,0.4);
-  animation:popIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-@keyframes popIn { from { transform:scale(0.82) translateY(20px); opacity:0; } to { transform:scale(1) translateY(0); opacity:1; } }
-
-.offer-pill{
   display:inline-flex;
+  flex-direction:column;
   align-items:center;
-  gap:6px;
-  background:linear-gradient(135deg, var(--gold), #e0b456);
-  color:#fff;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:1.2px;
-  text-transform:uppercase;
-  padding:6px 16px;
-  border-radius:99px;
-  margin-bottom:12px;
-  box-shadow:0 4px 12px rgba(201,154,61,0.35);
-}
-.noticeCard h2{
-  color:var(--primary);
-  margin:4px 0 10px;
-  font-size:clamp(22px, 5vw, 30px);
-  line-height:1.25;
-  font-weight:900;
-}
-.noticeCard p{
-  font-size:16px;
-  color:var(--ink);
-  margin:0 auto 14px;
-  line-height:1.6;
-  white-space:pre-line;
-}
-.noticeCard img{
-  width:100%;
-  max-height:52vh;
-  object-fit:contain;
-  border-radius:16px;
-  margin:12px auto 16px;
-  display:none;
-  border:2px solid var(--line);
-  background:#201119;
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
-}
-.offer-actions{
-  display:flex;
-  gap:10px;
   justify-content:center;
-  flex-wrap:wrap;
-  margin-top:12px;
+  animation:popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.noticeCard.text-only-mode{
+  background:linear-gradient(135deg, #fff, #fffafb);
+  border:3px solid var(--gold);
+  padding:30px 25px;
+  max-width:460px;
+  width:92%;
+  box-shadow:0 20px 50px rgba(0,0,0,0.4);
+}
+@keyframes popIn { from { transform:scale(0.85); opacity:0; } to { transform:scale(1); opacity:1; } }
+
+.noticeCard img{
+  max-width:92vw;
+  max-height:85vh;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:20px;
+  border:3px solid var(--gold);
+  box-shadow:0 20px 60px rgba(0,0,0,0.65);
+  display:none;
 }
 
-/* STATIC HOME PAGE NOTICE BOARD HIDDEN PERMANENTLY AS REQUESTED */
+/* STATIC NOTICE BOARD PERMANENTLY HIDDEN */
 #publicNoticeBoard, .notice-board {
   display: none !important;
 }
@@ -140,16 +142,16 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 /* FLOATING REOPEN OFFER BUTTON */
 .floating-offer-btn{
   position:fixed;
-  bottom:22px;
-  right:22px;
+  bottom:85px;
+  right:20px;
   z-index:95;
   background:linear-gradient(135deg, var(--primary), var(--gold));
   color:#fff;
   border:2px solid #fff;
   border-radius:99px;
-  padding:12px 20px;
+  padding:11px 18px;
   font-weight:900;
-  font-size:14px;
+  font-size:13px;
   box-shadow:0 10px 28px rgba(141,61,104,0.45);
   display:none;
   align-items:center;
@@ -161,6 +163,27 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
   50% { transform:translateY(-4px) scale(1.04); }
 }
 
+/* FLOATING BOTTOM CART BAR */
+.floating-cart-bar{
+  position:fixed;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(720px, 94%);
+  background:linear-gradient(135deg, #291522, var(--primary));
+  color:#fff;
+  border:2px solid var(--gold);
+  border-radius:22px;
+  padding:12px 20px;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.35);
+}
+.floating-cart-bar.active{display:flex;}
+
 .hero{position:relative;padding:80px 0;background-size:cover;background-position:center;background-color:#f7edf4;min-height:500px;display:flex;align-items:center;background-image:url('assets/banner.jpg'); transition: background-image 0.5s;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.4) 100%);}
 .hero-content{position:relative;z-index:2;max-width:750px;}
@@ -171,28 +194,86 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdro
 
 .global-loader{display:flex;align-items:center;justify-content:center;padding:10px;background:#ffeef6;color:var(--primary);font-weight:bold;font-size:14px;border-bottom:1px solid var(--line);}
 
-section{padding:70px 0;}
-.sectionHead{text-align:center;margin-bottom:40px;}
+section{padding:60px 0;}
+.sectionHead{text-align:center;margin-bottom:35px;}
 .sectionHead h2{font-size:36px;margin:0 0 10px;letter-spacing:-1px;}
-.sectionHead p{font-size:18px;color:var(--muted);max-width:600px;margin:auto;}
+.sectionHead p{font-size:18px;color:var(--muted);max-width:650px;margin:auto;}
 
 .service-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:25px;}
 .review-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:20px;}
 
-.service-tile{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.04);cursor:pointer;transition:transform 0.3s, box-shadow 0.3s;border:1px solid var(--line);}
-.service-tile:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--primary2);}
-.service-img{width:100%;height:200px;object-fit:cover;background:#eee;}
-.service-info{padding:22px;}
-.service-info h3{margin:0 0 8px;font-size:20px;color:var(--primary);}
-.s-meta{font-size:13px;color:var(--gold);font-weight:800;display:flex;gap:10px;margin-bottom:12px;text-transform:uppercase;}
+.service-tile{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.04);transition:transform 0.3s, box-shadow 0.3s;border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;}
+.service-tile:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--primary2);}
+.service-img{width:100%;height:200px;object-fit:cover;background:#f7edf4;display:block;cursor:pointer;}
+.service-info{padding:20px;display:flex;flex-direction:column;flex:1;}
+.service-info h3{margin:0 0 6px;font-size:20px;color:var(--primary);cursor:pointer;}
+.s-meta{font-size:13px;color:var(--gold);font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;text-transform:uppercase;}
+.price-tag{font-size:20px;font-weight:900;color:var(--primary);}
+.price-mrp{font-size:14px;color:var(--muted);text-decoration:line-through;margin-right:6px;font-weight:600;}
+.tile-actions{display:flex;gap:8px;align-items:center;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);}
+
+/* QUANTITY CONTROLS */
+.qty-box{display:inline-flex;align-items:center;gap:8px;background:var(--soft);border:2px solid var(--primary2);border-radius:12px;padding:4px 8px;}
+.qty-btn{width:28px;height:28px;border-radius:8px;border:none;background:var(--primary);color:#fff;font-weight:900;font-size:16px;display:grid;place-items:center;}
+.qty-val{font-weight:900;min-width:22px;text-align:center;font-size:15px;color:var(--ink);}
+
+/* CART SUMMARY BOX IN BOOKING */
+.cart-summary-card{
+  background:linear-gradient(135deg, #fff, var(--soft));
+  border:2px solid var(--primary2);
+  border-radius:24px;
+  padding:22px;
+  margin-bottom:25px;
+  box-shadow:0 6px 20px rgba(141,61,104,0.08);
+}
+.cart-item-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+  flex-wrap:wrap;
+}
+.cart-item-row:last-child{border-bottom:none;}
+.cart-total-banner{
+  background:var(--primary);
+  color:#fff;
+  padding:15px 20px;
+  border-radius:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:20px;
+  font-weight:900;
+  margin-top:15px;
+}
+
+/* PAYMENT QR MODAL */
+.qr-frame{
+  background:#fff;
+  border:3px solid var(--gold);
+  border-radius:22px;
+  padding:16px;
+  display:inline-block;
+  margin:12px auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+.qr-frame img{
+  width:240px;
+  height:240px;
+  object-fit:contain;
+  display:block;
+  margin:auto;
+}
 
 .slider-section{padding:50px 0;overflow:hidden;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
 .slider-container{width:100%; overflow-x:auto; padding:15px 0; scroll-behavior:smooth; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none;}
 .slider-container::-webkit-scrollbar { display: none; }
 .slider-track{display:flex; gap:20px; width:max-content;}
-.slide{width:280px;height:280px;border-radius:24px;object-fit:cover;box-shadow:0 8px 25px rgba(0,0,0,0.08);flex-shrink:0;background:#eee; scroll-snap-align: start;}
+.slide{width:280px;height:280px;border-radius:24px;object-fit:cover;box-shadow:0 8px 25px rgba(0,0,0,0.08);flex-shrink:0;background:#f7edf4; scroll-snap-align: start;}
 
-.track-box{background:linear-gradient(135deg, #fffafb, #fff);border:2px solid var(--line);border-radius:24px;padding:35px;max-width:550px;margin:50px auto 0;box-shadow:var(--shadow);text-align:center;}
+.track-box{background:linear-gradient(135deg, #fffafb, #fff);border:2px solid var(--line);border-radius:24px;padding:30px;max-width:680px;margin:40px auto 0;box-shadow:var(--shadow);text-align:center;}
 .track-result{margin-top:20px;padding:20px;border-radius:16px;display:none;text-align:left;}
 .status-Pending{background:#fff3cd;color:#856404;border:2px solid #ffeeba;}
 .status-Confirmed{background:#d4edda;color:#155724;border:2px solid #c3e6cb;}
@@ -200,13 +281,13 @@ section{padding:70px 0;}
 .status-Cancelled,.status-Rejected{background:#f8d7da;color:#721c24;border:2px solid #f5c6cb;}
 .status-Hold{background:#e2e3e5;color:#383d41;border:2px solid #d6d8db;}
 
-.bookingWrap{display:grid;grid-template-columns:1fr;max-width:650px;margin:auto;}
-.formCard{background:#fff;border:1px solid var(--line);border-radius:30px;padding:35px;box-shadow:var(--shadow)}
+.bookingWrap{display:grid;grid-template-columns:1fr;max-width:680px;margin:auto;}
+.formCard{background:#fff;border:1px solid var(--line);border-radius:30px;padding:32px;box-shadow:var(--shadow)}
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
 .field{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
 .field label{font-size:14px;font-weight:800;color:var(--ink);}
-.field input,.field textarea,.field select{border:2px solid var(--line);border-radius:14px;padding:14px;outline:none;background:#fcfcfc;font-size:15px;transition:0.2s; width: 100%; box-sizing: border-box;}
+.field input,.field textarea,.field select{border:2px solid var(--line);border-radius:14px;padding:13px;outline:none;background:#fcfcfc;font-size:15px;transition:0.2s; width: 100%; box-sizing: border-box;}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px var(--soft);}
 
 .review-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
@@ -219,15 +300,15 @@ section{padding:70px 0;}
 .tab-btn{flex:1; padding:12px; background:var(--soft); color:var(--ink); border:none; border-radius:14px; font-weight:800; transition:0.2s;}
 .tab-btn.active{background:var(--primary); color:#fff;box-shadow:var(--glow);}
 
-#adminDashboard{display:none;background:#fff;border:3px solid var(--primary);border-radius:24px;padding:30px;margin-bottom:50px;box-shadow:var(--shadow);}
+#adminDashboard{display:none;background:#fff;border:3px solid var(--primary);border-radius:24px;padding:30px;margin:25px auto 40px;box-shadow:var(--shadow);}
 .admin-tabs{display:flex;gap:12px;margin-bottom:25px;border-bottom:2px solid var(--line);padding-bottom:15px;overflow-x:auto;}
 .admin-tab{background:var(--soft);border:none;padding:12px 24px;border-radius:12px;font-weight:900;cursor:pointer;white-space:nowrap;}
 .admin-tab.active{background:var(--primary);color:#fff;}
 .admin-section{display:none;}
 .admin-section.active{display:block;}
-.admin-table{width:100%;border-collapse:collapse;margin-top:20px; min-width: 600px;}
+.admin-table{width:100%;border-collapse:collapse;margin-top:20px; min-width: 650px;}
 .admin-table-wrapper { overflow-x: auto; }
-.admin-table th,.admin-table td{padding:15px;text-align:left;border-bottom:1px solid var(--line);}
+.admin-table th,.admin-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);font-size:14px;}
 .admin-table th{background:var(--soft);color:var(--primary);font-weight:900;}
 
 .contact{background:#fff;border-top:1px solid var(--line)}
@@ -262,25 +343,34 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 
 <div id="syncLoader" class="global-loader">⏳ Syncing secure data from server...</div>
 
-<!-- DYNAMIC NOTICE / OFFER POPUP MODAL -->
+<!-- NOTICE POPUP (SHOWS ONLY THE UPLOADED IMAGE WHEN IMAGE IS SET) -->
 <div class="noticePopup" id="noticeModal" onclick="if(event.target===this)closeNotice()">
-  <div class="noticeCard">
+  <div class="noticeCard" id="noticeCardBox">
     <button class="close" onclick="closeNotice()" aria-label="Close">×</button>
-    <div class="offer-pill">✨ Special Festival & Parlour Offer ✨</div>
-    <h2 id="nTitle">Special Offer</h2>
-    <p id="nMsg"></p>
-    <img id="nImg" src="" alt="Offer Image">
-    <div class="offer-actions">
-      <button class="btn primary" onclick="closeNotice(); switchTab('booking');">✨ Book Appointment Now</button>
-      <button class="btn secondary" onclick="closeNotice()">Close</button>
-    </div>
+    <h2 id="nTitle" style="color:var(--primary);margin-top:0;font-size:28px;display:none;"></h2>
+    <p id="nMsg" style="font-size:16px;color:var(--muted);display:none;"></p>
+    <img id="nImg" src="" alt="Offer" onerror="this.style.display='none'">
   </div>
 </div>
 
-<!-- FLOATING BUTTON TO RE-OPEN OFFER POPUP ANYTIME -->
+<!-- FLOATING BUTTON TO RE-OPEN OFFER POPUP -->
 <button id="reopenOfferBtn" class="floating-offer-btn" onclick="openNoticePopup()">
   🎁 Special Offer
 </button>
+
+<!-- FLOATING CART BAR -->
+<div id="floatingCartBar" class="floating-cart-bar">
+  <div>
+    <div style="font-size:12px;opacity:0.9;font-weight:700;" data-i18n="cartSelectedLabel">SELECTED SERVICES IN CART</div>
+    <div style="font-size:18px;font-weight:900;">
+      <span id="floatCartCount">0</span> Items • Total: ₹<span id="floatCartTotal">0</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button class="btn secondary sm" onclick="openCartModal()">🛒 View / Edit</button>
+    <button class="btn install-btn sm" onclick="proceedToCheckoutFromCart()">Proceed to Pay ➔</button>
+  </div>
+</div>
 
 <header>
   <div class="container nav">
@@ -295,12 +385,16 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     
     <nav class="navlinks">
       <a href="javascript:void(0)" class="tab-link active" onclick="switchTab('homeSection')" data-i18n="navHome">Home</a>
-      <a href="javascript:void(0)" class="tab-link" onclick="switchTab('services')" data-i18n="navServices">Services</a>
+      <a href="javascript:void(0)" class="tab-link" onclick="switchTab('services')" data-i18n="navServices">Services & Price List</a>
       <a href="javascript:void(0)" class="tab-link" onclick="switchTab('gallerySection')" data-i18n="navGallery">Gallery</a>
       <a href="javascript:void(0)" class="tab-link" onclick="switchTab('booking')" data-i18n="navBook">Book & Track</a>
       <a href="javascript:void(0)" class="tab-link" onclick="switchTab('reviews')" data-i18n="navReviews">Reviews</a>
       <a href="javascript:void(0)" class="tab-link" onclick="switchTab('contact')" data-i18n="navContact">Contact</a>
       
+      <button class="cart-nav-btn" onclick="openCartModal()">
+        🛒 Cart <span class="cart-count-badge" id="navCartCount">0</span>
+      </button>
+
       <select class="lang-select" id="langSwitcher" onchange="changeLang(this.value)">
         <option value="en">English</option>
         <option value="hi">हिंदी</option>
@@ -319,16 +413,20 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 <section id="adminDashboard" class="container">
   <h2>⚙️ Admin Control Panel</h2>
   <div class="admin-tabs">
-    <button class="admin-tab active" onclick="switchAdminTab('adminBookings')">Manage Bookings</button>
-    <button class="admin-tab" onclick="switchAdminTab('adminSettings')">Settings & Notice Board</button>
+    <button class="admin-tab active" onclick="switchAdminTab('adminBookings', this)">📋 Manage Bookings</button>
+    <button class="admin-tab" onclick="switchAdminTab('adminPriceList', this)">💰 Manage Price List</button>
+    <button class="admin-tab" onclick="switchAdminTab('adminSettings', this)">🔔 Settings & Notice Board</button>
   </div>
 
+  <!-- ADMIN TAB 1: BOOKINGS -->
   <div id="adminBookings" class="admin-section active">
-    <button class="btn primary" onclick="fetchAdminBookings()">Refresh Live Bookings</button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <button class="btn primary" onclick="fetchAdminBookings()">🔄 Refresh Live Bookings</button>
+    </div>
     <div class="admin-table-wrapper">
       <table class="admin-table">
         <thead>
-          <tr><th>ID</th><th>Customer / Email</th><th>Service</th><th>Date</th><th>Status</th><th>Action</th></tr>
+          <tr><th>Order ID</th><th>Customer</th><th>Services & Total</th><th>Appointment</th><th>Status</th><th>Invoice / Actions</th></tr>
         </thead>
         <tbody id="adminBookingsTable">
           <tr><td colspan="6" style="text-align:center;padding:30px;">Click "Refresh Live Bookings" to load data.</td></tr>
@@ -337,20 +435,72 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     </div>
   </div>
 
+  <!-- ADMIN TAB 2: DYNAMIC PRICE LIST MANAGER -->
+  <div id="adminPriceList" class="admin-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+      <div>
+        <h3 style="margin:0;color:var(--primary);">Update Service Price List & Packages</h3>
+        <p style="margin:4px 0 0;font-size:14px;color:var(--muted);">Edit prices anytime, add new parlour services, or remove old items. Click "Save & Publish Price List" when done.</p>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn secondary sm" onclick="resetDefaultPriceList()">↺ Reset Default</button>
+        <button class="btn success" onclick="savePriceListToServer()" id="btnSavePriceList">💾 Save & Publish Price List</button>
+      </div>
+    </div>
+
+    <!-- ADD NEW SERVICE FORM IN ADMIN -->
+    <div class="formCard" style="max-width:100%;margin-bottom:25px;padding:22px;background:var(--soft);border:2px dashed var(--primary);">
+      <h4 style="margin-top:0;color:var(--primary);">➕ Add New Service to Price List</h4>
+      <div class="form-row">
+        <div class="field"><label>Service Name (English)</label><input type="text" id="newSvcNameEn" placeholder="e.g. Gold Facial"></div>
+        <div class="field"><label>सर्विस का नाम (Hindi)</label><input type="text" id="newSvcNameHi" placeholder="जैसे: गोल्ड फेशियल"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Regular MRP Price (₹)</label><input type="number" id="newSvcMrp" placeholder="e.g. 1200"></div>
+        <div class="field"><label>Offer / Selling Price (₹)</label><input type="number" id="newSvcPrice" placeholder="e.g. 899"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Duration (e.g. 45 Mins)</label><input type="text" id="newSvcDuration" placeholder="45 Mins / 45 मिनट"></div>
+        <div class="field"><label>Image Path (Uploaded in assets/)</label><input type="text" id="newSvcImg" placeholder="assets/service1.jpg"></div>
+      </div>
+      <div class="field"><label>Short Description / Benefits (Comma separated)</label><input type="text" id="newSvcDesc" placeholder="Instant Glow, Deep Cleansing, Relaxing Massage"></div>
+      <button class="btn primary sm" type="button" onclick="addNewServiceAdmin()">➕ Add Service to List</button>
+    </div>
+
+    <!-- EDITABLE PRICE LIST TABLE -->
+    <div class="admin-table-wrapper">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Service Name (EN / HI)</th>
+            <th>MRP (₹)</th>
+            <th>Offer Price (₹)</th>
+            <th>Duration</th>
+            <th>Image Path</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="adminPriceListTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ADMIN TAB 3: SETTINGS & NOTICE -->
   <div id="adminSettings" class="admin-section">
-    <p>Use this area to trigger a Popup Notice or update your APK download link.</p>
+    <p>Use this area to trigger an Image Popup Notice or update your APK download link.</p>
     <div class="formCard" style="max-width:100%; border:2px dashed var(--primary2);">
       <div class="field">
-        <label>Popup Title (Leave blank to hide popup entirely)</label>
-        <input type="text" id="set_noticeTitle" placeholder="e.g. Chhath Puja & Wedding Special Offer!">
+        <label>Popup Image Link (Paste uploaded image path e.g. 'assets/offer.jpg' or URL)</label>
+        <input type="text" id="set_noticeImg" placeholder="assets/offer.jpg or https://...">
       </div>
       <div class="field">
-        <label>Popup Message</label>
-        <textarea id="set_noticeMsg" rows="3" placeholder="Get special festive discount on Bridal & Party Makeup..."></textarea>
+        <label>Popup Title (Optional - Hidden automatically when an image is uploaded)</label>
+        <input type="text" id="set_noticeTitle" placeholder="Leave blank if showing only image">
       </div>
       <div class="field">
-        <label>Popup Image Link (Optional, paste a URL or 'assets/offer.jpg')</label>
-        <input type="url" id="set_noticeImg" placeholder="https://...">
+        <label>Popup Message (Optional - Hidden automatically when an image is uploaded)</label>
+        <textarea id="set_noticeMsg" rows="2" placeholder="Leave blank if showing only image"></textarea>
       </div>
       <hr style="border:0;border-top:1px solid #ccc;margin:20px 0;">
       <div class="field">
@@ -364,10 +514,8 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 
 <!-- TAB 1: HOME SECTION -->
 <div id="homeSection" class="main-section active">
-  <!-- Kept hidden so static offer section never stays on Home page -->
   <div id="publicNoticeBoard" class="notice-board" style="display:none !important;">
     <div class="container">
-      <h2 style="margin:0; font-size:24px;">🎉 Special Offer Section 🎉</h2>
       <img id="publicNoticeImg" class="notice-img" src="" style="display:none;">
     </div>
   </div>
@@ -380,7 +528,7 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
       <p class="hero-subtitle" data-i18n="heroSub">A special ladies beauty parlour</p>
       
       <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap; justify-content:center;">
-        <button class="btn primary" onclick="switchTab('services')" data-i18n="btnViewServices">✨ View Services</button>
+        <button class="btn primary" onclick="switchTab('services')" data-i18n="btnViewServices">✨ View Services & Price List</button>
         <a class="btn secondary" href="tel:9798013636" data-i18n="btnCall">📞 Call Now</a>
         <a class="btn secondary" href="https://api.whatsapp.com/send?phone=919297562362&text=Hello%20Beauty%20Plus%20Forever!" target="_blank" data-i18n="btnWhatsApp">💬 WhatsApp</a>
         <button class="btn success" onclick="installApp()" data-i18n="btnDownloadApp">📱 Install App</button>
@@ -390,18 +538,18 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
   </section>
 </div>
 
-<!-- TAB 2: SERVICES SECTION -->
+<!-- TAB 2: SERVICES & PRICE LIST SECTION -->
 <section id="services" class="main-section">
   <div class="container">
     <div class="sectionHead">
-      <h2 data-i18n="secServicesTitle">Our Premium Services</h2>
-      <p data-i18n="secServicesSub">Tap any service tile to view benefits, duration, and to book instantly.</p>
+      <h2 data-i18n="secServicesTitle">Our Premium Services & Price List</h2>
+      <p data-i18n="secServicesSub">Add multiple services to your cart, check live total amount, and proceed to instant QR booking.</p>
     </div>
     <div class="service-grid" id="serviceGrid"></div>
   </div>
 </section>
 
-<!-- TAB 3: GALLERY SECTION -->
+<!-- TAB 3: GALLERY SECTION (SHOWS ONLY UPLOADED IMAGES) -->
 <section id="gallerySection" class="slider-section main-section">
   <div class="container">
     <div class="sectionHead" style="margin-bottom:30px;">
@@ -409,28 +557,53 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
     </div>
     <div class="slider-container" id="sliderContainer">
       <div class="slider-track" id="sliderTrack">
-        <img class="slide" src="assets/slider1.jpg" onerror="this.src='https://picsum.photos/seed/bpf1/300/300'">
-        <img class="slide" src="assets/slider2.jpg" onerror="this.src='https://picsum.photos/seed/bpf2/300/300'">
-        <img class="slide" src="assets/slider3.jpg" onerror="this.src='https://picsum.photos/seed/bpf3/300/300'">
-        <img class="slide" src="assets/slider4.jpg" onerror="this.src='https://picsum.photos/seed/bpf4/300/300'">
-        <img class="slide" src="assets/slider5.jpg" onerror="this.src='https://picsum.photos/seed/bpf5/300/300'">
-        <img class="slide" src="assets/slider6.jpg" onerror="this.src='https://picsum.photos/seed/bpf6/300/300'">
+        <img class="slide" src="assets/slider1.jpg" onerror="this.style.display='none'">
+        <img class="slide" src="assets/slider2.jpg" onerror="this.style.display='none'">
+        <img class="slide" src="assets/slider3.jpg" onerror="this.style.display='none'">
+        <img class="slide" src="assets/slider4.jpg" onerror="this.style.display='none'">
+        <img class="slide" src="assets/slider5.jpg" onerror="this.style.display='none'">
+        <img class="slide" src="assets/slider6.jpg" onerror="this.style.display='none'">
       </div>
     </div>
   </div>
 </section>
 
-<!-- TAB 4: BOOKING & TRACKING SECTION -->
+<!-- TAB 4: BOOKING, CART CHECKOUT & ORDER TRACKING / CANCELLATION -->
 <section id="booking" class="main-section" style="background:#fffafb;">
   <div class="container">
     <div class="sectionHead">
-      <h2 data-i18n="secBookTitle">Book & Track</h2>
-      <p data-i18n="secBookSub">Reserve your beauty time or check the live status of an existing booking.</p>
+      <h2 data-i18n="secBookTitle">Cart Checkout, Book & Track</h2>
+      <p data-i18n="secBookSub">Review your selected services, scan QR to pay, download your PDF receipt, or manage/cancel existing bookings.</p>
     </div>
     
     <div class="bookingWrap">
+      <!-- LIVE CART & ADD/REMOVE SERVICES BOX -->
+      <div class="cart-summary-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+          <h3 style="margin:0;color:var(--primary);font-size:22px;">🛒 Your Selected Services (Cart)</h3>
+          <div style="display:flex;gap:8px;">
+            <button type="button" class="btn secondary sm" onclick="switchTab('services')">➕ Add More Services</button>
+            <button type="button" class="btn danger sm" id="clearCartBtn" onclick="clearCart()" style="display:none;">🗑️ Clear</button>
+          </div>
+        </div>
+
+        <!-- QUICK ADD DROPDOWN -->
+        <div style="display:flex;gap:8px;margin-bottom:15px;flex-wrap:wrap;">
+          <select id="quickAddServiceSelect" style="flex:1;padding:11px;border-radius:12px;border:2px solid var(--line);font-weight:700;min-width:200px;"></select>
+          <button type="button" class="btn primary sm" onclick="quickAddFromDropdown()">+ Add Service</button>
+        </div>
+
+        <div id="checkoutCartList"></div>
+
+        <div class="cart-total-banner">
+          <span>Grand Total Payable:</span>
+          <span>₹<span id="checkoutGrandTotal">0</span></span>
+        </div>
+      </div>
+
+      <!-- CUSTOMER DETAILS FORM -->
       <div class="formCard">
-        <h3 style="margin-top:0; font-size:28px; color:var(--primary); text-align:center; margin-bottom:25px;" data-i18n="formNewBooking">Secure a New Appointment</h3>
+        <h3 style="margin-top:0; font-size:26px; color:var(--primary); text-align:center; margin-bottom:22px;" data-i18n="formNewBooking">Customer & Appointment Details</h3>
         <form id="bookingForm">
           
           <!-- SPAM TRAP -->
@@ -458,26 +631,37 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
             </div>
           </div>
           
-          <div class="field"><label data-i18n="labelService">Select Service</label><select id="bService" required></select></div>
-          
           <div class="form-row">
-            <div class="field"><label data-i18n="labelDate">Date</label><input type="date" id="bDate" required></div>
-            <div class="field"><label data-i18n="labelTime">Time</label><input type="time" id="bTime" required></div>
+            <div class="field"><label data-i18n="labelDate">Appointment Date</label><input type="date" id="bDate" required></div>
+            <div class="field"><label data-i18n="labelTime">Appointment Time</label><input type="time" id="bTime" required></div>
+          </div>
+
+          <div class="field">
+            <label>Special Notes / Customization (Optional)</label>
+            <input type="text" id="bNotes" placeholder="Any specific requirement or timing preference...">
           </div>
           
-          <button class="btn primary" id="bookingSubmitBtn" type="submit" style="width:100%;margin-top:20px;font-size:18px;padding:16px;" data-i18n="btnConfirm">Confirm Appointment</button>
+          <button class="btn primary" id="bookingSubmitBtn" type="submit" style="width:100%;margin-top:14px;font-size:18px;padding:16px;">
+            💳 Proceed to Pay (₹<span id="btnPayAmount">0</span>) & Book
+          </button>
         </form>
       </div>
     </div>
 
-    <!-- TRACKING SECTION -->
+    <!-- TRACKING & CANCELLATION SECTION -->
     <div class="track-box">
-      <h3 style="margin-top:0;font-size:24px;" data-i18n="trackTitle">Track Your Booking Live</h3>
+      <h3 style="margin-top:0;font-size:24px;" data-i18n="trackTitle">Track, Download PDF or Cancel Booking</h3>
       <div style="display:flex;gap:10px;margin-top:20px; flex-wrap:wrap;">
         <input type="text" id="trackId" placeholder="Enter Booking ID (e.g., BPF...)" data-i18n-ph="trackPlaceholder" style="flex:1;padding:15px;border:2px solid #ccc;border-radius:14px;outline:none;font-size:16px;font-weight:bold; min-width:200px;">
         <button class="btn primary" id="trackBtn" onclick="trackOrder()" data-i18n="trackBtn">Track Status</button>
       </div>
       <div id="trackResult" class="track-result"></div>
+    </div>
+
+    <!-- CUSTOMER RECENT ORDERS HISTORY (DOWNLOAD PDF / CANCEL / RE-ORDER) -->
+    <div class="track-box" id="myOrdersHistoryBox" style="margin-top:30px;display:none;">
+      <h3 style="margin-top:0;font-size:22px;color:var(--primary);">🧾 Your Recent Bookings on This Device</h3>
+      <div id="myOrdersList" style="text-align:left;margin-top:15px;"></div>
     </div>
   </div>
 </section>
@@ -536,17 +720,78 @@ footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;}
 <div class="zoomBack" id="zoomModal" onclick="if(event.target===this)closeZoom()">
   <div class="zoomModal">
     <button class="close" onclick="closeZoom()">×</button>
-    <img id="zImg" class="zoom-img" src="">
+    <img id="zImg" class="zoom-img" src="" onerror="this.style.display='none'">
     <div class="zoom-content">
-      <h2 id="zTitle">Service Name</h2>
-      <div class="s-meta" style="font-size:16px;"><span>⏱ <span id="zDuration"></span></span></div>
-      <p id="zDesc" style="color:var(--muted);font-size:18px;line-height:1.6;margin-top:10px;"></p>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <h2 id="zTitle" style="margin:0;">Service Name</h2>
+        <div id="zPriceBadge" class="price-tag" style="font-size:26px;"></div>
+      </div>
+      <div class="s-meta" style="font-size:15px;margin-top:6px;"><span>⏱ <span id="zDuration"></span></span></div>
+      <p id="zDesc" style="color:var(--muted);font-size:17px;line-height:1.6;margin-top:10px;"></p>
       <div class="zoom-benefits">
-        <h3 style="margin-top:0;font-size:22px;" data-i18n="zoomBenefitsTitle">Key Benefits</h3>
+        <h3 style="margin-top:0;font-size:20px;" data-i18n="zoomBenefitsTitle">Key Benefits</h3>
         <ul id="zBenefits"></ul>
       </div>
-      <button class="btn primary" style="width:100%;font-size:20px;padding:18px;margin-top:10px;" onclick="bookFromZoom()" data-i18n="btnBookZoom">Book This Service Now</button>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:15px;">
+        <button class="btn secondary" style="flex:1;padding:16px;" onclick="addZoomServiceToCart(false)">🛒 Add to Cart</button>
+        <button class="btn primary" style="flex:1;padding:16px;" onclick="addZoomServiceToCart(true)" data-i18n="btnBookZoom">⚡ Book & Pay Now</button>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- CART VIEW / EDIT MODAL -->
+<div class="modalBack" id="cartModal" onclick="if(event.target===this)closeCartModal()">
+  <div class="modal">
+    <button class="close" onclick="closeCartModal()">×</button>
+    <h2 style="margin-top:0;color:var(--primary);">🛒 Your Beauty Cart</h2>
+    <div id="modalCartItemsList" style="margin:15px 0;max-height:50vh;overflow-y:auto;"></div>
+    <div class="cart-total-banner">
+      <span>Total Amount:</span>
+      <span>₹<span id="modalCartTotal">0</span></span>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;">
+      <button class="btn secondary" style="flex:1;" onclick="closeCartModal(); switchTab('services');">+ Add More</button>
+      <button class="btn primary" style="flex:1;" onclick="closeCartModal(); switchTab('booking');">Proceed to Pay ➔</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT QR MODAL (USES UPLOADED assets/paymentqr) -->
+<div class="modalBack" id="paymentQrModal" onclick="if(event.target===this)closePaymentModal()">
+  <div class="modal" style="text-align:center;">
+    <button class="close" onclick="closePaymentModal()">×</button>
+    <span style="background:var(--soft);color:var(--primary);padding:5px 14px;border-radius:99px;font-weight:900;font-size:12px;">SECURE QR PAYMENT</span>
+    <h2 style="margin:8px 0 4px;color:var(--primary);">Scan & Pay</h2>
+    <p style="margin:0 0 10px;color:var(--muted);font-size:14px;">Beauty Plus Forever • Raxaul</p>
+
+    <div style="background:var(--soft);border:2px solid var(--primary2);border-radius:16px;padding:10px 16px;margin-bottom:10px;">
+      <div style="font-size:13px;color:var(--muted);font-weight:700;">TOTAL AMOUNT TO PAY</div>
+      <div style="font-size:30px;font-weight:900;color:var(--primary);">₹<span id="qrPayableAmount">0</span></div>
+    </div>
+
+    <!-- STATIC QR UPLOADED VIA ASSETS NAMED AS paymentqr -->
+    <div class="qr-frame">
+      <img id="paymentQrImg" src="assets/paymentqr.jpg" alt="Payment QR Code" onerror="handlePaymentQrFallback(this)">
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Scan using PhonePe, Google Pay, Paytm, or any UPI App</div>
+
+    <div class="field" style="text-align:left;">
+      <label>Select Payment Mode</label>
+      <select id="payModeSelect" onchange="toggleUtrField(this.value)">
+        <option value="Paid via QR Code">✅ Paid via QR Code (Online UPI)</option>
+        <option value="Pay at Parlour">🏪 Pay Cash / QR at Parlour during Visit</option>
+      </select>
+    </div>
+
+    <div class="field" id="utrFieldBox" style="text-align:left;">
+      <label>UTR / UPI Reference / Transaction No. (Last 4 or 12 digits)</label>
+      <input type="text" id="payUtrInput" placeholder="Enter UTR or Transaction ID after payment">
+    </div>
+
+    <button class="btn success" id="finalConfirmPayBtn" style="width:100%;padding:16px;font-size:17px;" onclick="finalizeBookingAndDownloadPdf()">
+      ✅ Confirm Payment & Auto-Download PDF Receipt
+    </button>
   </div>
 </div>
 
@@ -603,49 +848,77 @@ let currentUser = JSON.parse(localStorage.getItem("bpf_user")) || null;
 let isAdmin = localStorage.getItem("bpf_admin") === "true";
 let adminSecureToken = localStorage.getItem("bpf_admin_token") || null;
 
-let selectedServiceForBooking = "";
+let selectedServiceIndexForZoom = 0;
 let currentLang = localStorage.getItem("bpf_lang") || "en";
 let top5Reviews = [];
 let deferredInstallPrompt = null;
 let configuredApkUrl = "";
+let pendingCheckoutData = null;
+
+// ==========================================
+// DEFAULT SERVICES WITH PRICE LIST
+// ==========================================
+const defaultServicesData = [
+  { id: "Bridal Makeover", mrp: 6500, price: 4999, name: { en: "Bridal Makeover", hi: "ब्राइडल मेकओवर" }, duration: { en: "3-4 Hours", hi: "3-4 घंटे" }, desc: { en: "A dedicated bridal makeup, hair styling, and finishing session meticulously planned.", hi: "दुल्हन के खास दिन के लिए समर्पित ब्राइडल मेकअप और हेयर स्टाइलिंग।" }, benefits: { en: ["Complete HD Makeup & Base", "Advanced Hair Styling", "Saree/Lehenga Draping", "Premium Products"], hi: ["कंप्लीट एचडी मेकअप", "एडवांस हेयर स्टाइलिंग", "साड़ी/लहंगा ड्रेपिंग", "प्रीमियम प्रोडक्ट्स"] }, img: "assets/service1.jpg" },
+  { id: "Advanced Facial", mrp: 1200, price: 799, name: { en: "Advanced Facial", hi: "एडवांस फेशियल" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "A relaxing skin-care service featuring exfoliation and deep tissue massage.", hi: "आरामदायक त्वचा देखभाल सेवा।" }, benefits: { en: ["Deep Pore Cleansing", "Skin Brightening", "Anti-aging properties", "Relaxing Massage"], hi: ["डीप पोर क्लींजिंग", "स्किन ब्राइटनिंग", "एंटी-एजिंग गुण", "आरामदायक मसाज"] }, img: "assets/service2.jpg" },
+  { id: "Hair Spa", mrp: 999, price: 699, name: { en: "Hair Spa & Treatment", hi: "हेयर स्पा और ट्रीटमेंट" }, duration: { en: "45 Mins", hi: "45 मिनट" }, desc: { en: "A rejuvenating hair-care routine focused on deep cleansing and scalp massage.", hi: "डीप क्लींजिंग और स्कैल्प मसाज पर केंद्रित हेयर-केयर रूटीन।" }, benefits: { en: ["Dandruff Removal", "Smooth Texture", "Deep Nourishment", "Stress Relief"], hi: ["रूसी से छुटकारा", "मुलायम बाल", "स्कैल्प को पोषण", "तनाव से राहत"] }, img: "assets/service3.jpg" },
+  { id: "Party Makeup", mrp: 2000, price: 1499, name: { en: "Party Makeup", hi: "पार्टी मेकअप" }, duration: { en: "90 Mins", hi: "90 मिनट" }, desc: { en: "Professional makeup styling for parties and special occasions.", hi: "पार्टियों और खास मौकों के लिए प्रोफेशनल मेकअप स्टाइलिंग।" }, benefits: { en: ["Flawless Base", "Custom Eye Makeup", "Long-lasting finish", "Basic Hair Styling"], hi: ["फ्लॉलेस बेस", "कस्टम आई मेकअप", "लंबे समय तक टिकने वाला", "बेसिक हेयर स्टाइलिंग"] }, img: "assets/service4.jpg" },
+  { id: "Mani Pedi", mrp: 800, price: 549, name: { en: "Manicure & Pedicure", hi: "मैनिक्योर और पेडिक्योर" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "Hand, foot, and nail care designed for a clean, refreshed feel.", hi: "हाथ, पैर और नाखूनों की देखभाल।" }, benefits: { en: ["Tan Removal", "Nail Shaping", "Cuticle Care", "Soft Hands & Feet"], hi: ["टैन हटाना", "नाखूनों की शेपिंग", "क्यूटिकल की देखभाल", "मुलायम हाथ और पैर"] }, img: "assets/service5.jpg" },
+  { id: "Threading Waxing", mrp: 450, price: 299, name: { en: "Threading & Waxing", hi: "थ्रेडिंग और वैक्सिंग" }, duration: { en: "30 Mins", hi: "30 मिनट" }, desc: { en: "Precise facial hair shaping and body hair removal services.", hi: "फेशियल हेयर शेपिंग और बॉडी हेयर रिमूवल सेवा।" }, benefits: { en: ["Painless technique", "Long-lasting smoothness", "Clean shapes", "Soothes skin"], hi: ["दर्द रहित तकनीक", "लंबे समय तक स्मूथनेस", "साफ शेप", "त्वचा को आराम"] }, img: "assets/service6.jpg" }
+];
+
+let servicesData = JSON.parse(localStorage.getItem("bpf_pricelist_v1")) || JSON.parse(JSON.stringify(defaultServicesData));
+let cart = JSON.parse(localStorage.getItem("bpf_cart_v1")) || [];
+let myLocalOrders = JSON.parse(localStorage.getItem("bpf_my_orders_v1")) || [];
 
 const translations = {
   en: {
     navHome: "Home", navGallery: "Gallery", navContact: "Contact", contactUs: "Contact Us", contactText: "Visit or contact us for your beauty service and appointment.", address: "Address", phone: "Phone", serviceType: "Service", serviceTypeText: "Ladies Beauty Parlour",
-    navTitle: "Beauty Plus Forever", tagline: "A special ladies beauty parlour", navServices: "Services", navBook: "Book & Track", navReviews: "Reviews", navLogin: "Login / Sign Up", navLogout: "Logout",
+    navTitle: "Beauty Plus Forever", tagline: "A special ladies beauty parlour", navServices: "Services & Price List", navBook: "Book & Track", navReviews: "Reviews", navLogin: "Login / Sign Up", navLogout: "Logout",
     heroBadge: "WELCOME TO", heroTitle: "Beauty Plus Forever", heroSub: "A special ladies beauty parlour",
-    btnViewServices: "✨ View Services", btnCall: "📞 Call Now", btnWhatsApp: "💬 WhatsApp", btnDownloadApp: "📱 Install App",
-    secServicesTitle: "Our Premium Services", secServicesSub: "Tap any service tile to view benefits, duration, and to book instantly.",
-    secGalleryTitle: "Our Gallery", secBookTitle: "Book & Track", secBookSub: "Reserve your beauty time or check the live status of an existing booking.",
-    trackTitle: "Track Your Booking Live", trackPlaceholder: "Enter Booking ID (e.g., BPF...)", trackBtn: "Track Status",
-    formNewBooking: "Secure a New Appointment", labelName: "Your Name", labelEmail: "Email Address", labelGender: "Gender", optFemale: "Female", optMale: "Male", optOther: "Other", labelPhone: "Mobile Number (10 Digits)", labelService: "Select Service", labelDate: "Date", labelTime: "Time", btnConfirm: "Confirm Appointment",
-    zoomBenefitsTitle: "Key Benefits", btnBookZoom: "Book This Service Now",
+    btnViewServices: "✨ View Services & Price List", btnCall: "📞 Call Now", btnWhatsApp: "💬 WhatsApp", btnDownloadApp: "📱 Install App",
+    secServicesTitle: "Our Premium Services & Price List", secServicesSub: "Add multiple services to your cart, check live total amount, and proceed to instant QR booking.",
+    secGalleryTitle: "Our Gallery", secBookTitle: "Cart Checkout, Book & Track", secBookSub: "Review your selected services, scan QR to pay, download your PDF receipt, or manage/cancel existing bookings.",
+    trackTitle: "Track, Download PDF or Cancel Booking", trackPlaceholder: "Enter Booking ID (e.g., BPF...)", trackBtn: "Track Status",
+    formNewBooking: "Customer & Appointment Details", labelName: "Your Name", labelEmail: "Email Address", labelGender: "Gender", optFemale: "Female", optMale: "Male", optOther: "Other", labelPhone: "Mobile Number (10 Digits)", labelDate: "Appointment Date", labelTime: "Appointment Time",
+    zoomBenefitsTitle: "Key Benefits", btnBookZoom: "⚡ Book & Pay Now",
     secReviewTitle: "Customer Experiences", secReviewSub: "Recent feedback from our lovely clients.", formReviewTitle: "Share Your Experience", labelFeedback: "Your Feedback", labelPhoto: "Upload Service Photo", btnPostReview: "Post Review",
     tabLogin: "Login", tabSignup: "Sign Up", labelUsername: "Username or Login ID", labelPassword: "Password", btnSignIn: "Sign In", labelFullName: "Full Name", labelAge: "Age", labelAddress: "Address", labelChooseUser: "Choose Username", labelChoosePass: "Choose Password", btnCreateAcc: "Create Account"
   },
   hi: {
     navHome: "होम", navGallery: "गैलरी", navContact: "संपर्क", contactUs: "संपर्क करें", contactText: "ब्यूटी सेवा और अपॉइंटमेंट के लिए हमसे संपर्क करें।", address: "पता", phone: "फोन", serviceType: "सेवा", serviceTypeText: "लेडीज़ ब्यूटी पार्लर",
-    navTitle: "ब्यूटी प्लस फॉरएवर", tagline: "एक विशेष लेडीज ब्यूटी पार्लर", navServices: "सेवाएं", navBook: "बुक और ट्रैक", navReviews: "समीक्षा", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
+    navTitle: "ब्यूटी प्लस फॉरएवर", tagline: "एक विशेष लेडीज ब्यूटी पार्लर", navServices: "सेवाएं और रेट लिस्ट", navBook: "बुक और ट्रैक", navReviews: "समीक्षा", navLogin: "लॉगिन / साइन अप", navLogout: "लॉग आउट",
     heroBadge: "आपका स्वागत है", heroTitle: "ब्यूटी प्लस फॉरएवर", heroSub: "एक विशेष लेडीज ब्यूटी पार्लर",
-    btnViewServices: "✨ सेवाएं देखें", btnCall: "📞 अभी कॉल करें", btnWhatsApp: "💬 वॉट्सऐप", btnDownloadApp: "📱 ऐप इंस्टॉल करें",
-    secServicesTitle: "हमारी प्रीमियम सेवाएं", secServicesSub: "फायदे, अवधि देखने और तुरंत बुक करने के लिए किसी भी सेवा पर टैप करें।",
-    secGalleryTitle: "हमारी गैलरी", secBookTitle: "बुक और ट्रैक करें", secBookSub: "अपना ब्यूटी टाइम रिज़र्व करें या अपनी बुकिंग का लाइव स्टेटस चेक करें।",
-    trackTitle: "अपनी बुकिंग का लाइव स्टेटस चेक करें", trackPlaceholder: "बुकिंग आईडी दर्ज करें (जैसे, BPF...)", trackBtn: "स्टेटस चेक करें",
-    formNewBooking: "नया अपॉइंटमेंट सुरक्षित करें", labelName: "आपका नाम", labelEmail: "ईमेल एड्रेस", labelGender: "लिंग", optFemale: "महिला", optMale: "पुरुष", optOther: "अन्य", labelPhone: "मोबाइल नंबर (10 अंक)", labelService: "सेवा चुनें", labelDate: "तारीख", labelTime: "समय", btnConfirm: "अपॉइंटमेंट कन्फर्म करें",
-    zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "यह सेवा अभी बुक करें",
+    btnViewServices: "✨ सेवाएं और रेट लिस्ट देखें", btnCall: "📞 अभी कॉल करें", btnWhatsApp: "💬 वॉट्सऐप", btnDownloadApp: "📱 ऐप इंस्टॉल करें",
+    secServicesTitle: "हमारी प्रीमियम सेवाएं और प्राइस लिस्ट", secServicesSub: "अपनी पसंद की सेवाएं कार्ट में जोड़ें, कुल राशि देखें और QR कोड से पेमेंट कर तुरंत बुक करें।",
+    secGalleryTitle: "हमारी गैलरी", secBookTitle: "कार्ट चेकआउट, बुक और ट्रैक करें", secBookSub: "चुनी गई सेवाएं देखें, QR से पेमेंट करें, PDF रसीद डाउनलोड करें या बुकिंग ट्रैक/कैंसिल करें।",
+    trackTitle: "बुकिंग ट्रैक करें, PDF डाउनलोड करें या कैंसिल करें", trackPlaceholder: "बुकिंग आईडी दर्ज करें (जैसे, BPF...)", trackBtn: "स्टेटस चेक करें",
+    formNewBooking: "ग्राहक और अपॉइंटमेंट विवरण", labelName: "आपका नाम", labelEmail: "ईमेल एड्रेस", labelGender: "लिंग", optFemale: "महिला", optMale: "पुरुष", optOther: "अन्य", labelPhone: "मोबाइल नंबर (10 अंक)", labelDate: "तारीख", labelTime: "समय",
+    zoomBenefitsTitle: "प्रमुख लाभ", btnBookZoom: "⚡ अभी बुक और पे करें",
     secReviewTitle: "ग्राहक के अनुभव", secReviewSub: "हमारे प्यारे ग्राहकों की हालिया प्रतिक्रिया।", formReviewTitle: "अपना अनुभव साझा करें", labelFeedback: "आपकी प्रतिक्रिया", labelPhoto: "सेवा की फोटो अपलोड करें", btnPostReview: "समीक्षा पोस्ट करें",
     tabLogin: "लॉगिन", tabSignup: "साइन अप", labelUsername: "यूजरनेम या लॉगिन आईडी", labelPassword: "पासवर्ड", btnSignIn: "साइन इन करें", labelFullName: "पूरा नाम", labelAge: "उम्र", labelAddress: "पता", labelChooseUser: "यूजरनेम चुनें", labelChoosePass: "पासवर्ड चुनें", btnCreateAcc: "अकाउंट बनाएं"
   }
 };
 
-const servicesData = [
-  { id: "Bridal Makeover", name: { en: "Bridal Makeover", hi: "ब्राइडल मेकओवर" }, duration: { en: "3-4 Hours", hi: "3-4 घंटे" }, desc: { en: "A dedicated bridal makeup, hair styling, and finishing session meticulously planned.", hi: "दुल्हन के खास दिन के लिए समर्पित ब्राइडल मेकअप और हेयर स्टाइलिंग।" }, benefits: { en: ["Complete HD Makeup & Base", "Advanced Hair Styling", "Saree/Lehenga Draping", "Premium Products"], hi: ["कंप्लीट एचडी मेकअप", "एडवांस हेयर स्टाइलिंग", "साड़ी/लहंगा ड्रेपिंग", "प्रीमियम प्रोडक्ट्स"] }, img: "assets/service1.jpg" },
-  { id: "Advanced Facial", name: { en: "Advanced Facial", hi: "एडवांस फेशियल" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "A relaxing skin-care service featuring exfoliation and deep tissue massage.", hi: "आरामदायक त्वचा देखभाल सेवा।" }, benefits: { en: ["Deep Pore Cleansing", "Skin Brightening", "Anti-aging properties", "Relaxing Massage"], hi: ["डीप पोर क्लींजिंग", "स्किन ब्राइटनिंग", "एंटी-एजिंग गुण", "आरामदायक मसाज"] }, img: "assets/service2.jpg" },
-  { id: "Hair Spa", name: { en: "Hair Spa & Treatment", hi: "हेयर स्पा और ट्रीटमेंट" }, duration: { en: "45 Mins", hi: "45 मिनट" }, desc: { en: "A rejuvenating hair-care routine focused on deep cleansing and scalp massage.", hi: "डीप क्लींजिंग और स्कैल्प मसाज पर केंद्रित हेयर-केयर रूटीन।" }, benefits: { en: ["Dandruff Removal", "Smooth Texture", "Deep Nourishment", "Stress Relief"], hi: ["रूसी से छुटकारा", "मुलायम बाल", "स्कैल्प को पोषण", "तनाव से राहत"] }, img: "assets/service3.jpg" },
-  { id: "Party Makeup", name: { en: "Party Makeup", hi: "पार्टी मेकअप" }, duration: { en: "90 Mins", hi: "90 मिनट" }, desc: { en: "Professional makeup styling for parties and special occasions.", hi: "पार्टियों और खास मौकों के लिए प्रोफेशनल मेकअप स्टाइलिंग।" }, benefits: { en: ["Flawless Base", "Custom Eye Makeup", "Long-lasting finish", "Basic Hair Styling"], hi: ["फ्लॉलेस बेस", "कस्टम आई मेकअप", "लंबे समय तक टिकने वाला", "बेसिक हेयर स्टाइलिंग"] }, img: "assets/service4.jpg" },
-  { id: "Mani Pedi", name: { en: "Manicure & Pedicure", hi: "मैनिक्योर और पेडिक्योर" }, duration: { en: "60 Mins", hi: "60 मिनट" }, desc: { en: "Hand, foot, and nail care designed for a clean, refreshed feel.", hi: "हाथ, पैर और नाखूनों की देखभाल।" }, benefits: { en: ["Tan Removal", "Nail Shaping", "Cuticle Care", "Soft Hands & Feet"], hi: ["टैन हटाना", "नाखूनों की शेपिंग", "क्यूटिकल की देखभाल", "मुलायम हाथ और पैर"] }, img: "assets/service5.jpg" },
-  { id: "Threading Waxing", name: { en: "Threading & Waxing", hi: "थ्रेडिंग और वैक्सिंग" }, duration: { en: "30 Mins", hi: "30 मिनट" }, desc: { en: "Precise facial hair shaping and body hair removal services.", hi: "फेशियल हेयर शेपिंग और बॉडी हेयर रिमूवल सेवा।" }, benefits: { en: ["Painless technique", "Long-lasting smoothness", "Clean shapes", "Soothes skin"], hi: ["दर्द रहित तकनीक", "लंबे समय तक स्मूथनेस", "साफ शेप", "त्वचा को आराम"] }, img: "assets/service6.jpg" }
+// ==========================================
+// STATIC PAYMENT QR MULTI-EXTENSION LOADER
+// Automatically checks assets/paymentqr.jpg, .png, .jpeg, .webp, or raw
+// ==========================================
+const paymentQrPaths = [
+  "assets/paymentqr.jpg",
+  "assets/paymentqr.png",
+  "assets/paymentqr.jpeg",
+  "assets/paymentqr.webp",
+  "assets/paymentqr"
 ];
+let qrPathAttemptIndex = 0;
+
+function handlePaymentQrFallback(imgEl) {
+  qrPathAttemptIndex++;
+  if (qrPathAttemptIndex < paymentQrPaths.length) {
+    imgEl.src = paymentQrPaths[qrPathAttemptIndex];
+  }
+}
 
 // ==========================================
 // PWA / HOME SCREEN WEB-APK INSTALL SETUP
@@ -679,7 +952,6 @@ window.addEventListener("beforeinstallprompt", (e) => {
 });
 
 function installApp() {
-  // 1. Native Browser WebAPK Install to Home Screen
   if (deferredInstallPrompt) {
     deferredInstallPrompt.prompt();
     deferredInstallPrompt.userChoice.then(() => {
@@ -687,12 +959,10 @@ function installApp() {
     });
     return;
   }
-  // 2. Direct APK Link if configured in Admin Settings
   if (configuredApkUrl && configuredApkUrl.trim() !== "") {
     window.open(configuredApkUrl, "_blank");
     return;
   }
-  // 3. Friendly instruction if already installed or on iOS/unsupported local mode
   alert(
     currentLang === "hi"
       ? "होम स्क्रीन पर ऐप जोड़ने के लिए: अपने ब्राउज़र के ऊपर कोने में (⋮) मेनू पर टैप करें और 'Add to Home screen' या 'Install App' चुनें।"
@@ -744,6 +1014,19 @@ function applySettings(settings) {
   if(document.getElementById("set_noticeImg")) document.getElementById("set_noticeImg").value = settings.noticeImg || "";
   if(document.getElementById("set_apkLink")) document.getElementById("set_apkLink").value = settings.apkLink || "";
 
+  // Check if server returned a saved priceListJson
+  if(settings.priceListJson) {
+    try {
+      const parsedList = JSON.parse(settings.priceListJson);
+      if(Array.isArray(parsedList) && parsedList.length > 0) {
+        servicesData = parsedList;
+        localStorage.setItem("bpf_pricelist_v1", JSON.stringify(servicesData));
+        initServices();
+        renderAdminPriceList();
+      }
+    } catch(e) {}
+  }
+
   configuredApkUrl = settings.apkLink || "";
   const apkBtn = document.getElementById("apkDownloadBtn");
   if(settings.apkLink && apkBtn) {
@@ -753,30 +1036,36 @@ function applySettings(settings) {
      apkBtn.style.display = "none";
   }
 
-  // Keep static notice board permanently hidden
   const staticBoard = document.getElementById("publicNoticeBoard");
   if(staticBoard) staticBoard.style.display = "none";
 
-  // Show Popup Offer if Title, Message, or Image is configured
-  const hasOffer = Boolean(
+  const hasImg = Boolean(settings.noticeImg && settings.noticeImg.trim() !== "");
+  const hasText = Boolean(
     (settings.noticeTitle && settings.noticeTitle.trim() !== "") ||
-    (settings.noticeMsg && settings.noticeMsg.trim() !== "") ||
-    (settings.noticeImg && settings.noticeImg.trim() !== "")
+    (settings.noticeMsg && settings.noticeMsg.trim() !== "")
   );
 
+  const nCard = document.getElementById("noticeCardBox");
+  const nTitle = document.getElementById("nTitle");
+  const nMsg = document.getElementById("nMsg");
+  const nImg = document.getElementById("nImg");
   const reopenBtn = document.getElementById("reopenOfferBtn");
 
-  if(hasOffer) {
-     document.getElementById("nTitle").textContent = settings.noticeTitle || "Special Offer";
-     document.getElementById("nMsg").textContent = settings.noticeMsg || "";
-     const nImg = document.getElementById("nImg");
-     if(settings.noticeImg && settings.noticeImg.trim() !== "") {
-        nImg.src = settings.noticeImg;
-        nImg.style.display = "block";
-     } else {
-        nImg.style.display = "none";
-     }
-     
+  if(hasImg) {
+     nCard.classList.remove("text-only-mode");
+     nTitle.style.display = "none";
+     nMsg.style.display = "none";
+     nImg.src = settings.noticeImg.trim();
+     nImg.style.display = "block";
+     if(reopenBtn) reopenBtn.style.display = "inline-flex";
+     document.getElementById("noticeModal").classList.add("open");
+  } else if(hasText) {
+     nCard.classList.add("text-only-mode");
+     nImg.style.display = "none";
+     nTitle.textContent = settings.noticeTitle || "";
+     nTitle.style.display = settings.noticeTitle ? "block" : "none";
+     nMsg.textContent = settings.noticeMsg || "";
+     nMsg.style.display = settings.noticeMsg ? "block" : "none";
      if(reopenBtn) reopenBtn.style.display = "inline-flex";
      document.getElementById("noticeModal").classList.add("open");
   } else {
@@ -793,22 +1082,820 @@ function closeNotice() {
   document.getElementById("noticeModal").classList.remove("open"); 
 }
 
-// SECURE SAVE SETTINGS (Requires Token)
-function saveAdminSettings() {
-  const btn = document.getElementById("btnSaveSettings"); btn.disabled = true; btn.textContent = "Saving...";
+// ==========================================
+// ADMIN DYNAMIC PRICE LIST MANAGEMENT
+// ==========================================
+function renderAdminPriceList() {
+  const tbody = document.getElementById("adminPriceListTable");
+  if(!tbody) return;
+  tbody.innerHTML = "";
+  servicesData.forEach((s, idx) => {
+    tbody.innerHTML += `
+      <tr>
+        <td><img src="${s.img}" style="width:52px;height:52px;object-fit:cover;border-radius:10px;" onerror="this.style.display='none'"></td>
+        <td>
+          <input type="text" value="${s.name.en}" onchange="updateSvcField(${idx}, 'nameEn', this.value)" style="width:140px;padding:6px;margin-bottom:4px;border:1px solid #ccc;border-radius:8px;"><br>
+          <input type="text" value="${s.name.hi}" onchange="updateSvcField(${idx}, 'nameHi', this.value)" style="width:140px;padding:6px;border:1px solid #ccc;border-radius:8px;">
+        </td>
+        <td><input type="number" value="${s.mrp || s.price}" onchange="updateSvcField(${idx}, 'mrp', this.value)" style="width:85px;padding:6px;border:1px solid #ccc;border-radius:8px;"></td>
+        <td><input type="number" value="${s.price}" onchange="updateSvcField(${idx}, 'price', this.value)" style="width:85px;padding:6px;border:2px solid var(--primary);border-radius:8px;font-weight:bold;"></td>
+        <td><input type="text" value="${s.duration.en}" onchange="updateSvcField(${idx}, 'duration', this.value)" style="width:95px;padding:6px;border:1px solid #ccc;border-radius:8px;"></td>
+        <td><input type="text" value="${s.img}" onchange="updateSvcField(${idx}, 'img', this.value)" style="width:130px;padding:6px;border:1px solid #ccc;border-radius:8px;"></td>
+        <td><button class="btn danger sm" onclick="deleteServiceAdmin(${idx})">🗑️ Remove</button></td>
+      </tr>
+    `;
+  });
+}
+
+function updateSvcField(idx, field, val) {
+  if(!servicesData[idx]) return;
+  if(field === 'nameEn') { servicesData[idx].name.en = val; servicesData[idx].id = val; }
+  if(field === 'nameHi') servicesData[idx].name.hi = val;
+  if(field === 'mrp') servicesData[idx].mrp = Number(val) || 0;
+  if(field === 'price') servicesData[idx].price = Number(val) || 0;
+  if(field === 'duration') { servicesData[idx].duration.en = val; servicesData[idx].duration.hi = val; }
+  if(field === 'img') servicesData[idx].img = val.trim();
+  localStorage.setItem("bpf_pricelist_v1", JSON.stringify(servicesData));
+  initServices();
+}
+
+function addNewServiceAdmin() {
+  const nameEn = document.getElementById("newSvcNameEn").value.trim();
+  const nameHi = document.getElementById("newSvcNameHi").value.trim() || nameEn;
+  const mrp = Number(document.getElementById("newSvcMrp").value) || 0;
+  const price = Number(document.getElementById("newSvcPrice").value) || mrp;
+  const dur = document.getElementById("newSvcDuration").value.trim() || "45 Mins";
+  const img = document.getElementById("newSvcImg").value.trim() || "assets/service1.jpg";
+  const desc = document.getElementById("newSvcDesc").value.trim() || "Premium beauty service";
+
+  if(!nameEn || !price) {
+    alert("Please enter Service Name and Offer Price (₹).");
+    return;
+  }
+
+  const benefitsArr = desc.split(",").map(x => x.trim()).filter(Boolean);
+  servicesData.push({
+    id: nameEn,
+    mrp: mrp || price,
+    price: price,
+    name: { en: nameEn, hi: nameHi },
+    duration: { en: dur, hi: dur },
+    desc: { en: desc, hi: desc },
+    benefits: { en: benefitsArr.length ? benefitsArr : [desc], hi: benefitsArr.length ? benefitsArr : [desc] },
+    img: img
+  });
+
+  localStorage.setItem("bpf_pricelist_v1", JSON.stringify(servicesData));
+  document.getElementById("newSvcNameEn").value = "";
+  document.getElementById("newSvcNameHi").value = "";
+  document.getElementById("newSvcMrp").value = "";
+  document.getElementById("newSvcPrice").value = "";
+  document.getElementById("newSvcDuration").value = "";
+  document.getElementById("newSvcDesc").value = "";
+
+  renderAdminPriceList();
+  initServices();
+  alert("New service added to Price List! Click 'Save & Publish Price List' to sync with server.");
+}
+
+function deleteServiceAdmin(idx) {
+  if(!confirm("Remove this service from Price List?")) return;
+  servicesData.splice(idx, 1);
+  localStorage.setItem("bpf_pricelist_v1", JSON.stringify(servicesData));
+  renderAdminPriceList();
+  initServices();
+}
+
+function resetDefaultPriceList() {
+  if(!confirm("Reset Price List back to default services?")) return;
+  servicesData = JSON.parse(JSON.stringify(defaultServicesData));
+  localStorage.setItem("bpf_pricelist_v1", JSON.stringify(servicesData));
+  renderAdminPriceList();
+  initServices();
+}
+
+function savePriceListToServer() {
+  localStorage.setItem("bpf_pricelist_v1", JSON.stringify(servicesData));
+  initServices();
+  const btn = document.getElementById("btnSavePriceList");
+  btn.disabled = true;
+  btn.textContent = "Saving Price List...";
+
+  const imgVal = document.getElementById("set_noticeImg").value.trim();
+  const titleVal = document.getElementById("set_noticeTitle").value.trim();
+
   apiCall({
     action: "save_settings",
     token: adminSecureToken,
-    noticeTitle: document.getElementById("set_noticeTitle").value,
+    noticeTitle: titleVal || (imgVal ? "Offer" : ""),
     noticeMsg: document.getElementById("set_noticeMsg").value,
-    noticeImg: document.getElementById("set_noticeImg").value,
-    apkLink: document.getElementById("set_apkLink").value
+    noticeImg: imgVal,
+    apkLink: document.getElementById("set_apkLink").value,
+    priceListJson: JSON.stringify(servicesData)
+  }).then(d => {
+    alert("✅ Price List Saved & Updated Live!");
+  }).catch(() => {
+    alert("✅ Price List Updated Locally!");
+  }).finally(() => {
+    btn.disabled = false;
+    btn.textContent = "💾 Save & Publish Price List";
+  });
+}
+
+function saveAdminSettings() {
+  const btn = document.getElementById("btnSaveSettings"); btn.disabled = true; btn.textContent = "Saving...";
+  const imgVal = document.getElementById("set_noticeImg").value.trim();
+  const titleVal = document.getElementById("set_noticeTitle").value.trim();
+  apiCall({
+    action: "save_settings",
+    token: adminSecureToken,
+    noticeTitle: titleVal || (imgVal ? "Offer" : ""),
+    noticeMsg: document.getElementById("set_noticeMsg").value,
+    noticeImg: imgVal,
+    apkLink: document.getElementById("set_apkLink").value,
+    priceListJson: JSON.stringify(servicesData)
   }).then(d => {
     if(d.status === "success") { alert("Settings Saved!"); fetchGlobalData(); }
     else { alert("Error: " + d.message); }
   }).catch(e => alert("Network error")).finally(() => { btn.disabled = false; btn.textContent = "Save All Settings"; });
 }
 
+// ==========================================
+// CART SYSTEM (ADD, REMOVE, + / - QUANTITY, LIVE TOTAL)
+// ==========================================
+function getCartItemQty(serviceId) {
+  const found = cart.find(item => item.id === serviceId);
+  return found ? found.qty : 0;
+}
+
+function addToCart(serviceIndex) {
+  const s = servicesData[serviceIndex];
+  if(!s) return;
+  const existing = cart.find(item => item.id === s.id);
+  if(existing) {
+    existing.qty += 1;
+    existing.price = Number(s.price);
+  } else {
+    cart.push({
+      id: s.id,
+      nameEn: s.name.en,
+      nameHi: s.name.hi,
+      price: Number(s.price),
+      mrp: Number(s.mrp || s.price),
+      qty: 1
+    });
+  }
+  saveAndRefreshCart();
+}
+
+function changeCartQty(serviceId, delta) {
+  const idx = cart.findIndex(item => item.id === serviceId);
+  if(idx === -1) return;
+  cart[idx].qty += delta;
+  if(cart[idx].qty <= 0) {
+    cart.splice(idx, 1);
+  }
+  saveAndRefreshCart();
+}
+
+function removeFromCart(serviceId) {
+  cart = cart.filter(item => item.id !== serviceId);
+  saveAndRefreshCart();
+}
+
+function clearCart() {
+  if(!confirm(currentLang === 'hi' ? "क्या आप कार्ट खाली करना चाहते हैं?" : "Clear all selected services from cart?")) return;
+  cart = [];
+  saveAndRefreshCart();
+}
+
+function quickAddFromDropdown() {
+  const sel = document.getElementById("quickAddServiceSelect");
+  const idx = Number(sel.value);
+  if(!isNaN(idx) && servicesData[idx]) {
+    addToCart(idx);
+  }
+}
+
+function getCartTotals() {
+  let count = 0;
+  let total = 0;
+  cart.forEach(item => {
+    count += item.qty;
+    total += item.price * item.qty;
+  });
+  return { count, total };
+}
+
+function saveAndRefreshCart() {
+  localStorage.setItem("bpf_cart_v1", JSON.stringify(cart));
+  const { count, total } = getCartTotals();
+
+  document.getElementById("navCartCount").textContent = count;
+  document.getElementById("floatCartCount").textContent = count;
+  document.getElementById("floatCartTotal").textContent = total;
+  document.getElementById("checkoutGrandTotal").textContent = total;
+  document.getElementById("btnPayAmount").textContent = total;
+  document.getElementById("modalCartTotal").textContent = total;
+
+  const floatBar = document.getElementById("floatingCartBar");
+  if(count > 0) floatBar.classList.add("active");
+  else floatBar.classList.remove("active");
+
+  const clearBtn = document.getElementById("clearCartBtn");
+  if(clearBtn) clearBtn.style.display = count > 0 ? "inline-flex" : "none";
+
+  initServices();
+  renderCheckoutCart();
+  renderModalCart();
+}
+
+function renderCheckoutCart() {
+  const box = document.getElementById("checkoutCartList");
+  if(!box) return;
+  if(cart.length === 0) {
+    box.innerHTML = `<p style="color:var(--muted);text-align:center;margin:12px 0;">${currentLang === 'hi' ? "आपका कार्ट खाली है। ऊपर से अपनी पसंद की ब्यूटी सर्विस चुनें।" : "Your cart is empty. Select a service above or from the Services tab."}</p>`;
+    return;
+  }
+  box.innerHTML = cart.map(item => `
+    <div class="cart-item-row">
+      <div>
+        <strong style="font-size:16px;color:var(--ink);">${currentLang === 'hi' ? item.nameHi : item.nameEn}</strong>
+        <div style="font-size:13px;color:var(--muted);">₹${item.price} × ${item.qty} = <b style="color:var(--primary);">₹${item.price * item.qty}</b></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="qty-box">
+          <button type="button" class="qty-btn" onclick="changeCartQty('${item.id.replace(/'/g, "\\'")}', -1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button type="button" class="qty-btn" onclick="changeCartQty('${item.id.replace(/'/g, "\\'")}', 1)">+</button>
+        </div>
+        <button type="button" class="btn danger sm" onclick="removeFromCart('${item.id.replace(/'/g, "\\'")}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderModalCart() {
+  const box = document.getElementById("modalCartItemsList");
+  if(!box) return;
+  if(cart.length === 0) {
+    box.innerHTML = `<p style="color:var(--muted);text-align:center;padding:20px 0;">No services in cart yet.</p>`;
+    return;
+  }
+  box.innerHTML = cart.map(item => `
+    <div class="cart-item-row">
+      <div>
+        <strong>${currentLang === 'hi' ? item.nameHi : item.nameEn}</strong>
+        <div style="font-size:13px;color:var(--muted);">₹${item.price} each</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="qty-box">
+          <button type="button" class="qty-btn" onclick="changeCartQty('${item.id.replace(/'/g, "\\'")}', -1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button type="button" class="qty-btn" onclick="changeCartQty('${item.id.replace(/'/g, "\\'")}', 1)">+</button>
+        </div>
+        <strong style="min-width:60px;text-align:right;color:var(--primary);">₹${item.price * item.qty}</strong>
+        <button type="button" class="btn danger sm" onclick="removeFromCart('${item.id.replace(/'/g, "\\'")}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openCartModal() {
+  renderModalCart();
+  document.getElementById("cartModal").classList.add("open");
+}
+function closeCartModal() {
+  document.getElementById("cartModal").classList.remove("open");
+}
+function proceedToCheckoutFromCart() {
+  closeCartModal();
+  switchTab('booking');
+}
+
+// ==========================================
+// SERVICES & PRICE LIST UI
+// ==========================================
+function initServices() {
+  const grid = document.getElementById("serviceGrid");
+  const quickSelect = document.getElementById("quickAddServiceSelect");
+  if(!grid) return;
+
+  grid.innerHTML = "";
+  if(quickSelect) {
+    quickSelect.innerHTML = `<option value="">-- ${currentLang === 'hi' ? 'यहाँ से सर्विस चुनें (प्राइस के साथ)' : 'Quick Select a Service to Add'} --</option>`;
+  }
+
+  servicesData.forEach((s, i) => {
+    const qtyInCart = getCartItemQty(s.id);
+    const hasDiscount = s.mrp && Number(s.mrp) > Number(s.price);
+
+    const actionHtml = qtyInCart > 0
+      ? `<div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+           <div class="qty-box">
+             <button type="button" class="qty-btn" onclick="event.stopPropagation(); changeCartQty('${s.id.replace(/'/g, "\\'")}', -1)">−</button>
+             <span class="qty-val">${qtyInCart}</span>
+             <button type="button" class="qty-btn" onclick="event.stopPropagation(); changeCartQty('${s.id.replace(/'/g, "\\'")}', 1)">+</button>
+           </div>
+           <button type="button" class="btn primary sm" onclick="event.stopPropagation(); switchTab('booking');">Go to Cart ➔</button>
+         </div>`
+      : `<button type="button" class="btn primary sm" style="flex:1;" onclick="event.stopPropagation(); addToCart(${i})">🛒 Add to Cart</button>
+         <button type="button" class="btn secondary sm" onclick="event.stopPropagation(); openZoom(${i})">Details</button>`;
+
+    grid.innerHTML += `
+      <div class="service-tile">
+        <div>
+          <img src="${s.img}" class="service-img" onclick="openZoom(${i})" onerror="this.style.display='none'">
+          <div class="service-info">
+            <h3 onclick="openZoom(${i})">${s.name[currentLang] || s.name.en}</h3>
+            <div class="s-meta">
+              <span>⏱ ${s.duration[currentLang] || s.duration.en}</span>
+              <div>
+                ${hasDiscount ? `<span class="price-mrp">₹${s.mrp}</span>` : ``}
+                <span class="price-tag">₹${s.price}</span>
+              </div>
+            </div>
+            <p style="font-size:13px;color:var(--muted);margin:0;">${(s.benefits[currentLang] || s.benefits.en)[0]}...</p>
+          </div>
+        </div>
+        <div style="padding:0 20px 20px;">
+          <div class="tile-actions">${actionHtml}</div>
+        </div>
+      </div>
+    `;
+
+    if(quickSelect) {
+      quickSelect.innerHTML += `<option value="${i}">${s.name[currentLang] || s.name.en} — ₹${s.price}</option>`;
+    }
+  });
+}
+
+function openZoom(i) {
+  const s = servicesData[i];
+  if(!s) return;
+  selectedServiceIndexForZoom = i;
+  const zImg = document.getElementById("zImg");
+  zImg.style.display = "block";
+  zImg.src = s.img;
+  document.getElementById("zTitle").textContent = s.name[currentLang] || s.name.en;
+  document.getElementById("zPriceBadge").innerHTML = (s.mrp && s.mrp > s.price ? `<span class="price-mrp">₹${s.mrp}</span>` : "") + `₹${s.price}`;
+  document.getElementById("zDuration").textContent = s.duration[currentLang] || s.duration.en;
+  document.getElementById("zDesc").textContent = s.desc[currentLang] || s.desc.en;
+  document.getElementById("zBenefits").innerHTML = (s.benefits[currentLang] || s.benefits.en).map(b => `<li>${b}</li>`).join('');
+  document.getElementById("zoomModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeZoom() { document.getElementById("zoomModal").classList.remove("open"); document.body.style.overflow = "auto"; }
+
+function addZoomServiceToCart(goToCheckout) {
+  addToCart(selectedServiceIndexForZoom);
+  closeZoom();
+  if(goToCheckout) {
+    switchTab('booking');
+  }
+}
+
+// ==========================================
+// CHECKOUT, STATIC QR PAYMENT & AUTO PDF RECEIPT
+// ==========================================
+document.getElementById("bookingForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const botTrap = document.getElementById("botCheckField").value;
+  if(botTrap !== "") { alert("Spam detected! Booking blocked."); return; }
+
+  if(cart.length === 0) {
+    alert(currentLang === 'hi' ? "कृपया पहले कम से कम एक ब्यूटी सर्विस कार्ट में जोड़ें!" : "Please add at least one service to your cart before booking!");
+    return;
+  }
+
+  const name = document.getElementById("bName").value.trim(); 
+  const email = document.getElementById("bEmail").value.trim(); 
+  const gender = document.getElementById("bGender").value; 
+  const phone = document.getElementById("bPhone").value.trim(); 
+  const date = document.getElementById("bDate").value; 
+  const time = document.getElementById("bTime").value;
+  const notes = document.getElementById("bNotes").value.trim();
+
+  const isFakeNumber = /^(.)\1{9}$/.test(phone) || phone === "1234567890" || phone === "0987654321";
+  if(isFakeNumber) {
+    alert(currentLang === 'hi' ? "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।" : "Please enter a valid 10-digit mobile number.");
+    return;
+  }
+
+  const { total } = getCartTotals();
+  pendingCheckoutData = {
+    name, email, gender, phone, date, time, notes,
+    items: JSON.parse(JSON.stringify(cart)),
+    totalAmount: total
+  };
+
+  // Show Static QR Code Modal (assets/paymentqr)
+  document.getElementById("qrPayableAmount").textContent = total;
+  qrPathAttemptIndex = 0;
+  document.getElementById("paymentQrImg").src = paymentQrPaths[0];
+  document.getElementById("paymentQrModal").classList.add("open");
+});
+
+function toggleUtrField(val) {
+  document.getElementById("utrFieldBox").style.display = val === "Paid via QR Code" ? "flex" : "none";
+}
+
+function closePaymentModal() {
+  document.getElementById("paymentQrModal").classList.remove("open");
+}
+
+function generateOrderID() {
+  const d = new Date(); const pad = (n) => n.toString().padStart(2, '0');
+  return `BPF${pad(d.getDate())}${pad(d.getMonth()+1)}${d.getFullYear()}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+}
+
+function finalizeBookingAndDownloadPdf() {
+  if(!pendingCheckoutData) return;
+
+  const payMode = document.getElementById("payModeSelect").value;
+  const utr = document.getElementById("payUtrInput").value.trim();
+
+  if(payMode === "Paid via QR Code" && !utr) {
+    alert(currentLang === 'hi' ? "कृपया QR पेमेंट के बाद UTR / Transaction नंबर दर्ज करें, या 'Pay at Parlour' चुनें।" : "Please enter your UTR / Transaction Reference No. after scanning the QR code, or select 'Pay at Parlour'.");
+    return;
+  }
+
+  const btn = document.getElementById("finalConfirmPayBtn");
+  btn.disabled = true;
+  btn.textContent = "⏳ Saving to Database & Generating PDF...";
+
+  const orderId = generateOrderID();
+  const itemsSummaryText = pendingCheckoutData.items
+    .map(i => `${i.nameEn} (x${i.qty} - Rs.${i.price * i.qty})`)
+    .join(", ");
+
+  const paymentSummary = payMode === "Paid via QR Code"
+    ? `Paid via QR (UTR: ${utr})`
+    : `Pay at Parlour`;
+
+  const combinedServiceRecord = `${itemsSummaryText} | Total: Rs.${pendingCheckoutData.totalAmount} | ${paymentSummary}${pendingCheckoutData.notes ? ' | Note: ' + pendingCheckoutData.notes : ''}`;
+
+  const completeOrderObj = {
+    bookingId: orderId,
+    name: pendingCheckoutData.name,
+    email: pendingCheckoutData.email,
+    gender: pendingCheckoutData.gender,
+    phone: pendingCheckoutData.phone,
+    date: pendingCheckoutData.date,
+    time: pendingCheckoutData.time,
+    notes: pendingCheckoutData.notes,
+    items: pendingCheckoutData.items,
+    totalAmount: pendingCheckoutData.totalAmount,
+    paymentMode: payMode,
+    utr: utr || "N/A",
+    status: "Pending",
+    createdAt: new Date().toLocaleString()
+  };
+
+  // Save in Google Sheet Customer Database
+  apiCall({
+    action: "book",
+    bookingId: orderId,
+    name: completeOrderObj.name,
+    email: completeOrderObj.email,
+    gender: completeOrderObj.gender,
+    phone: completeOrderObj.phone,
+    service: combinedServiceRecord,
+    date: completeOrderObj.date,
+    time: completeOrderObj.time,
+    totalAmount: completeOrderObj.totalAmount,
+    paymentMode: completeOrderObj.paymentMode,
+    utr: completeOrderObj.utr,
+    cartJson: JSON.stringify(completeOrderObj.items)
+  }).then(data => {
+    if(data && data.status === "cooldown_error") {
+      alert(data.message);
+      btn.disabled = false;
+      btn.textContent = "✅ Confirm Payment & Auto-Download PDF Receipt";
+      return;
+    }
+    if(data && data.bookingId) {
+      completeOrderObj.bookingId = data.bookingId;
+    }
+    completeOrderPostProcess(completeOrderObj);
+  }).catch(() => {
+    // Even if offline/network issue, generate PDF & save locally
+    completeOrderPostProcess(completeOrderObj);
+  }).finally(() => {
+    btn.disabled = false;
+    btn.textContent = "✅ Confirm Payment & Auto-Download PDF Receipt";
+  });
+}
+
+function completeOrderPostProcess(orderObj) {
+  // Save to customer's local order history on device
+  myLocalOrders.unshift(orderObj);
+  localStorage.setItem("bpf_my_orders_v1", JSON.stringify(myLocalOrders));
+
+  // Auto-Generate & Auto-Download PDF Invoice
+  generateAndDownloadOrderPdf(orderObj);
+
+  // Clear Cart & Form
+  cart = [];
+  saveAndRefreshCart();
+  document.getElementById("bookingForm").reset();
+  document.getElementById("payUtrInput").value = "";
+  closePaymentModal();
+  renderMyLocalOrders();
+  updateUI();
+
+  alert(
+    currentLang === "hi"
+      ? `🎉 बुकिंग कन्फर्म हो गई और PDF रसीद डाउनलोड हो गई है!\n\nबुकिंग आईडी: ${orderObj.bookingId}\nकुल राशि: ₹${orderObj.totalAmount}`
+      : `🎉 Booking Confirmed & PDF Receipt Downloaded!\n\nBooking ID: ${orderObj.bookingId}\nTotal Amount: ₹${orderObj.totalAmount}`
+  );
+}
+
+// ==========================================
+// PDF RECEIPT GENERATOR & AUTO-DOWNLOADER
+// ==========================================
+function generateAndDownloadOrderPdf(orderObj) {
+  try {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert("PDF library loading, please try clicking Download PDF again.");
+      return;
+    }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+
+    // Top Header Banner
+    doc.setFillColor(141, 61, 104);
+    doc.rect(0, 0, 210, 38, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.text("BEAUTY PLUS FOREVER", 105, 16, { align: "center" });
+
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "normal");
+    doc.text("A Special Ladies Beauty Parlour", 105, 23, { align: "center" });
+    doc.setFontSize(9);
+    doc.text("Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, Bihar - 845305", 105, 29, { align: "center" });
+    doc.text("Phone: +91 9798013636 | WhatsApp: +91 9297562362 | Email: beautyplusforeverrxl@gmail.com", 105, 34, { align: "center" });
+
+    // Invoice Title & Status
+    doc.setTextColor(41, 35, 42);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(15);
+    doc.text("OFFICIAL BOOKING & PAYMENT RECEIPT", 15, 50);
+
+    doc.setDrawColor(201, 154, 61);
+    doc.setLineWidth(0.7);
+    doc.line(15, 53, 195, 53);
+
+    // Booking & Customer Meta Box
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Booking ID:`, 15, 62);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.bookingId}`, 50, 62);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Customer Name:`, 15, 69);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.name} (${orderObj.gender || "Female"})`, 50, 69);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Mobile Number:`, 15, 76);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.phone}`, 50, 76);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Email Address:`, 15, 83);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.email || "N/A"}`, 50, 83);
+
+    // Right Column Meta
+    doc.setFont("helvetica", "bold");
+    doc.text(`Appointment Date:`, 115, 62);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.date}`, 155, 62);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Appointment Time:`, 115, 69);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.time}`, 155, 69);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Payment Method:`, 115, 76);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.paymentMode || "QR Code"}`, 155, 76);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`UTR / Ref No.:`, 115, 83);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${orderObj.utr || "N/A"}`, 155, 83);
+
+    doc.setFont("helvetica", "bold");
+    doc.text(`Booking Status:`, 115, 90);
+    doc.setTextColor(141, 61, 104);
+    doc.text(`${(orderObj.status || "CONFIRMED").toUpperCase()}`, 155, 90);
+
+    // Table Header
+    let y = 100;
+    doc.setFillColor(245, 230, 238);
+    doc.rect(15, y, 180, 10, "F");
+    doc.setTextColor(141, 61, 104);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text("S.No", 19, y + 7);
+    doc.text("Service Description", 35, y + 7);
+    doc.text("Qty", 125, y + 7);
+    doc.text("Rate (Rs.)", 145, y + 7);
+    doc.text("Amount (Rs.)", 170, y + 7);
+
+    y += 16;
+    doc.setTextColor(41, 35, 42);
+    doc.setFont("helvetica", "normal");
+
+    const itemsList = Array.isArray(orderObj.items) && orderObj.items.length > 0
+      ? orderObj.items
+      : [{ nameEn: orderObj.service || "Beauty Parlour Package", qty: 1, price: orderObj.totalAmount || 0 }];
+
+    itemsList.forEach((item, idx) => {
+      const lineTotal = Number(item.price) * Number(item.qty);
+      doc.text(`${idx + 1}.`, 19, y);
+      doc.text(`${item.nameEn || item.id}`, 35, y);
+      doc.text(`${item.qty}`, 127, y);
+      doc.text(`Rs. ${item.price}`, 145, y);
+      doc.text(`Rs. ${lineTotal}`, 170, y);
+      doc.setDrawColor(235, 225, 230);
+      doc.line(15, y + 3, 195, y + 3);
+      y += 10;
+    });
+
+    // Total Banner
+    y += 4;
+    doc.setFillColor(141, 61, 104);
+    doc.rect(115, y, 80, 12, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text(`GRAND TOTAL: Rs. ${orderObj.totalAmount || 0}/-`, 155, y + 8, { align: "center" });
+
+    if (orderObj.notes) {
+      y += 20;
+      doc.setTextColor(80, 80, 80);
+      doc.setFontSize(9);
+      doc.text(`Customer Notes: ${orderObj.notes}`, 15, y);
+    }
+
+    // Footer & Stamp
+    doc.setTextColor(120, 110, 118);
+    doc.setFontSize(9);
+    doc.text("Thank you for choosing Beauty Plus Forever! Please show this PDF receipt during your visit.", 105, 272, { align: "center" });
+    doc.text("Generated automatically via Beauty Plus Forever Official Portal.", 105, 278, { align: "center" });
+
+    doc.save(`BeautyPlusForever_Receipt_${orderObj.bookingId}.pdf`);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// ==========================================
+// ORDER TRACKING, CANCELLATION & LOCAL HISTORY
+// ==========================================
+function renderMyLocalOrders() {
+  const container = document.getElementById("myOrdersHistoryBox");
+  const list = document.getElementById("myOrdersList");
+  if(!container || !list) return;
+
+  if(!myLocalOrders || myLocalOrders.length === 0) {
+    container.style.display = "none";
+    return;
+  }
+
+  container.style.display = "block";
+  list.innerHTML = myLocalOrders.slice(0, 8).map((ord, idx) => {
+    const isCancelled = ord.status === "Cancelled" || ord.status === "Rejected";
+    const servicesText = Array.isArray(ord.items)
+      ? ord.items.map(i => `${i.nameEn} ×${i.qty}`).join(", ")
+      : (ord.service || "");
+
+    return `
+      <div style="border:2px solid var(--line);border-radius:16px;padding:15px;margin-bottom:12px;background:#fff;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div>
+            <strong style="color:var(--primary);font-size:16px;">ID: ${ord.bookingId}</strong>
+            <span style="margin-left:8px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:800;background:${isCancelled ? '#f8d7da' : '#d4edda'};color:${isCancelled ? '#721c24' : '#155724'};">
+              ${ord.status || 'Confirmed'}
+            </span>
+          </div>
+          <div style="font-weight:900;font-size:17px;color:var(--primary);">₹${ord.totalAmount || 0}</div>
+        </div>
+        <div style="font-size:14px;margin:6px 0;color:var(--ink);"><b>Services:</b> ${servicesText}</div>
+        <div style="font-size:13px;color:var(--muted);">📅 Appointment: ${ord.date} at ${ord.time} • Payment: ${ord.paymentMode} (${ord.utr})</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+          <button class="btn secondary sm" onclick="downloadLocalOrderPdf(${idx})">📄 Download PDF Receipt</button>
+          ${!isCancelled ? `<button class="btn danger sm" onclick="cancelCustomerOrder('${ord.bookingId}', ${idx})">❌ Cancel Booking</button>` : ``}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function downloadLocalOrderPdf(idx) {
+  if(myLocalOrders[idx]) {
+    generateAndDownloadOrderPdf(myLocalOrders[idx]);
+  }
+}
+
+function cancelCustomerOrder(bookingId, localIdx) {
+  const reason = prompt(
+    currentLang === "hi"
+      ? `बुकिंग (${bookingId}) कैंसिल करने का कारण लिखें:`
+      : `Please enter the reason for cancelling Booking (${bookingId}):`,
+    "Schedule change"
+  );
+  if(reason === null) return;
+
+  // Update local status immediately
+  if(localIdx !== undefined && myLocalOrders[localIdx]) {
+    myLocalOrders[localIdx].status = "Cancelled";
+    localStorage.setItem("bpf_my_orders_v1", JSON.stringify(myLocalOrders));
+    renderMyLocalOrders();
+  }
+
+  // Update status in Google Sheet Database
+  apiCall({
+    action: "update_booking",
+    bookingId: bookingId,
+    newStatus: "Cancelled",
+    reason: reason,
+    token: adminSecureToken || "customer_self_cancel"
+  }).then(() => {
+    alert(currentLang === "hi" ? `आपकी बुकिंग ${bookingId} कैंसिल कर दी गई है।` : `Your booking ${bookingId} has been marked as Cancelled.`);
+  }).catch(() => {
+    alert(currentLang === "hi" ? `बुकिंग ${bookingId} कैंसिल कर दी गई है।` : `Booking ${bookingId} marked as Cancelled.`);
+  });
+}
+
+function trackOrder() {
+  const tid = document.getElementById("trackId").value.trim().toUpperCase();
+  const btn = document.getElementById("trackBtn");
+  const res = document.getElementById("trackResult");
+  if(!tid) return alert("Enter Booking ID");
+  btn.disabled = true; res.style.display = "none"; res.className = "track-result";
+
+  apiCall({ action: "track", bookingId: tid }).then(d => {
+      res.style.display = "block";
+      if(d.status === "success") {
+        const localMatch = myLocalOrders.find(o => o.bookingId === d.bookingId);
+        const currentStatus = (localMatch && localMatch.status === "Cancelled") ? "Cancelled" : d.orderStatus;
+        res.classList.add("status-" + currentStatus);
+
+        const tempOrderForPdf = localMatch || {
+          bookingId: d.bookingId,
+          name: currentUser ? currentUser.name : "Valued Customer",
+          phone: currentUser ? currentUser.mobile : "",
+          service: d.service,
+          date: new Date(d.date).toLocaleDateString(),
+          time: "",
+          totalAmount: (d.service.match(/Total:\s*Rs\.(\d+)/i) || [0, ""])[1] || "",
+          paymentMode: "Recorded in Database",
+          utr: "",
+          status: currentStatus
+        };
+
+        window.lastTrackedOrderObj = tempOrderForPdf;
+
+        res.innerHTML = `
+          <strong>Booking ID: ${d.bookingId}</strong><br>
+          <b>Details:</b> ${d.service}<br>
+          <b>Appointment Date:</b> ${new Date(d.date).toLocaleDateString()}<br>
+          <div style="font-size:20px; font-weight:900; margin:8px 0;">Status: ${currentStatus.toUpperCase()}</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+            <button class="btn secondary sm" onclick="generateAndDownloadOrderPdf(window.lastTrackedOrderObj)">📄 Download PDF Receipt</button>
+            ${currentStatus !== 'Cancelled' && currentStatus !== 'Completed' && currentStatus !== 'Rejected'
+              ? `<button class="btn danger sm" onclick="cancelTrackedOrder('${d.bookingId}')">❌ Cancel Booking</button>`
+              : ``}
+          </div>
+        `;
+      } else {
+        res.style.background = "#fff"; res.style.border = "1px solid #ccc"; res.style.color = "red";
+        res.innerHTML = `<strong>Error:</strong> ${d.message}`;
+      }
+  }).catch(e => {
+    res.style.display = "block"; res.style.color = "red"; res.innerHTML = "Network Error.";
+  }).finally(() => btn.disabled = false);
+}
+
+function cancelTrackedOrder(bookingId) {
+  const localIdx = myLocalOrders.findIndex(o => o.bookingId === bookingId);
+  cancelCustomerOrder(bookingId, localIdx >= 0 ? localIdx : undefined);
+  setTimeout(() => trackOrder(), 600);
+}
+
+// ==========================================
+// REVIEWS & AUTH
+// ==========================================
 function uploadToImgBB(file, callback, errorCallback) {
   const fd = new FormData();
   fd.append("image", file);
@@ -836,38 +1923,14 @@ document.getElementById("reviewForm").addEventListener("submit", function(e) {
 function renderReviews() {
   const list = document.getElementById("reviewList"); list.innerHTML = "";
   if(!top5Reviews || top5Reviews.length === 0) { list.innerHTML = `<p style="color:var(--muted);">${currentLang === 'hi' ? "अभी तक कोई समीक्षा नहीं।" : "No reviews yet."}</p>`; return; }
-  top5Reviews.forEach(r => { list.innerHTML += `<div class="review-card"><img src="${r.photo}"><div class="review-meta"><b>${r.name}</b> • ${r.date}</div><p style="margin:0;font-size:15px;line-height:1.5;">"${r.text}"</p></div>`; });
+  top5Reviews.forEach(r => { list.innerHTML += `<div class="review-card"><img src="${r.photo}" onerror="this.style.display='none'"><div class="review-meta"><b>${r.name}</b> • ${r.date}</div><p style="margin:0;font-size:15px;line-height:1.5;">"${r.text}"</p></div>`; });
 }
 
 function changeLang(lang) {
   currentLang = lang; localStorage.setItem("bpf_lang", lang); document.getElementById("langSwitcher").value = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => { const key = el.getAttribute("data-i18n"); if (translations[lang][key]) el.innerHTML = translations[lang][key]; });
   document.querySelectorAll("[data-i18n-ph]").forEach(el => { const key = el.getAttribute("data-i18n-ph"); if (translations[lang][key]) el.placeholder = translations[lang][key]; });
-  initServices(); renderReviews();
-}
-
-function initServices() {
-  const grid = document.getElementById("serviceGrid"); const select = document.getElementById("bService");
-  grid.innerHTML = ""; select.innerHTML = `<option value="">-- ${currentLang === 'hi' ? 'सेवा चुनें' : 'Choose a Service'} --</option>`;
-  servicesData.forEach((s, i) => {
-    grid.innerHTML += `<div class="service-tile" onclick="openZoom(${i})"><img src="${s.img}" class="service-img" onerror="this.src='https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80'"><div class="service-info"><h3>${s.name[currentLang]}</h3><div class="s-meta">⏱ ${s.duration[currentLang]}</div><p style="font-size:13px;color:var(--muted);margin:0;">${s.benefits[currentLang][0]}...</p></div></div>`;
-    select.innerHTML += `<option value="${s.id}">${s.name[currentLang]}</option>`;
-  });
-}
-
-function openZoom(i) {
-  const s = servicesData[i]; selectedServiceForBooking = s.id;
-  document.getElementById("zImg").src = s.img; document.getElementById("zTitle").textContent = s.name[currentLang];
-  document.getElementById("zDuration").textContent = s.duration[currentLang]; document.getElementById("zDesc").textContent = s.desc[currentLang];
-  document.getElementById("zBenefits").innerHTML = s.benefits[currentLang].map(b => `<li>${b}</li>`).join('');
-  document.getElementById("zoomModal").classList.add("open"); document.body.style.overflow = "hidden";
-}
-function closeZoom() { document.getElementById("zoomModal").classList.remove("open"); document.body.style.overflow = "auto"; }
-
-function bookFromZoom() { 
-  closeZoom(); 
-  document.getElementById("bService").value = selectedServiceForBooking; 
-  switchTab('booking');
+  initServices(); renderReviews(); renderCheckoutCart(); renderModalCart();
 }
 
 function openAuthModal() { document.getElementById("authModal").classList.add("open"); }
@@ -888,7 +1951,6 @@ document.getElementById("signupForm").addEventListener("submit", (e) => {
   }).catch(e => document.getElementById("authError").textContent = "Network Error").finally(() => btn.disabled = false);
 });
 
-// SECURE LOGIN PROCESS
 document.getElementById("loginForm").addEventListener("submit", (e) => {
   e.preventDefault(); const u = document.getElementById("loginUsername").value.trim(); const p = document.getElementById("loginPassword").value.trim();
   const btn = document.getElementById("loginSubmitBtn"); btn.disabled = true;
@@ -917,6 +1979,7 @@ function updateUI() {
     if(isAdmin) {
       document.getElementById("userGreeting").textContent = "Hello, Admin";
       document.getElementById("adminBadge").style.display = "inline-block"; document.getElementById("adminDashboard").style.display = "block";
+      renderAdminPriceList();
     } else {
       document.getElementById("userGreeting").textContent = (currentLang === 'hi' ? "नमस्ते, " : "Hi, ") + currentUser.name.split(' ')[0];
       document.getElementById("adminBadge").style.display = "none"; document.getElementById("adminDashboard").style.display = "none";
@@ -927,9 +1990,12 @@ function updateUI() {
   }
 }
 
-function switchAdminTab(t) {
-  document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active')); document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
-  document.getElementById(t).classList.add('active'); event.target.classList.add('active');
+function switchAdminTab(t, btnEl) {
+  document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById(t).classList.add('active');
+  if(btnEl) btnEl.classList.add('active');
+  if(t === 'adminPriceList') renderAdminPriceList();
 }
 
 // SECURE FETCH BOOKINGS (Requires Token)
@@ -938,8 +2004,28 @@ function fetchAdminBookings() {
   apiCall({ action: "get_bookings", token: adminSecureToken }).then(d => {
     if(d.status === "success") {
       tb.innerHTML = "";
-      d.bookings.forEach(b => {
-        tb.innerHTML += `<tr><td><strong>${b.id}</strong></td><td>${b.name} <br> <small>${b.phone}</small><br><small style="color:var(--primary2);">${b.email||'No Email'}</small></td><td>${b.service}</td><td>${new Date(b.date).toLocaleDateString()} <br> ${b.time}</td><td><select onchange="changeBookingStatus('${b.id}', this.value)"><option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option><option value="Confirmed" ${b.status==='Confirmed'?'selected':''}>Confirmed</option><option value="Hold" ${b.status==='Hold'?'selected':''}>Hold</option><option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option><option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option></select></td><td><button class="btn secondary" onclick="alert('Status auto-saves on change.')">💾</button></td></tr>`;
+      window.adminLoadedBookings = d.bookings || [];
+      d.bookings.forEach((b, i) => {
+        tb.innerHTML += `
+          <tr>
+            <td><strong>${b.id}</strong></td>
+            <td>${b.name}<br><small>${b.phone}</small><br><small style="color:var(--primary2);">${b.email||'No Email'}</small></td>
+            <td style="max-width:260px;">${b.service}</td>
+            <td>${new Date(b.date).toLocaleDateString()}<br>${b.time}</td>
+            <td>
+              <select onchange="changeBookingStatus('${b.id}', this.value)" style="padding:6px;border-radius:8px;font-weight:bold;">
+                <option value="Pending" ${b.status==='Pending'?'selected':''}>Pending</option>
+                <option value="Confirmed" ${b.status==='Confirmed'?'selected':''}>Confirmed</option>
+                <option value="Hold" ${b.status==='Hold'?'selected':''}>Hold</option>
+                <option value="Completed" ${b.status==='Completed'?'selected':''}>Completed</option>
+                <option value="Cancelled" ${b.status==='Cancelled'?'selected':''}>Cancelled</option>
+                <option value="Rejected" ${b.status==='Rejected'?'selected':''}>Rejected</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn secondary sm" onclick="downloadAdminBookingPdf(${i})">📄 PDF</button>
+            </td>
+          </tr>`;
       });
     } else {
       tb.innerHTML = `<tr><td colspan='6' style='text-align:center;color:red;'>${d.message}</td></tr>`;
@@ -947,7 +2033,25 @@ function fetchAdminBookings() {
   });
 }
 
-// SECURE UPDATE BOOKING (Requires Token)
+function downloadAdminBookingPdf(idx) {
+  const b = (window.adminLoadedBookings || [])[idx];
+  if(!b) return;
+  const parsedTotal = (b.service.match(/Total:\s*Rs\.(\d+)/i) || [0, "0"])[1];
+  generateAndDownloadOrderPdf({
+    bookingId: b.id,
+    name: b.name,
+    email: b.email,
+    phone: b.phone,
+    service: b.service,
+    date: new Date(b.date).toLocaleDateString(),
+    time: b.time,
+    totalAmount: parsedTotal,
+    paymentMode: "Recorded",
+    utr: "Verified",
+    status: b.status
+  });
+}
+
 function changeBookingStatus(id, newStatus) {
   apiCall({ action: "update_booking", bookingId: id, newStatus: newStatus, token: adminSecureToken }).then(d => { 
     if(d.status === "success") alert("Status updated to " + newStatus + ". Email sent to customer."); 
@@ -968,63 +2072,6 @@ setInterval(() => {
     }
 }, 3000);
 
-function generateOrderID() {
-  const d = new Date(); const pad = (n) => n.toString().padStart(2, '0');
-  return `BPF${pad(d.getDate())}${pad(d.getMonth()+1)}${d.getFullYear()}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
-}
-
-document.getElementById("bookingForm").addEventListener("submit", (e) => {
-  e.preventDefault(); 
-  
-  // SPAM TRAP
-  const botTrap = document.getElementById("botCheckField").value;
-  if(botTrap !== "") { alert("Spam detected! Booking blocked."); return; }
-
-  const btn = document.getElementById("bookingSubmitBtn"); btn.disabled = true;
-  const name = document.getElementById("bName").value.trim(); 
-  const email = document.getElementById("bEmail").value.trim(); 
-  const gender = document.getElementById("bGender").value; 
-  const phone = document.getElementById("bPhone").value.trim(); 
-  const selElement = document.getElementById("bService"); 
-  const serviceName = selElement.options[selElement.selectedIndex].text; 
-  const date = document.getElementById("bDate").value; 
-  const time = document.getElementById("bTime").value;
-
-  const isFakeNumber = /^(.)\1{9}$/.test(phone) || phone === "1234567890" || phone === "0987654321";
-  if(isFakeNumber) { alert(currentLang === 'hi' ? "कृपया सही मोबाइल नंबर दर्ज करें।" : "Please enter a valid mobile number."); btn.disabled = false; return; }
-  
-  const newOrderId = generateOrderID();
-
-  apiCall({
-    action: "book", bookingId: newOrderId, name: name, email: email, gender: gender, phone: phone, service: serviceName, date: date, time: time
-  }).then(data => {
-      if(data.status === "cooldown_error") {
-         alert(data.message);
-         btn.disabled = false;
-         return;
-      }
-
-      alert(currentLang === 'hi' ? `बुकिंग सफलतापूर्वक सहेजी गई!\n\nआपकी बुकिंग आईडी है: ${data.bookingId}` : `Booking saved successfully!\n\nYour Booking ID is: ${data.bookingId}`);
-      const waMsg = `Hello Beauty Plus Forever! ✨\n\nI would like to confirm my appointment.\n\n*Name:* ${name}\n*Service:* ${serviceName}\n*System Order ID:* ${data.bookingId}\n\nPlease confirm availability.`;
-      window.location.href = `https://api.whatsapp.com/send?phone=${PRIMARY_WA_NUMBER}&text=${encodeURIComponent(waMsg)}`;
-      document.getElementById("bookingForm").reset(); updateUI(); 
-  }).catch(err => { 
-      const waMsg = `Hello Beauty Plus Forever! ✨\n\nI would like to confirm my appointment.\n\n*Name:* ${name}\n*Service:* ${serviceName}\n*System Order ID:* ${newOrderId}\n\nPlease confirm availability.`;
-      window.location.href = `https://api.whatsapp.com/send?phone=${PRIMARY_WA_NUMBER}&text=${encodeURIComponent(waMsg)}`;
-  }).finally(() => { btn.disabled = false; });
-});
-
-function trackOrder() {
-  const tid = document.getElementById("trackId").value.trim().toUpperCase(); const btn = document.getElementById("trackBtn"); const res = document.getElementById("trackResult");
-  if(!tid) return alert("Enter Booking ID");
-  btn.disabled = true; res.style.display = "none"; res.className = "track-result";
-  apiCall({ action: "track", bookingId: tid }).then(d => {
-      res.style.display = "block";
-      if(d.status === "success") { res.classList.add("status-" + d.orderStatus); res.innerHTML = `<strong>Booking: ${d.bookingId}</strong><br>Service: ${d.service} <br> Date: ${new Date(d.date).toLocaleDateString()} <br><div style="font-size:22px; font-weight:900;">Status: ${d.orderStatus.toUpperCase()}</div>`;
-      } else { res.style.background = "#fff"; res.style.border = "1px solid #ccc"; res.style.color = "red"; res.innerHTML = `<strong>Error:</strong> ${d.message}`; }
-  }).catch(e => { res.style.display = "block"; res.style.color = "red"; res.innerHTML = "Network Error."; }).finally(() => btn.disabled = false);
-}
-
 // INIT
 document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -1034,6 +2081,8 @@ const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().split('T')[
 document.getElementById("bDate").setAttribute('min', localISOTime);
 
 changeLang(currentLang);
+saveAndRefreshCart();
+renderMyLocalOrders();
 fetchGlobalData();
 updateUI(); 
 </script>
