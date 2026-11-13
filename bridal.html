@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="theme-color" content="#8d3d68">
+<title>Bridal Gallery | Beauty Plus Forever</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+  :root{
+    --primary:#8d3d68;--primary2:#b85b87;--soft:#fff5fa;--gold:#c99a3d;
+    --ink:#29232a;--muted:#746b72;--white:#fff;--line:#eadde5;
+    --shadow:0 10px 30px rgba(76,35,58,0.1);
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.6;}
+
+  header{background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:12px 0;position:sticky;top:0;z-index:50;}
+  .nav-container{width:min(1160px, 92%);margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .brand-title{font-size:18px;font-weight:900;color:var(--primary);margin:0;}
+  .back-btn{background:var(--soft);color:var(--primary);border:2px solid var(--primary2);padding:8px 16px;border-radius:12px;font-weight:bold;font-size:14px;text-decoration:none;transition:0.2s;display:inline-flex;align-items:center;gap:6px;}
+  .back-btn:hover{background:var(--primary);color:#fff;}
+
+  .container{width:min(1160px, 92%);margin:auto;padding:40px 0;}
+  .page-title{text-align:center;color:var(--primary);font-size:clamp(28px, 5vw, 40px);margin:0 0 8px;font-weight:900;}
+  .page-sub{text-align:center;color:var(--muted);margin:0 auto 35px;font-size:clamp(15px, 3vw, 18px);max-width:600px;}
+
+  /* HIGHLY RESPONSIVE BRIDAL GRID */
+  .bridal-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    gap:20px;
+  }
+  .bridal-card{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+    cursor:pointer;
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .bridal-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 35px rgba(141,61,104,0.2);
+  }
+  .bridal-card img{
+    width:100%;
+    height:310px;
+    object-fit:cover;
+    display:block;
+    background:#f7edf4;
+    transition:transform 0.4s ease;
+  }
+  .bridal-card:hover img{
+    transform:scale(1.03);
+  }
+  .bridal-card-caption{
+    padding:14px;
+    font-weight:800;
+    font-size:15px;
+    color:var(--primary);
+    text-align:center;
+    background:#fff;
+    border-top:1px solid var(--line);
+  }
+
+  /* LIGHTBOX ZOOM MODAL FOR MOBILE & DESKTOP */
+  .lightbox-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,10,16,0.88);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(8px);
+    padding:20px;
+  }
+  .lightbox-modal.open{display:flex;}
+  .lightbox-content{
+    position:relative;
+    max-width:92vw;
+    max-height:88vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .lightbox-content img{
+    max-width:100%;
+    max-height:78vh;
+    object-fit:contain;
+    border-radius:16px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.6);
+    border:2px solid var(--gold);
+  }
+  .lightbox-close{
+    position:absolute;
+    top:-45px;
+    right:0;
+    background:#fff;
+    border:none;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    font-size:22px;
+    font-weight:bold;
+    color:var(--ink);
+    cursor:pointer;
+    display:grid;
+    place-items:center;
+    box-shadow:0 4px 15px rgba(0,0,0,0.3);
+  }
+  .lightbox-close:hover{background:var(--primary);color:#fff;}
+
+  footer{background:#1a1318;color:#fff;padding:35px 0;text-align:center;margin-top:60px;}
+  .footer-title{font-size:22px;color:var(--gold);margin:0 0 8px;}
+
+  @media(max-width:600px){
+    .container{padding:25px 0;}
+    .bridal-card img{height:270px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <h3 class="brand-title">Beauty Plus Forever</h3>
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </div>
+</header>
+
+<div class="container">
+  <h1 class="page-title">✨ Exclusive Bridal Gallery</h1>
+  <p class="page-sub">Explore our finest bridal makeovers, traditional styling, and engagement looks. Tap any photo to zoom in.</p>
+
+  <!-- RESPONSIVE GRID -->
+  <div class="bridal-grid" id="bridalGrid">
+    <div class="bridal-card" onclick="openLightbox('bridal/bridal1.jpg', 'Traditional Red Bridal Look')">
+      <img src="bridal/bridal1.jpg" alt="Bridal Look 1" onerror="this.closest('.bridal-card').style.display='none'">
+      <div class="bridal-card-caption">Traditional Red Bridal Look</div>
+    </div>
+    <div class="bridal-card" onclick="openLightbox('bridal/bridal2.jpg', 'HD Reception Makeup')">
+      <img src="bridal/bridal2.jpg" alt="Bridal Look 2" onerror="this.closest('.bridal-card').style.display='none'">
+      <div class="bridal-card-caption">HD Reception Makeup</div>
+    </div>
+    <div class="bridal-card" onclick="openLightbox('bridal/bridal3.jpg', 'Engagement Glam Look')">
+      <img src="bridal/bridal3.jpg" alt="Bridal Look 3" onerror="this.closest('.bridal-card').style.display='none'">
+      <div class="bridal-card-caption">Engagement Glam Look</div>
+    </div>
+    <div class="bridal-card" onclick="openLightbox('bridal/bridal4.jpg', 'Royal Bridal Hair Styling')">
+      <img src="bridal/bridal4.jpg" alt="Bridal Look 4" onerror="this.closest('.bridal-card').style.display='none'">
+      <div class="bridal-card-caption">Royal Bridal Hair Styling</div>
+    </div>
+    <div class="bridal-card" onclick="openLightbox('bridal/bridal5.jpg', 'South Indian / Bengali Bridal')">
+      <img src="bridal/bridal5.jpg" alt="Bridal Look 5" onerror="this.closest('.bridal-card').style.display='none'">
+      <div class="bridal-card-caption">Classic Bridal Draping</div>
+    </div>
+    <div class="bridal-card" onclick="openLightbox('bridal/bridal6.jpg', 'Party & Shadi Guest Makeover')">
+      <img src="bridal/bridal6.jpg" alt="Bridal Look 6" onerror="this.closest('.bridal-card').style.display='none'">
+      <div class="bridal-card-caption">Party & Shadi Guest Makeover</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX ZOOM MODAL CONTAINER -->
+<div class="lightbox-modal" id="lightboxModal" onclick="if(event.target===this)closeLightbox()">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <img id="lightboxImg" src="" alt="Zoomed Bridal Photo">
+    <div id="lightboxCaption" style="color:#fff;margin-top:12px;font-weight:bold;font-size:16px;text-align:center;"></div>
+  </div>
+</div>
+
+<footer>
+  <div style="width:min(1160px, 92%);margin:auto;">
+    <h3 class="footer-title">Beauty Plus Forever</h3>
+    <p style="opacity:0.6;font-size:14px;margin:0;">Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, Bihar</p>
+  </div>
+</footer>
+
+<script>
+function openLightbox(imgSrc, captionText) {
+  const modal = document.getElementById("lightboxModal");
+  const img = document.getElementById("lightboxImg");
+  const caption = document.getElementById("lightboxCaption");
+  
+  img.src = imgSrc;
+  caption.textContent = captionText;
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  const modal = document.getElementById("lightboxModal");
+  modal.classList.remove("open");
+  document.body.style.overflow = "auto";
+}
+</script>
+
+</body>
+</html>
