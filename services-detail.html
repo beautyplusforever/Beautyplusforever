@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="theme-color" content="#8d3d68">
+<title>Professional Services & Trusted Products | Beauty Plus Forever</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<style>
+  :root{
+    --primary:#8d3d68;--primary2:#b85b87;--soft:#fff5fa;--gold:#c99a3d;
+    --ink:#29232a;--muted:#746b72;--white:#fff;--line:#eadde5;
+    --shadow:0 12px 35px rgba(141,61,104,0.12);
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,sans-serif;color:var(--ink);background:#fffafb;line-height:1.6;padding-bottom:75px;}
+  a{text-decoration:none;color:inherit}
+
+  header{background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 0;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,0.03);}
+  .nav-container{width:min(1160px, 92%);margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .brand-title{font-size:18px;font-weight:900;color:var(--primary);margin:0;display:flex;align-items:center;gap:8px;}
+  .logo-dot{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:grid;place-items:center;font-size:16px;}
+  .nav-links{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .nav-btn{background:var(--soft);color:var(--primary);border:1px solid var(--primary2);padding:7px 13px;border-radius:12px;font-weight:800;font-size:13px;transition:0.25s;display:inline-flex;align-items:center;gap:5px;}
+  .nav-btn:hover,.nav-btn.active{background:var(--primary);color:#fff;}
+
+  .hero-banner{background:linear-gradient(135deg, var(--primary), var(--primary2));color:#fff;padding:55px 20px;text-align:center;}
+  .hero-banner h1{font-size:clamp(28px, 6vw, 46px);margin:0 0 10px;font-weight:900;}
+  .hero-banner p{font-size:clamp(15px, 3vw, 18px);max-width:720px;margin:auto;opacity:0.95;}
+
+  .container{width:min(1160px, 92%);margin:auto;padding:45px 0;}
+  .section-header{text-align:center;margin-bottom:38px;}
+  .section-header h2{color:var(--primary);font-size:clamp(24px, 4vw, 32px);margin:0 0 8px;font-weight:900;}
+  .section-header p{color:var(--muted);font-size:16px;max-width:600px;margin:auto;}
+
+  /* SERVICE DETAIL CARDS */
+  .service-detail-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:28px;}
+  .service-card{background:#fff;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;transition:transform 0.3s ease;}
+  .service-card:hover{transform:translateY(-6px);box-shadow:0 20px 45px rgba(141,61,104,0.18);}
+  
+  .service-img-box{width:100%;height:220px;background:#f7edf4;position:relative;overflow:hidden;}
+  .service-img-box img{width:100%;height:100%;object-fit:cover;display:block;}
+  .brand-badge{position:absolute;top:15px;right:15px;background:var(--gold);color:#fff;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:900;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+
+  .service-body{padding:24px;flex:1;display:flex;flex-direction:column;gap:12px;}
+  .service-title{font-size:22px;font-weight:900;color:var(--primary);margin:0;}
+  .service-price-row{display:flex;justify-content:space-between;align-items:center;font-weight:800;}
+  .price{font-size:20px;color:var(--primary);}
+  .duration{font-size:13px;color:var(--gold);background:var(--soft);padding:4px 10px;border-radius:8px;}
+
+  .steps-title{font-size:13px;font-weight:900;color:var(--ink);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;}
+  .steps-list{margin:0;padding-left:18px;font-size:14px;color:var(--muted);line-height:1.6;}
+  .steps-list li{margin-bottom:5px;}
+
+  .card-footer{padding:18px 24px;border-top:1px solid var(--line);background:var(--soft);display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .book-btn{background:var(--primary);color:#fff;border:none;padding:10px 18px;border-radius:12px;font-weight:900;cursor:pointer;font-size:14px;transition:0.2s;}
+  .book-btn:hover{background:var(--primary2);box-shadow:0 4px 15px rgba(141,61,104,0.3);}
+
+  /* STICKY MOBILE BOTTOM NAV */
+  .mobile-bottom-nav{
+    position:fixed;bottom:0;left:0;right:0;height:62px;background:rgba(255,255,255,0.98);
+    backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -4px 20px rgba(0,0,0,0.06);
+    z-index:98;display:grid;grid-template-columns:repeat(5, 1fr);align-items:center;
+  }
+  .mob-nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--muted);gap:2px;}
+  .mob-nav-item span.icon{font-size:18px;line-height:1;}
+  .mob-nav-item.active,.mob-nav-item:hover{color:var(--primary);}
+
+  footer{background:#1a1318;color:#fff;padding:40px 0;text-align:center;margin-top:50px;}
+  .footer-title{font-size:24px;color:var(--gold);margin:0 0 8px;font-weight:900;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <a href="index.html" class="brand-title"><span class="logo-dot">✦</span> Beauty Plus Forever</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 Home</a>
+      <a href="services-detail.html" class="nav-btn active">📋 Services & Steps</a>
+      <a href="packages.html" class="nav-btn">🎁 Packages</a>
+      <a href="bridal.html" class="nav-btn">✨ Bridal Gallery</a>
+      <a href="before-after.html" class="nav-btn">📸 Transformations</a>
+      <a href="about.html" class="nav-btn">👩‍🎨 About</a>
+      <a href="index.html#booking" class="nav-btn">🛒 Cart (<span id="navCartCount">0</span>)</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero-banner">
+  <h1>Professional Services & Trusted Products</h1>
+  <p>Discover our step-by-step beauty treatments powered by world-class certified brands (O3+, L'Oreal Professionnel, MAC, Kryolan, Lotus & Rica) administered by expert beauticians in Raxaul.</p>
+</div>
+
+<div class="container">
+  <div class="section-header">
+    <h2>Detailed Service Menu & Step-by-Step Process</h2>
+    <p>We believe in 100% transparency and top-tier hygiene. Every service follows a strict professional protocol.</p>
+  </div>
+
+  <div class="service-detail-grid">
+    
+    <!-- 1. Advanced Facial -->
+    <div class="service-card">
+      <div class="service-img-box">
+        <img src="assets/service2.jpg" alt="Advanced Facial" onerror="this.style.display='none'">
+        <span class="brand-badge">O3+ & Lotus</span>
+      </div>
+      <div class="service-body">
+        <h3 class="service-title">Advanced Glowing Facial</h3>
+        <div class="service-price-row">
+          <span class="price">₹799 <small style="font-size:12px;color:var(--muted);text-decoration:line-through;">₹1,200</small></span>
+          <span class="duration">⏱ 60 Mins</span>
+        </div>
+        <div class="steps-title">Step-by-Step Procedure:</div>
+        <ul class="steps-list">
+          <li><b>Step 1:</b> Deep pore cleansing milk massage to remove surface impurities.</li>
+          <li><b>Step 2:</b> Gentle botanical exfoliation & scrub for dead skin removal.</li>
+          <li><b>Step 3:</b> Warm herbal steam & painless blackhead extraction.</li>
+          <li><b>Step 4:</b> Relaxing lymphatic face & neck massage using essential oils.</li>
+          <li><b>Step 5:</b> Premium vitamin-C or gold face mask for instant radiance.</li>
+          <li><b>Step 6:</b> Hydrating toner, nourishing serum & SPF 50 sun protection.</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;font-weight:800;color:var(--primary);">100% Safe for All Skin Types</span>
+        <button class="book-btn" onclick="addServiceAndBook('Advanced Facial', 'Advanced Glowing Facial (O3+ & Lotus)', 799, 1200)">🛒 Add & Book</button>
+      </div>
+    </div>
+
+    <!-- 2. Hair Spa & Treatment -->
+    <div class="service-card">
+      <div class="service-img-box">
+        <img src="assets/service3.jpg" alt="Hair Spa" onerror="this.style.display='none'">
+        <span class="brand-badge">L'Oreal Professionnel</span>
+      </div>
+      <div class="service-body">
+        <h3 class="service-title">Deep Nourishment Hair Spa</h3>
+        <div class="service-price-row">
+          <span class="price">₹699 <small style="font-size:12px;color:var(--muted);text-decoration:line-through;">₹999</small></span>
+          <span class="duration">⏱ 45 Mins</span>
+        </div>
+        <div class="steps-title">Step-by-Step Procedure:</div>
+        <ul class="steps-list">
+          <li><b>Step 1:</b> Scalp analysis & pre-spa nourishing oil massage.</li>
+          <li><b>Step 2:</b> Deep cleansing anti-dandruff or moisture-lock shampoo wash.</li>
+          <li><b>Step 3:</b> Application of L'Oreal hair spa cream root-to-tip.</li>
+          <li><b>Step 4:</b> Intensive ozone steam therapy for cuticle opening & absorption.</li>
+          <li><b>Step 5:</b> Cold water rinse to seal moisture & blow-dry styling finish.</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;font-weight:800;color:var(--primary);">Silky, Frizz-Free Hair</span>
+        <button class="book-btn" onclick="addServiceAndBook('Hair Spa', 'L\'Oreal Deep Nourishment Hair Spa', 699, 999)">🛒 Add & Book</button>
+      </div>
+    </div>
+
+    <!-- 3. Bridal Makeover -->
+    <div class="service-card">
+      <div class="service-img-box">
+        <img src="assets/service1.jpg" alt="Bridal Makeover" onerror="this.style.display='none'">
+        <span class="brand-badge">MAC & Kryolan</span>
+      </div>
+      <div class="service-body">
+        <h3 class="service-title">HD Bridal Makeover Package</h3>
+        <div class="service-price-row">
+          <span class="price">₹4,999 <small style="font-size:12px;color:var(--muted);text-decoration:line-through;">₹6,500</small></span>
+          <span class="duration">⏱ 3-4 Hours</span>
+        </div>
+        <div class="steps-title">Step-by-Step Procedure:</div>
+        <ul class="steps-list">
+          <li><b>Step 1:</b> CTM skin prep, pore-blurring primer & color correcting.</li>
+          <li><b>Step 2:</b> Long-wear waterproof HD / Airbrush foundation application.</li>
+          <li><b>Step 3:</b> Custom eye makeup, glitter pigments & premium mink lashes.</li>
+          <li><b>Step 4:</b> Professional contouring, highlighting & blush finish.</li>
+          <li><b>Step 5:</b> Royal bridal hair styling, bun decoration & dupatta/saree draping.</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;font-weight:800;color:var(--primary);">16-Hour Smudge Proof</span>
+        <button class="book-btn" onclick="addServiceAndBook('Bridal Makeover', 'HD Bridal Makeover (MAC & Kryolan)', 4999, 6500)">🛒 Add & Book</button>
+      </div>
+    </div>
+
+    <!-- 4. Party Makeup -->
+    <div class="service-card">
+      <div class="service-img-box">
+        <img src="assets/service4.jpg" alt="Party Makeup" onerror="this.style.display='none'">
+        <span class="brand-badge">Huda Beauty</span>
+      </div>
+      <div class="service-body">
+        <h3 class="service-title">Party & Reception Makeup</h3>
+        <div class="service-price-row">
+          <span class="price">₹1,499 <small style="font-size:12px;color:var(--muted);text-decoration:line-through;">₹2,000</small></span>
+          <span class="duration">⏱ 90 Mins</span>
+        </div>
+        <div class="steps-title">Step-by-Step Procedure:</div>
+        <ul class="steps-list">
+          <li><b>Step 1:</b> Instant glow skin cleansing & hydrating primer.</li>
+          <li><b>Step 2:</b> Flawless liquid foundation & lightweight setting powder.</li>
+          <li><b>Step 3:</b> Trendy eye shadow styling matching your outfit.</li>
+          <li><b>Step 4:</b> Basic hairstyling (Blow-dry curls or elegant bun).</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;font-weight:800;color:var(--primary);">Flawless Camera-Ready Look</span>
+        <button class="book-btn" onclick="addServiceAndBook('Party Makeup', 'Party & Reception Makeup (Huda Beauty)', 1499, 2000)">🛒 Add & Book</button>
+      </div>
+    </div>
+
+    <!-- 5. Manicure & Pedicure -->
+    <div class="service-card">
+      <div class="service-img-box">
+        <img src="assets/service5.jpg" alt="Manicure Pedicure" onerror="this.style.display='none'">
+        <span class="brand-badge">OPI & Aroma Magic</span>
+      </div>
+      <div class="service-body">
+        <h3 class="service-title">Spa Manicure & Pedicure</h3>
+        <div class="service-price-row">
+          <span class="price">₹549 <small style="font-size:12px;color:var(--muted);text-decoration:line-through;">₹800</small></span>
+          <span class="duration">⏱ 60 Mins</span>
+        </div>
+        <div class="steps-title">Step-by-Step Procedure:</div>
+        <ul class="steps-list">
+          <li><b>Step 1:</b> Warm antimicrobial foot/hand soak with sea salts.</li>
+          <li><b>Step 2:</b> Cuticle softening, gentle pushing & nail shaping.</li>
+          <li><b>Step 3:</b> Exfoliating scrub massage to remove tan & dead skin.</li>
+          <li><b>Step 4:</b> Relaxing pressure-point massage & cooling mud mask.</li>
+          <li><b>Step 5:</b> Nourishing cuticle oil & professional nail polish application.</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;font-weight:800;color:var(--primary);">Soft & Rejuvenated Hands</span>
+        <button class="book-btn" onclick="addServiceAndBook('Mani Pedi', 'Spa Manicure & Pedicure (OPI)', 549, 800)">🛒 Add & Book</button>
+      </div>
+    </div>
+
+    <!-- 6. Threading & Waxing -->
+    <div class="service-card">
+      <div class="service-img-box">
+        <img src="assets/service6.jpg" alt="Threading Waxing" onerror="this.style.display='none'">
+        <span class="brand-badge">Rica & Aloe Vera</span>
+      </div>
+      <div class="service-body">
+        <h3 class="service-title">Painless Waxing & Threading</h3>
+        <div class="service-price-row">
+          <span class="price">₹299 <small style="font-size:12px;color:var(--muted);text-decoration:line-through;">₹450</small></span>
+          <span class="duration">⏱ 30 Mins</span>
+        </div>
+        <div class="steps-title">Step-by-Step Procedure:</div>
+        <ul class="steps-list">
+          <li><b>Step 1:</b> Pre-wax powder application for skin protection.</li>
+          <li><b>Step 2:</b> Gentle application of Rica or chocolate peel-off wax.</li>
+          <li><b>Step 3:</b> Quick, virtually painless removal technique.</li>
+          <li><b>Step 4:</b> Soothing aloe vera gel massage to eliminate redness.</li>
+        </ul>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:13px;font-weight:800;color:var(--primary);">Smooth & Hair-Free Skin</span>
+        <button class="book-btn" onclick="addServiceAndBook('Threading Waxing', 'Painless Rica Waxing & Threading', 299, 450)">🛒 Add & Book</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<nav class="mobile-bottom-nav">
+  <a href="index.html" class="mob-nav-item"><span class="icon">🏠</span><span>Home</span></a>
+  <a href="services-detail.html" class="mob-nav-item active"><span class="icon">📋</span><span>Services</span></a>
+  <a href="bridal.html" class="mob-nav-item"><span class="icon">👰</span><span>Bridal</span></a>
+  <a href="packages.html" class="mob-nav-item"><span class="icon">🎁</span><span>Packages</span></a>
+  <a href="index.html#booking" class="mob-nav-item"><span class="icon">🛒</span><span>Book (<b id="mobCartBadge">0</b>)</span></a>
+</nav>
+
+<footer>
+  <div style="width:min(1160px, 92%);margin:auto;">
+    <h3 class="footer-title">Beauty Plus Forever</h3>
+    <p style="opacity:0.6;font-size:14px;margin:0;">Mauje, Ward No. 13, Mahaveer Chauk, Mai Sthan Road, Raxaul, Bihar • Ph: 9798013636</p>
+  </div>
+</footer>
+
+<script>
+function addServiceAndBook(id, nameEn, price, mrp) {
+  let cart = JSON.parse(localStorage.getItem("bpf_cart_v1")) || [];
+  let existing = cart.find(item => item.id === id);
+  if(existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: id, nameEn: nameEn, nameHi: nameEn, price: price, mrp: mrp, qty: 1 });
+  }
+  localStorage.setItem("bpf_cart_v1", JSON.stringify(cart));
+  window.location.href = "index.html#booking";
+}
+
+function updateCartBadges() {
+  let cart = JSON.parse(localStorage.getItem("bpf_cart_v1")) || [];
+  let count = cart.reduce((acc, item) => acc + (item.qty || 1), 0);
+  document.getElementById("navCartCount").textContent = count;
+  document.getElementById("mobCartBadge").textContent = count;
+}
+updateCartBadges();
+</script>
+</body>
+</html>
