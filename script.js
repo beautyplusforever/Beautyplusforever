@@ -2,7 +2,7 @@
 // CONFIGURATION & GLOBALS
 // ==========================================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweRv4ZQG0q8p88wLsSt2CntDBs0BFLRQUvmQfixuC2OM_RwqB-AWr2EEw1j7fR6aER/exec";
-const IMGBB_API_KEY = "d6c99723d410aaeee4d5ac016fc0a3d3";
+const IMGBB_API_KEY = "660aff5df714a02c01610d021ebe1dac";
 let PRIMARY_WA_NUMBER = "919297562362";
 
 let currentUser = JSON.parse(localStorage.getItem("bpf_user")) || null;
