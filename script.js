@@ -1,7 +1,7 @@
 // ==========================================
 // CONFIGURATION & GLOBALS
 // ==========================================
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZJcDicKPqaowJcELUHJMcvqHt6-a2Ck8LzNDxbmLcy4Ta1MXedmFSngM0P7l2eNci/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweRv4ZQG0q8p88wLsSt2CntDBs0BFLRQUvmQfixuC2OM_RwqB-AWr2EEw1j7fR6aER/exec";
 const IMGBB_API_KEY = "d6c99723d410aaeee4d5ac016fc0a3d3";
 let PRIMARY_WA_NUMBER = "919297562362";
 
